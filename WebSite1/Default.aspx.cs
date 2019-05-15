@@ -23,7 +23,7 @@ public partial class _Default : System.Web.UI.Page
 
   protected void Bottone1_Click(object sender, EventArgs e)
   {
-    DownloadRemoteImageFile(TextBox1.Text,"d:\\ciao.jpg");
+    DownloadRemoteImageFile(TextBox1.Text,"d:\\prova.jpg");
   }
 
   private static void DownloadRemoteImageFile(string uri, string fileName)
