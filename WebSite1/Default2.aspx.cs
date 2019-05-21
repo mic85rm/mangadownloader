@@ -11,15 +11,24 @@ public partial class Default2 : System.Web.UI.Page
 {
   protected void Page_Load(object sender, EventArgs e)
   {
-    var html = @"http://www.google.com/";
-
+    //var html = @"https://www.mangaeden.com/it/it-manga/ranma-frac12/";
+    var html = @"https://www.mangaeden.com/it/it-manga/maison-ikkoku/";
     HtmlWeb web = new HtmlWeb();
 
     var htmlDoc = web.Load(html);
 
-    var node = htmlDoc.DocumentNode.SelectSingleNode("//head/title");
+    string name = htmlDoc.DocumentNode
+           .SelectNodes("//tbody/tr")
+             .First()
+           .Attributes["id"].Value;
 
-    TextBox1.Text=("Node Name: " + node.Name + "\n" + node.OuterHtml);
+    TextBox1.Text= name.Remove(0, 1);
+
+   
+
+    
+
+    Console.WriteLine(name);
   }
 }
 
