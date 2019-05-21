@@ -13,9 +13,9 @@ public partial class _Default : System.Web.UI.Page
   protected void Page_Load(object sender, EventArgs e)
   {
     WebClient webClient = new WebClient();
-    webClient.Proxy = WebRequest.DefaultWebProxy;
-    webClient.Credentials = System.Net.CredentialCache.DefaultCredentials; ;
-    webClient.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+    //webClient.Proxy = WebRequest.DefaultWebProxy;
+    //webClient.Credentials = System.Net.CredentialCache.DefaultCredentials; ;
+    //webClient.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
     //string html = new WebClient().DownloadString("https://www.mangaeden.com/it/it-manga/ranma-frac12/");
     string html = webClient.DownloadString("https://www.mangaeden.com/it/it-manga/ranma-frac12/");
     TextBox2.Text = html;
@@ -29,9 +29,9 @@ public partial class _Default : System.Web.UI.Page
   private static void DownloadRemoteImageFile(string uri, string fileName)
   {
     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-    request.Proxy = WebRequest.DefaultWebProxy;
-    request.Credentials = System.Net.CredentialCache.DefaultCredentials; ;
-    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+    //request.Proxy = WebRequest.DefaultWebProxy;
+    //request.Credentials = System.Net.CredentialCache.DefaultCredentials; ;
+    //request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
     
