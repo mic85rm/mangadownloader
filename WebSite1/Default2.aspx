@@ -13,6 +13,8 @@
           <asp:TextBox ID="TextBox1" runat="server" Width="702px"></asp:TextBox>
         </div>
       
+        <asp:TextBox ID="TextBox2" runat="server" Height="547px" TextMode="MultiLine" Width="510px"></asp:TextBox>
+      
     </form>
 </body>
 </html>
