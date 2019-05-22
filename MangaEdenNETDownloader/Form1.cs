@@ -177,7 +177,6 @@ namespace MangaEdenNETDownloader
     {
       lblNumeroCapitoli.Text = "Capitoli:" + GetNumberOfChapter(txtLinkManga.Text).ToString();
       lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text);
-     
     }
 
     protected void lstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
