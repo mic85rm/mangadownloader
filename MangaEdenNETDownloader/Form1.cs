@@ -207,16 +207,7 @@ namespace MangaEdenNETDownloader
 
       return numeroDaStampare;
     }
-
-    private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
-    {
-
-    }
-
-    private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-    {
-
-    }
+     
 
     private void progressBar1_Click(object sender, EventArgs e)
     {
