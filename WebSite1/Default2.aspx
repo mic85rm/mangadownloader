@@ -10,10 +10,13 @@
 <body>
     <form id="form1" runat="server">
         <div>
-          <asp:TextBox ID="TextBox1" runat="server" Width="702px"></asp:TextBox>
+          <asp:TextBox ID="txtLinkManga" runat="server" Width="740px"></asp:TextBox><asp:Button ID="btnScarica" runat="server" Text="Download" OnClick="btnScarica_Click" />
+          <asp:Label ID="lblNumeroCapitoli" runat="server" Text="Numero Capitoli: "></asp:Label>
+
         </div>
       
-        <asp:TextBox ID="TextBox2" runat="server" Height="547px" TextMode="MultiLine" Width="510px"></asp:TextBox>
+        <asp:ListBox ID="lstbxListaCapitoli" runat="server" Height="421px" Width="402px" OnSelectedIndexChanged="lstbxListaCapitoli_SelectedIndexChanged" SelectionMode="Single" AutoPostBack="true" ></asp:ListBox>
+      <asp:ListBox ID="lstbxListaLinkDownload" runat="server" Height="421px" Width="402px"></asp:ListBox>
       
     </form>
 </body>
