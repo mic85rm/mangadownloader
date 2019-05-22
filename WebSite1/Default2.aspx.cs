@@ -170,6 +170,7 @@ public partial class Default2 : System.Web.UI.Page
     lblNumeroCapitoli.Text = "Capitoli:"+ GetNumberOfChapter(txtLinkManga.Text).ToString();
     lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text);
     lstbxListaCapitoli.DataBind();
+
    
   }
 

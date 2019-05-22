@@ -25,7 +25,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebSite1(1)", "WebSite1\", 
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MangaEdenNETDownloader", "MangaEdenNETDownloader\MangaEdenNETDownloader.vbproj", "{A1DBB019-6D1C-4390-9B57-7BD259375CFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaEdenNETDownloader", "MangaEdenNETDownloader\MangaEdenNETDownloader.csproj", "{58BC7B82-DBEF-468B-957D-6CAF484B4EB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,10 @@ Global
 		{40F2145D-8545-4276-AFF6-9FC5E95D1FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40F2145D-8545-4276-AFF6-9FC5E95D1FCF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{40F2145D-8545-4276-AFF6-9FC5E95D1FCF}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{A1DBB019-6D1C-4390-9B57-7BD259375CFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1DBB019-6D1C-4390-9B57-7BD259375CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1DBB019-6D1C-4390-9B57-7BD259375CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1DBB019-6D1C-4390-9B57-7BD259375CFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58BC7B82-DBEF-468B-957D-6CAF484B4EB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58BC7B82-DBEF-468B-957D-6CAF484B4EB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58BC7B82-DBEF-468B-957D-6CAF484B4EB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58BC7B82-DBEF-468B-957D-6CAF484B4EB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
