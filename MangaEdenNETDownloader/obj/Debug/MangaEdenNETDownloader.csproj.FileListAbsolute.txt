@@ -15,3 +15,4 @@ C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\bin\Debug\Mang
 C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\bin\Debug\MangaEdenNETDownloader.application
 C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.exe.manifest
 C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.application
+C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.csprojAssemblyReference.cache

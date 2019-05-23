@@ -33,28 +33,28 @@
       this.btnScarica = new System.Windows.Forms.Button();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
+      this.btnConfermaDownload = new System.Windows.Forms.Button();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.lblStato = new System.Windows.Forms.Label();
+      this.pictureBox1 = new System.Windows.Forms.PictureBox();
+      this.button1 = new System.Windows.Forms.Button();
+      this.txtIndirizzoSalva = new System.Windows.Forms.TextBox();
+      this.btnIndirizzoSalva = new System.Windows.Forms.Button();
+      this.chkOrdinamento = new System.Windows.Forms.CheckBox();
+      this.btnDeselectAll = new System.Windows.Forms.Button();
+      this.btnSelectAll = new System.Windows.Forms.Button();
+      this.chklstbxListaCapitoli = new System.Windows.Forms.CheckedListBox();
       this.tabPage2 = new System.Windows.Forms.TabPage();
       this.label1 = new System.Windows.Forms.Label();
       this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
       this.tabPage3 = new System.Windows.Forms.TabPage();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-      this.chklstbxListaCapitoli = new System.Windows.Forms.CheckedListBox();
-      this.btnSelectAll = new System.Windows.Forms.Button();
-      this.btnDeselectAll = new System.Windows.Forms.Button();
-      this.chkOrdinamento = new System.Windows.Forms.CheckBox();
-      this.btnIndirizzoSalva = new System.Windows.Forms.Button();
-      this.txtIndirizzoSalva = new System.Windows.Forms.TextBox();
-      this.button1 = new System.Windows.Forms.Button();
-      this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.pictureBox1 = new System.Windows.Forms.PictureBox();
-      this.lblStato = new System.Windows.Forms.Label();
-      this.btnConfermaDownload = new System.Windows.Forms.Button();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
-      this.tabPage2.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
       this.groupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+      this.tabPage2.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
       this.SuspendLayout();
       // 
       // lblNumeroCapitoli
@@ -72,6 +72,7 @@
       this.txtLinkManga.Name = "txtLinkManga";
       this.txtLinkManga.Size = new System.Drawing.Size(441, 22);
       this.txtLinkManga.TabIndex = 1;
+      this.txtLinkManga.TextChanged += new System.EventHandler(this.txtLinkManga_TextChanged);
       // 
       // btnScarica
       // 
@@ -79,7 +80,7 @@
       this.btnScarica.Name = "btnScarica";
       this.btnScarica.Size = new System.Drawing.Size(107, 33);
       this.btnScarica.TabIndex = 4;
-      this.btnScarica.Text = "Avvia";
+      this.btnScarica.Text = "Avvia Analisi";
       this.btnScarica.UseVisualStyleBackColor = true;
       this.btnScarica.Click += new System.EventHandler(this.btnScarica_Click);
       // 
@@ -116,6 +117,115 @@
       this.tabPage1.UseVisualStyleBackColor = true;
       this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
       // 
+      // btnConfermaDownload
+      // 
+      this.btnConfermaDownload.Enabled = false;
+      this.btnConfermaDownload.Location = new System.Drawing.Point(843, 528);
+      this.btnConfermaDownload.Name = "btnConfermaDownload";
+      this.btnConfermaDownload.Size = new System.Drawing.Size(168, 45);
+      this.btnConfermaDownload.TabIndex = 13;
+      this.btnConfermaDownload.Text = "Download";
+      this.btnConfermaDownload.UseVisualStyleBackColor = true;
+      // 
+      // groupBox1
+      // 
+      this.groupBox1.Controls.Add(this.lblStato);
+      this.groupBox1.Controls.Add(this.pictureBox1);
+      this.groupBox1.Controls.Add(this.lblNumeroCapitoli);
+      this.groupBox1.Location = new System.Drawing.Point(22, 52);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(367, 473);
+      this.groupBox1.TabIndex = 12;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "Titolo Manga";
+      // 
+      // lblStato
+      // 
+      this.lblStato.AutoSize = true;
+      this.lblStato.Location = new System.Drawing.Point(196, 438);
+      this.lblStato.Name = "lblStato";
+      this.lblStato.Size = new System.Drawing.Size(45, 17);
+      this.lblStato.TabIndex = 4;
+      this.lblStato.Text = "Stato:";
+      // 
+      // pictureBox1
+      // 
+      this.pictureBox1.Location = new System.Drawing.Point(11, 21);
+      this.pictureBox1.Name = "pictureBox1";
+      this.pictureBox1.Size = new System.Drawing.Size(300, 414);
+      this.pictureBox1.TabIndex = 1;
+      this.pictureBox1.TabStop = false;
+      // 
+      // button1
+      // 
+      this.button1.Location = new System.Drawing.Point(645, 15);
+      this.button1.Name = "button1";
+      this.button1.Size = new System.Drawing.Size(171, 31);
+      this.button1.TabIndex = 11;
+      this.button1.Text = "Nuova Analisi";
+      this.button1.UseVisualStyleBackColor = true;
+      this.button1.Click += new System.EventHandler(this.button1_Click);
+      // 
+      // txtIndirizzoSalva
+      // 
+      this.txtIndirizzoSalva.Enabled = false;
+      this.txtIndirizzoSalva.Location = new System.Drawing.Point(165, 572);
+      this.txtIndirizzoSalva.Name = "txtIndirizzoSalva";
+      this.txtIndirizzoSalva.Size = new System.Drawing.Size(539, 22);
+      this.txtIndirizzoSalva.TabIndex = 10;
+      // 
+      // btnIndirizzoSalva
+      // 
+      this.btnIndirizzoSalva.Location = new System.Drawing.Point(28, 558);
+      this.btnIndirizzoSalva.Name = "btnIndirizzoSalva";
+      this.btnIndirizzoSalva.Size = new System.Drawing.Size(131, 36);
+      this.btnIndirizzoSalva.TabIndex = 9;
+      this.btnIndirizzoSalva.Text = "Apri";
+      this.btnIndirizzoSalva.UseVisualStyleBackColor = true;
+      this.btnIndirizzoSalva.Click += new System.EventHandler(this.btnIndirizzoSalva_Click);
+      // 
+      // chkOrdinamento
+      // 
+      this.chkOrdinamento.AutoSize = true;
+      this.chkOrdinamento.Location = new System.Drawing.Point(33, 531);
+      this.chkOrdinamento.Name = "chkOrdinamento";
+      this.chkOrdinamento.Size = new System.Drawing.Size(180, 21);
+      this.chkOrdinamento.TabIndex = 8;
+      this.chkOrdinamento.Text = "Ordinamento Crescente";
+      this.chkOrdinamento.UseVisualStyleBackColor = true;
+      this.chkOrdinamento.Visible = false;
+      this.chkOrdinamento.CheckedChanged += new System.EventHandler(this.chkOrdinamento_CheckedChanged_1);
+      // 
+      // btnDeselectAll
+      // 
+      this.btnDeselectAll.Enabled = false;
+      this.btnDeselectAll.Location = new System.Drawing.Point(544, 524);
+      this.btnDeselectAll.Name = "btnDeselectAll";
+      this.btnDeselectAll.Size = new System.Drawing.Size(143, 33);
+      this.btnDeselectAll.TabIndex = 7;
+      this.btnDeselectAll.Text = "Deseleziona Tutto";
+      this.btnDeselectAll.UseVisualStyleBackColor = true;
+      this.btnDeselectAll.Click += new System.EventHandler(this.btnDeselectAll_Click);
+      // 
+      // btnSelectAll
+      // 
+      this.btnSelectAll.Enabled = false;
+      this.btnSelectAll.Location = new System.Drawing.Point(395, 524);
+      this.btnSelectAll.Name = "btnSelectAll";
+      this.btnSelectAll.Size = new System.Drawing.Size(143, 33);
+      this.btnSelectAll.TabIndex = 6;
+      this.btnSelectAll.Text = "Seleziona Tutto";
+      this.btnSelectAll.UseVisualStyleBackColor = true;
+      this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+      // 
+      // chklstbxListaCapitoli
+      // 
+      this.chklstbxListaCapitoli.FormattingEnabled = true;
+      this.chklstbxListaCapitoli.Location = new System.Drawing.Point(395, 59);
+      this.chklstbxListaCapitoli.Name = "chklstbxListaCapitoli";
+      this.chklstbxListaCapitoli.Size = new System.Drawing.Size(616, 463);
+      this.chklstbxListaCapitoli.TabIndex = 5;
+      // 
       // tabPage2
       // 
       this.tabPage2.Controls.Add(this.label1);
@@ -123,7 +233,7 @@
       this.tabPage2.Location = new System.Drawing.Point(4, 25);
       this.tabPage2.Name = "tabPage2";
       this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage2.Size = new System.Drawing.Size(1039, 464);
+      this.tabPage2.Size = new System.Drawing.Size(1039, 616);
       this.tabPage2.TabIndex = 1;
       this.tabPage2.Text = "tabPage2";
       this.tabPage2.UseVisualStyleBackColor = true;
@@ -150,117 +260,10 @@
       this.tabPage3.Location = new System.Drawing.Point(4, 25);
       this.tabPage3.Name = "tabPage3";
       this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage3.Size = new System.Drawing.Size(1039, 464);
+      this.tabPage3.Size = new System.Drawing.Size(1039, 616);
       this.tabPage3.TabIndex = 2;
       this.tabPage3.Text = "tabPage3";
       this.tabPage3.UseVisualStyleBackColor = true;
-      // 
-      // chklstbxListaCapitoli
-      // 
-      this.chklstbxListaCapitoli.FormattingEnabled = true;
-      this.chklstbxListaCapitoli.Location = new System.Drawing.Point(395, 59);
-      this.chklstbxListaCapitoli.Name = "chklstbxListaCapitoli";
-      this.chklstbxListaCapitoli.Size = new System.Drawing.Size(616, 463);
-      this.chklstbxListaCapitoli.TabIndex = 5;
-      // 
-      // btnSelectAll
-      // 
-      this.btnSelectAll.Enabled = false;
-      this.btnSelectAll.Location = new System.Drawing.Point(395, 524);
-      this.btnSelectAll.Name = "btnSelectAll";
-      this.btnSelectAll.Size = new System.Drawing.Size(143, 33);
-      this.btnSelectAll.TabIndex = 6;
-      this.btnSelectAll.Text = "Seleziona Tutto";
-      this.btnSelectAll.UseVisualStyleBackColor = true;
-      this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
-      // 
-      // btnDeselectAll
-      // 
-      this.btnDeselectAll.Enabled = false;
-      this.btnDeselectAll.Location = new System.Drawing.Point(544, 524);
-      this.btnDeselectAll.Name = "btnDeselectAll";
-      this.btnDeselectAll.Size = new System.Drawing.Size(143, 33);
-      this.btnDeselectAll.TabIndex = 7;
-      this.btnDeselectAll.Text = "Deseleziona Tutto";
-      this.btnDeselectAll.UseVisualStyleBackColor = true;
-      this.btnDeselectAll.Click += new System.EventHandler(this.btnDeselectAll_Click);
-      // 
-      // chkOrdinamento
-      // 
-      this.chkOrdinamento.AutoSize = true;
-      this.chkOrdinamento.Location = new System.Drawing.Point(33, 531);
-      this.chkOrdinamento.Name = "chkOrdinamento";
-      this.chkOrdinamento.Size = new System.Drawing.Size(180, 21);
-      this.chkOrdinamento.TabIndex = 8;
-      this.chkOrdinamento.Text = "Ordinamento Crescente";
-      this.chkOrdinamento.UseVisualStyleBackColor = true;
-      this.chkOrdinamento.Visible = false;
-      this.chkOrdinamento.CheckedChanged += new System.EventHandler(this.chkOrdinamento_CheckedChanged_1);
-      // 
-      // btnIndirizzoSalva
-      // 
-      this.btnIndirizzoSalva.Location = new System.Drawing.Point(28, 558);
-      this.btnIndirizzoSalva.Name = "btnIndirizzoSalva";
-      this.btnIndirizzoSalva.Size = new System.Drawing.Size(131, 36);
-      this.btnIndirizzoSalva.TabIndex = 9;
-      this.btnIndirizzoSalva.Text = "Apri";
-      this.btnIndirizzoSalva.UseVisualStyleBackColor = true;
-      // 
-      // txtIndirizzoSalva
-      // 
-      this.txtIndirizzoSalva.Enabled = false;
-      this.txtIndirizzoSalva.Location = new System.Drawing.Point(165, 572);
-      this.txtIndirizzoSalva.Name = "txtIndirizzoSalva";
-      this.txtIndirizzoSalva.Size = new System.Drawing.Size(539, 22);
-      this.txtIndirizzoSalva.TabIndex = 10;
-      // 
-      // button1
-      // 
-      this.button1.Location = new System.Drawing.Point(645, 15);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(171, 31);
-      this.button1.TabIndex = 11;
-      this.button1.Text = "Nuovo Download";
-      this.button1.UseVisualStyleBackColor = true;
-      // 
-      // groupBox1
-      // 
-      this.groupBox1.Controls.Add(this.lblStato);
-      this.groupBox1.Controls.Add(this.pictureBox1);
-      this.groupBox1.Controls.Add(this.lblNumeroCapitoli);
-      this.groupBox1.Location = new System.Drawing.Point(22, 52);
-      this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(367, 473);
-      this.groupBox1.TabIndex = 12;
-      this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Titolo Manga";
-      // 
-      // pictureBox1
-      // 
-      this.pictureBox1.Location = new System.Drawing.Point(11, 21);
-      this.pictureBox1.Name = "pictureBox1";
-      this.pictureBox1.Size = new System.Drawing.Size(300, 414);
-      this.pictureBox1.TabIndex = 1;
-      this.pictureBox1.TabStop = false;
-      // 
-      // lblStato
-      // 
-      this.lblStato.AutoSize = true;
-      this.lblStato.Location = new System.Drawing.Point(196, 438);
-      this.lblStato.Name = "lblStato";
-      this.lblStato.Size = new System.Drawing.Size(45, 17);
-      this.lblStato.TabIndex = 4;
-      this.lblStato.Text = "Stato:";
-      // 
-      // btnConfermaDownload
-      // 
-      this.btnConfermaDownload.Enabled = false;
-      this.btnConfermaDownload.Location = new System.Drawing.Point(843, 528);
-      this.btnConfermaDownload.Name = "btnConfermaDownload";
-      this.btnConfermaDownload.Size = new System.Drawing.Size(168, 45);
-      this.btnConfermaDownload.TabIndex = 13;
-      this.btnConfermaDownload.Text = "Download";
-      this.btnConfermaDownload.UseVisualStyleBackColor = true;
       // 
       // Form1
       // 
@@ -276,12 +279,12 @@
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
       this.tabPage1.PerformLayout();
-      this.tabPage2.ResumeLayout(false);
-      this.tabPage2.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+      this.tabPage2.ResumeLayout(false);
+      this.tabPage2.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
       this.ResumeLayout(false);
 
     }

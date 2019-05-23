@@ -21,7 +21,7 @@ namespace MangaEdenNETDownloader
     public Form1()
     {
       InitializeComponent();
-
+      
     }
 
     private void Form1_Load(object sender, EventArgs e)
@@ -29,6 +29,9 @@ namespace MangaEdenNETDownloader
       InizializzaControlli();
     }
 
+    
+
+    
 
     #region metodi recupero info html
     private static void DownloadRemoteImageFile(string uri, string fileName)
@@ -132,6 +135,37 @@ namespace MangaEdenNETDownloader
 
       //}
           
+    }
+
+    private static string GetStatoManga(string link)
+    {
+
+      var html = link;
+      HtmlWeb web = new HtmlWeb();
+
+      var htmlDoc = web.Load(html);
+      var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//div[@class='rightBox']/h4");
+       
+            
+      string statomanga = null;
+
+      foreach (var node in htmlNodes)
+      {
+       if (node.InnerHtml==("Stato"))
+
+          return node.Attributes[""].ToString();
+
+      }
+
+      StringBuilder sb = new StringBuilder();
+      foreach (HtmlAgilityPack.HtmlTextNode node in
+            htmlDoc.DocumentNode.SelectNodes("//div[@class='rightBox']/h4/"))
+      {
+        sb.Append(node.Text.Trim());
+      }
+      string s = sb.ToString();
+
+      return statomanga;
     }
 
     private static string GetNameManga(string link)
@@ -251,6 +285,7 @@ namespace MangaEdenNETDownloader
     }
     private void btnScarica_Click(object sender, EventArgs e)
     {
+      
       //MessageBox.Show(ReadSetting("ordinamentolista"));
       lblNumeroCapitoli.Text = "Capitoli:" + GetNumberOfChapter(txtLinkManga.Text).ToString();
       //lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text, ReadSetting("ordinamentolista"));
@@ -261,6 +296,7 @@ namespace MangaEdenNETDownloader
       txtLinkManga.Enabled = false;
       pictureBox1.ImageLocation = GetImageManga(txtLinkManga.Text);
       groupBox1.Text = GetNameManga(txtLinkManga.Text);
+     // lblStato.Text = GetStatoManga(txtLinkManga.Text);
       
     }
 
@@ -439,6 +475,27 @@ namespace MangaEdenNETDownloader
     private void chkOrdinamento_CheckedChanged_1(object sender, EventArgs e)
     {
      
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      txtLinkManga.Text = string.Empty;
+      txtLinkManga.Enabled = true;
+      pictureBox1.ImageLocation = null;
+      chklstbxListaCapitoli.DataSource = null;
+      btnDeselectAll.Enabled = false;
+      btnSelectAll.Enabled = false;
+      groupBox1.Text = "Titolo Manga";
+      lblNumeroCapitoli.Text = "Numero Capitoli:";
+      lblStato.Text = "Stato:";
+    }
+
+    private void txtLinkManga_TextChanged(object sender, EventArgs e)
+    {
+      if (txtLinkManga.TextLength <= 20)
+      {
+        btnScarica.Enabled = false;
+      }
     }
   }  
 }
