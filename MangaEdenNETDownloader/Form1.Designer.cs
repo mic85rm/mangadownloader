@@ -36,9 +36,17 @@
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
       this.tabPage2 = new System.Windows.Forms.TabPage();
-      this.progressBar1 = new System.Windows.Forms.ProgressBar();
+      this.label1 = new System.Windows.Forms.Label();
+      this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+      this.chkOrdinamento = new System.Windows.Forms.CheckBox();
+      this.btnIndirizzoSalva = new System.Windows.Forms.Button();
+      this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+      this.txtIndirizzoSalva = new System.Windows.Forms.TextBox();
+      this.tabPage3 = new System.Windows.Forms.TabPage();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
+      this.tabPage2.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
       this.SuspendLayout();
       // 
       // lblNumeroCapitoli
@@ -90,6 +98,7 @@
       // 
       this.tabControl1.Controls.Add(this.tabPage1);
       this.tabControl1.Controls.Add(this.tabPage2);
+      this.tabControl1.Controls.Add(this.tabPage3);
       this.tabControl1.Location = new System.Drawing.Point(12, 12);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
@@ -98,7 +107,6 @@
       // 
       // tabPage1
       // 
-      this.tabPage1.Controls.Add(this.progressBar1);
       this.tabPage1.Controls.Add(this.lstbxListaCapitoli);
       this.tabPage1.Controls.Add(this.btnScarica);
       this.tabPage1.Controls.Add(this.lstbxListaLinkDownload);
@@ -114,6 +122,11 @@
       // 
       // tabPage2
       // 
+      this.tabPage2.Controls.Add(this.txtIndirizzoSalva);
+      this.tabPage2.Controls.Add(this.btnIndirizzoSalva);
+      this.tabPage2.Controls.Add(this.label1);
+      this.tabPage2.Controls.Add(this.numericUpDown1);
+      this.tabPage2.Controls.Add(this.chkOrdinamento);
       this.tabPage2.Location = new System.Drawing.Point(4, 25);
       this.tabPage2.Name = "tabPage2";
       this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -121,14 +134,63 @@
       this.tabPage2.TabIndex = 1;
       this.tabPage2.Text = "tabPage2";
       this.tabPage2.UseVisualStyleBackColor = true;
+      this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
       // 
-      // progressBar1
+      // label1
       // 
-      this.progressBar1.Location = new System.Drawing.Point(305, 111);
-      this.progressBar1.Name = "progressBar1";
-      this.progressBar1.Size = new System.Drawing.Size(292, 47);
-      this.progressBar1.TabIndex = 5;
-      this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(123, 95);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(46, 17);
+      this.label1.TabIndex = 2;
+      this.label1.Text = "label1";
+      // 
+      // numericUpDown1
+      // 
+      this.numericUpDown1.Location = new System.Drawing.Point(42, 93);
+      this.numericUpDown1.Name = "numericUpDown1";
+      this.numericUpDown1.Size = new System.Drawing.Size(64, 22);
+      this.numericUpDown1.TabIndex = 1;
+      // 
+      // chkOrdinamento
+      // 
+      this.chkOrdinamento.AutoSize = true;
+      this.chkOrdinamento.Location = new System.Drawing.Point(42, 36);
+      this.chkOrdinamento.Name = "chkOrdinamento";
+      this.chkOrdinamento.Size = new System.Drawing.Size(180, 21);
+      this.chkOrdinamento.TabIndex = 0;
+      this.chkOrdinamento.Text = "Ordinamento Crescente";
+      this.chkOrdinamento.UseVisualStyleBackColor = true;
+      this.chkOrdinamento.CheckedChanged += new System.EventHandler(this.chkOrdinamento_CheckedChanged);
+      // 
+      // btnIndirizzoSalva
+      // 
+      this.btnIndirizzoSalva.Location = new System.Drawing.Point(42, 163);
+      this.btnIndirizzoSalva.Name = "btnIndirizzoSalva";
+      this.btnIndirizzoSalva.Size = new System.Drawing.Size(131, 36);
+      this.btnIndirizzoSalva.TabIndex = 3;
+      this.btnIndirizzoSalva.Text = "Apri";
+      this.btnIndirizzoSalva.UseVisualStyleBackColor = true;
+      this.btnIndirizzoSalva.Click += new System.EventHandler(this.btnIndirizzoSalva_Click);
+      // 
+      // txtIndirizzoSalva
+      // 
+      this.txtIndirizzoSalva.Enabled = false;
+      this.txtIndirizzoSalva.Location = new System.Drawing.Point(196, 170);
+      this.txtIndirizzoSalva.Name = "txtIndirizzoSalva";
+      this.txtIndirizzoSalva.Size = new System.Drawing.Size(803, 22);
+      this.txtIndirizzoSalva.TabIndex = 4;
+      this.txtIndirizzoSalva.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+      // 
+      // tabPage3
+      // 
+      this.tabPage3.Location = new System.Drawing.Point(4, 25);
+      this.tabPage3.Name = "tabPage3";
+      this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage3.Size = new System.Drawing.Size(1039, 464);
+      this.tabPage3.TabIndex = 2;
+      this.tabPage3.Text = "tabPage3";
+      this.tabPage3.UseVisualStyleBackColor = true;
       // 
       // Form1
       // 
@@ -139,11 +201,14 @@
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "Form1";
-      this.Text = "Form1";
+      this.Text = "MangaEdenNETDownloader";
       this.Load += new System.EventHandler(this.Form1_Load);
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
       this.tabPage1.PerformLayout();
+      this.tabPage2.ResumeLayout(false);
+      this.tabPage2.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -158,7 +223,13 @@
     private System.Windows.Forms.TabControl tabControl1;
     private System.Windows.Forms.TabPage tabPage1;
     private System.Windows.Forms.TabPage tabPage2;
-    private System.Windows.Forms.ProgressBar progressBar1;
+    private System.Windows.Forms.CheckBox chkOrdinamento;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.NumericUpDown numericUpDown1;
+    private System.Windows.Forms.Button btnIndirizzoSalva;
+    private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+    private System.Windows.Forms.TextBox txtIndirizzoSalva;
+    private System.Windows.Forms.TabPage tabPage3;
   }
 }
 

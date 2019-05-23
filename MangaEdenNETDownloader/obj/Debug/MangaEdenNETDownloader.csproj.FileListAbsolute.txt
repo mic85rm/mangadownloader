@@ -12,3 +12,7 @@ C:\Users\pc\source\repos\mangadownload.net\MangaEdenNETDownloader\bin\Debug\Html
 C:\Users\pc\source\repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.csproj.CopyComplete
 C:\Users\pc\source\repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.exe
 C:\Users\pc\source\repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.pdb
+C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\bin\Debug\MangaEdenNETDownloader.exe.manifest
+C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\bin\Debug\MangaEdenNETDownloader.application
+C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.exe.manifest
+C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.application

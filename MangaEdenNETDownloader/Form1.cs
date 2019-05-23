@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -18,12 +19,16 @@ namespace MangaEdenNETDownloader
     public Form1()
     {
       InitializeComponent();
+
     }
 
     private void Form1_Load(object sender, EventArgs e)
     {
-      txtLinkManga.Text = "https://www.mangaeden.com/it/it-manga/maison-ikkoku/";
+      InizializzaControlli();
     }
+
+
+    #region metodi recupero info html
     private static void DownloadRemoteImageFile(string uri, string fileName)
     {
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
@@ -78,7 +83,7 @@ namespace MangaEdenNETDownloader
       return Convert.ToInt32(name.Remove(0, 1));
     }
 
-    private static List<string> GetListChapter(string link)
+    private static List<string> GetListChapter(string link,string ordinamento)
     {
 
       var html = link;
@@ -96,7 +101,8 @@ namespace MangaEdenNETDownloader
         ///TextBox2.Text= (node.Attributes["href"].Value);
 
       }
-      listaCapitoli.Reverse();
+      if (String.Compare(ordinamento, "crescente")==0) { listaCapitoli.Reverse(); }
+     
       return listaCapitoli;
 
 
@@ -172,11 +178,27 @@ namespace MangaEdenNETDownloader
       //}
 
     }
+    #endregion
 
+
+    #region gestione eventi
+
+    private void chkOrdinamento_CheckedChanged(object sender, EventArgs e)
+    {
+      if (chkOrdinamento.Checked)
+      {
+        AddUpdateAppSettings("ordinamentolista", "crescente");
+      }
+      else
+      {
+        AddUpdateAppSettings("ordinamentolista", "decrescente");
+      }
+    }
     private void btnScarica_Click(object sender, EventArgs e)
     {
+      //MessageBox.Show(ReadSetting("ordinamentolista"));
       lblNumeroCapitoli.Text = "Capitoli:" + GetNumberOfChapter(txtLinkManga.Text).ToString();
-      lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text);
+      lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text, ReadSetting("ordinamentolista"));
     }
 
     protected void lstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
@@ -197,19 +219,137 @@ namespace MangaEdenNETDownloader
      // }
       // DownloadRemoteImageFile("https:" + download, "d:\\prova.jpg");
     }
-    public static string trasformaCifre(int num)
+    #endregion
+
+    private void btnIndirizzoSalva_Click(object sender, EventArgs e)
+    {
+      folderBrowserDialog1.ShowNewFolderButton = false;
+      DialogResult result = this.folderBrowserDialog1.ShowDialog();
+      if (result == DialogResult.OK)
+      {
+        txtIndirizzoSalva.Text = folderBrowserDialog1.SelectedPath;
+        AddUpdateAppSettings("indirizzosalvataggio", folderBrowserDialog1.SelectedPath);
+      }
+    }
+
+    #region utility
+    public static string TrasformaCifre(int num,int cifre)
     {
 
-      string numeroDaStampare = num.ToString().PadLeft(6, '0');
+      string numeroDaStampare = num.ToString().PadLeft(cifre, '0');
       //ad ogni iterazione del ciclo : numeroDaStampare = 030 ; 029 ; 028 ... 009 ; 008 ecc.
 
       return numeroDaStampare;
     }
-     
 
-    private void progressBar1_Click(object sender, EventArgs e)
+    public static bool ToBoolMio(string value)
+    {
+      switch (value.ToLower())
+      {
+        case "decrescente":
+          return false;
+        case "crescente":
+          return true;
+        default:
+          return false;
+
+      }
+    }
+
+    public void InizializzaControlli()
+    {
+     txtLinkManga.Text = "https://www.mangaeden.com/it/it-manga/maison-ikkoku/";
+      tabControl1.TabPages[0].Text = "MangaEdenNETDownloader";
+      tabControl1.TabPages[1].Text = "Opzioni";
+      tabControl1.TabPages[2].Text = "Informazioni";
+      string path = ReadSetting("indirizzosalvataggio");
+      if (path==string.Empty) { path= Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); }
+      folderBrowserDialog1.SelectedPath =   path;
+      txtIndirizzoSalva.Text = path;
+      chkOrdinamento.Checked= ToBoolMio( ReadSetting("ordinamentolista"));
+      //folderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+    }
+
+    static void ReadAllSettings()
+  {
+    try
+    {
+      var appSettings = ConfigurationManager.AppSettings;
+
+      if (appSettings.Count == 0)
+      {
+        Console.WriteLine("AppSettings is empty.");
+      }
+      else
+      {
+        foreach (var key in appSettings.AllKeys)
+        {
+          //Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
+        }
+      }
+    }
+    catch (ConfigurationErrorsException)
+    {
+      //Console.WriteLine("Error reading app settings");
+    }
+  }
+
+  static string ReadSetting(string key)
+  {
+    try
+    {
+      var appSettings = ConfigurationManager.AppSettings;
+      string result = appSettings[key] ?? "Not Found";
+      return result;
+    }
+    catch (ConfigurationErrorsException)
+    {
+        return null;
+    }
+  }
+
+  static void AddUpdateAppSettings(string key, string value)
+  {
+    try
+    {
+      var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+      var settings = configFile.AppSettings.Settings;
+      if (settings[key] == null)
+      {
+        settings.Add(key, value);
+      }
+      else
+      {
+        settings[key].Value = value;
+      }
+      configFile.Save(ConfigurationSaveMode.Modified);
+      ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+    }
+    catch (ConfigurationErrorsException)
+    {
+      Console.WriteLine("Error writing app settings");
+    }
+  }
+
+
+    #endregion
+
+    private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
     {
 
     }
-  }
+
+    private void tabPage2_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+  }  
 }
