@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
@@ -17,11 +18,13 @@ namespace MangaEdenNETDownloader
 {
   public partial class Form1 : Form
   {
+    
 
     public Form1()
     {
       InitializeComponent();
       
+
     }
 
     private void Form1_Load(object sender, EventArgs e)
@@ -37,6 +40,7 @@ namespace MangaEdenNETDownloader
     private static void DownloadRemoteImageFile(string uri, string fileName)
     {
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+    
       //request.Proxy = WebRequest.DefaultWebProxy;
       //request.Credentials = System.Net.CredentialCache.DefaultCredentials; ;
       //request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
@@ -99,10 +103,15 @@ namespace MangaEdenNETDownloader
         .SelectNodes("//td/a");
       List<string> listaCapitoli = new List<string>();
 
+      
+      
       foreach (var node in htmlNodes)
       {
         if (node.HasClass("chapterLink"))
-          listaCapitoli.Add("www.mangaeden.com" + node.Attributes["href"].Value);
+        {
+         
+         listaCapitoli.Add("www.mangaeden.com" + node.Attributes["href"].Value);
+        }
         ///TextBox2.Text= (node.Attributes["href"].Value);
 
       }
@@ -144,26 +153,27 @@ namespace MangaEdenNETDownloader
       HtmlWeb web = new HtmlWeb();
 
       var htmlDoc = web.Load(html);
-      var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//div[@class='rightBox']/h4");
-       
-            
+      //var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='rightContent']/div[2]/text()[5]");
+     var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='rightContent']/div[2]/text()[5]");
+      
       string statomanga = null;
+      statomanga = htmlNodes.ToString();
 
-      foreach (var node in htmlNodes)
-      {
-       if (node.InnerHtml==("Stato"))
+      //foreach (var node in htmlNodes)
+      //{
+      // if (node.InnerHtml==("Stato"))
 
-          return node.Attributes[""].ToString();
+      //    return node.Attributes[""].ToString();
 
-      }
+      //}
 
-      StringBuilder sb = new StringBuilder();
-      foreach (HtmlAgilityPack.HtmlTextNode node in
-            htmlDoc.DocumentNode.SelectNodes("//div[@class='rightBox']/h4/"))
-      {
-        sb.Append(node.Text.Trim());
-      }
-      string s = sb.ToString();
+      //StringBuilder sb = new StringBuilder();
+      //foreach (HtmlAgilityPack.HtmlTextNode node in
+      //      htmlDoc.DocumentNode.SelectNodes("//div[@class='rightBox']/h4/"))
+      //{
+      //  sb.Append(node.Text.Trim());
+      //}
+      //string s = sb.ToString();
 
       return statomanga;
     }
@@ -198,7 +208,8 @@ namespace MangaEdenNETDownloader
       int lunghezza = 0;
       lunghezza = link.Count();
 
-      var html2 = link.Remove(lunghezza - 2, 2);
+      //var html2 = link.Remove(lunghezza - 2, 2);
+      var html2 = "https://"+ link.Remove(lunghezza - 2, 2);
       HtmlWeb web2 = new HtmlWeb();
 
       var htmlDoc2 = web2.Load(html2);
@@ -269,6 +280,55 @@ namespace MangaEdenNETDownloader
 
     #region gestione eventi
 
+    private void btnNuovaAnalisi_Click(object sender, EventArgs e)
+    {
+      txtLinkManga.Text = string.Empty;
+      txtLinkManga.Enabled = true;
+      pictureBox1.ImageLocation = null;
+      chklstbxListaCapitoli.DataSource = null;
+      btnDeselectAll.Enabled = false;
+      btnSelectAll.Enabled = false;
+      groupBox1.Text = "Titolo Manga";
+      lblNumeroCapitoli.Text = "Numero Capitoli:";
+      lblStato.Text = "Stato:";
+    }
+
+    private void txtLinkManga_TextChanged(object sender, EventArgs e)
+    {
+      if (txtLinkManga.TextLength <= 20)
+      {
+        btnScarica.Enabled = false;
+      }
+    }
+
+    private void btnIndirizzoSalva_Click(object sender, EventArgs e)
+    {
+      folderBrowserDialog1.ShowNewFolderButton = false;
+      DialogResult result = this.folderBrowserDialog1.ShowDialog();
+      if (result == DialogResult.OK)
+      {
+        txtIndirizzoSalva.Text = folderBrowserDialog1.SelectedPath;
+        AddUpdateAppSettings("indirizzosalvataggio", folderBrowserDialog1.SelectedPath);
+      }
+    }
+
+    private void btnSelectAll_Click(object sender, EventArgs e)
+    {
+      for (int i = 0; i < chklstbxListaCapitoli.Items.Count; i++)
+      {
+        chklstbxListaCapitoli.SetItemChecked(i, true);
+      }
+      btnConfermaDownload.Enabled = true;
+    }
+
+    private void btnDeselectAll_Click(object sender, EventArgs e)
+    {
+      for (int i = 0; i < chklstbxListaCapitoli.Items.Count; i++)
+      {
+        chklstbxListaCapitoli.SetItemChecked(i, false);
+      }
+      btnConfermaDownload.Enabled = false;
+    }
 
 
 
@@ -285,19 +345,23 @@ namespace MangaEdenNETDownloader
     }
     private void btnScarica_Click(object sender, EventArgs e)
     {
-      
-      //MessageBox.Show(ReadSetting("ordinamentolista"));
-      lblNumeroCapitoli.Text = "Capitoli:" + GetNumberOfChapter(txtLinkManga.Text).ToString();
-      //lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text, ReadSetting("ordinamentolista"));
-      chklstbxListaCapitoli.DataSource=GetListChapter(txtLinkManga.Text, true);
+     
       btnSelectAll.Enabled = true;
       btnDeselectAll.Enabled = true;
       btnScarica.Enabled = false;
       txtLinkManga.Enabled = false;
+      // tabControl1.Visible = false;
+      //MessageBox.Show(ReadSetting("ordinamentolista"));
       pictureBox1.ImageLocation = GetImageManga(txtLinkManga.Text);
       groupBox1.Text = GetNameManga(txtLinkManga.Text);
-     // lblStato.Text = GetStatoManga(txtLinkManga.Text);
+      lblNumeroCapitoli.Text = "Capitoli:" + GetNumberOfChapter(txtLinkManga.Text).ToString();
+      //lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text, ReadSetting("ordinamentolista"));
+     
+      chklstbxListaCapitoli.DataSource=GetListChapter(txtLinkManga.Text, true);
       
+
+      // lblStato.Text = GetStatoManga(txtLinkManga.Text);
+
     }
 
     protected void lstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
@@ -320,16 +384,7 @@ namespace MangaEdenNETDownloader
     }
     #endregion
 
-    private void btnIndirizzoSalva_Click(object sender, EventArgs e)
-    {
-      folderBrowserDialog1.ShowNewFolderButton = false;
-      DialogResult result = this.folderBrowserDialog1.ShowDialog();
-      if (result == DialogResult.OK)
-      {
-        txtIndirizzoSalva.Text = folderBrowserDialog1.SelectedPath;
-        AddUpdateAppSettings("indirizzosalvataggio", folderBrowserDialog1.SelectedPath);
-      }
-    }
+    
 
     #region utility
     public static string TrasformaCifre(int num,int cifre)
@@ -432,70 +487,51 @@ namespace MangaEdenNETDownloader
   }
 
 
+
+
+
+
+
+
     #endregion
 
-    private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+    private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+      if (chklstbxListaCapitoli.CheckedItems.Count > 0) btnConfermaDownload.Enabled = true;
+      else btnConfermaDownload.Enabled = false;
     }
 
-    private void tabPage2_Click(object sender, EventArgs e)
+    private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
-
-    }
-
-    
-
-    private void textBox1_TextChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    private void tabPage1_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    private void btnSelectAll_Click(object sender, EventArgs e)
-    {
-      for (int i = 0; i < chklstbxListaCapitoli.Items.Count; i++)
+      tabControl1.SelectTab(1);
+      List<string> listaImmagini= new List<string>();
+      foreach (string item in chklstbxListaCapitoli.CheckedItems)
       {
-        chklstbxListaCapitoli.SetItemChecked(i, true);
+      listaImmagini=GetListPage(item);
+        foreach(string lista in listaImmagini)
+        {
+          lstbxListaPagine.Items.Add(lista);
+        }
+        
       }
-    }
+      
 
-    private void btnDeselectAll_Click(object sender, EventArgs e)
-    {
-      for (int i = 0; i < chklstbxListaCapitoli.Items.Count; i++)
-      {
-        chklstbxListaCapitoli.SetItemChecked(i, false);
-      }
-    }
 
-    private void chkOrdinamento_CheckedChanged_1(object sender, EventArgs e)
-    {
-     
     }
 
     private void button1_Click(object sender, EventArgs e)
     {
-      txtLinkManga.Text = string.Empty;
-      txtLinkManga.Enabled = true;
-      pictureBox1.ImageLocation = null;
-      chklstbxListaCapitoli.DataSource = null;
-      btnDeselectAll.Enabled = false;
-      btnSelectAll.Enabled = false;
-      groupBox1.Text = "Titolo Manga";
-      lblNumeroCapitoli.Text = "Numero Capitoli:";
-      lblStato.Text = "Stato:";
-    }
-
-    private void txtLinkManga_TextChanged(object sender, EventArgs e)
-    {
-      if (txtLinkManga.TextLength <= 20)
+      int numerofile = 0;
+      progressBar1.Maximum = lstbxListaPagine.Items.Count;
+      foreach (string conta in lstbxListaPagine.Items)
       {
-        btnScarica.Enabled = false;
+        numerofile++;
+        lblDownload.Text="Sto scaricando il file" + numerofile.ToString()+ "di" + lstbxListaPagine.Items.Count;
+        DownloadRemoteImageFile("https:"+GetImageAddress(conta), ReadSetting("indirizzosalvataggio") + "\\" + TrasformaCifre(numerofile, 6) + ".jpg");
+        System.Threading.Thread.Sleep(2000);
+        progressBar1.Increment((lstbxListaPagine.Items.Count/100));
       }
     }
-  }  
+
+    }  
 }

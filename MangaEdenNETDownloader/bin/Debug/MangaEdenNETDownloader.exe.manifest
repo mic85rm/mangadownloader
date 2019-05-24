@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloader.exe" size="20944">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloader.exe" size="22480">
       <assemblyIdentity name="MangaEdenNETDownloader" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lgEVmutQt1CJRdvbRYmbOx9tazJXrGtOm9aZVo+ioec=</dsig:DigestValue>
+        <dsig:DigestValue>BzpGO17ZSO5Al7Wm17OKjWU+DabMi/7vCPkujFMNKCY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

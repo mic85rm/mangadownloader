@@ -37,9 +37,7 @@
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.lblStato = new System.Windows.Forms.Label();
       this.pictureBox1 = new System.Windows.Forms.PictureBox();
-      this.button1 = new System.Windows.Forms.Button();
-      this.txtIndirizzoSalva = new System.Windows.Forms.TextBox();
-      this.btnIndirizzoSalva = new System.Windows.Forms.Button();
+      this.btnNuovaAnalisi = new System.Windows.Forms.Button();
       this.chkOrdinamento = new System.Windows.Forms.CheckBox();
       this.btnDeselectAll = new System.Windows.Forms.Button();
       this.btnSelectAll = new System.Windows.Forms.Button();
@@ -49,6 +47,13 @@
       this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
       this.tabPage3 = new System.Windows.Forms.TabPage();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+      this.txtIndirizzoSalva = new System.Windows.Forms.TextBox();
+      this.btnIndirizzoSalva = new System.Windows.Forms.Button();
+      this.progressBar1 = new System.Windows.Forms.ProgressBar();
+      this.lblDownload = new System.Windows.Forms.Label();
+      this.btnInizia = new System.Windows.Forms.Button();
+      this.lstbxListaPagine = new System.Windows.Forms.ListBox();
+      this.label2 = new System.Windows.Forms.Label();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.groupBox1.SuspendLayout();
@@ -99,9 +104,7 @@
       // 
       this.tabPage1.Controls.Add(this.btnConfermaDownload);
       this.tabPage1.Controls.Add(this.groupBox1);
-      this.tabPage1.Controls.Add(this.button1);
-      this.tabPage1.Controls.Add(this.txtIndirizzoSalva);
-      this.tabPage1.Controls.Add(this.btnIndirizzoSalva);
+      this.tabPage1.Controls.Add(this.btnNuovaAnalisi);
       this.tabPage1.Controls.Add(this.chkOrdinamento);
       this.tabPage1.Controls.Add(this.btnDeselectAll);
       this.tabPage1.Controls.Add(this.btnSelectAll);
@@ -115,7 +118,6 @@
       this.tabPage1.TabIndex = 0;
       this.tabPage1.Text = "tabPage1";
       this.tabPage1.UseVisualStyleBackColor = true;
-      this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
       // 
       // btnConfermaDownload
       // 
@@ -126,6 +128,7 @@
       this.btnConfermaDownload.TabIndex = 13;
       this.btnConfermaDownload.Text = "Download";
       this.btnConfermaDownload.UseVisualStyleBackColor = true;
+      this.btnConfermaDownload.Click += new System.EventHandler(this.btnConfermaDownload_Click);
       // 
       // groupBox1
       // 
@@ -156,33 +159,15 @@
       this.pictureBox1.TabIndex = 1;
       this.pictureBox1.TabStop = false;
       // 
-      // button1
+      // btnNuovaAnalisi
       // 
-      this.button1.Location = new System.Drawing.Point(645, 15);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(171, 31);
-      this.button1.TabIndex = 11;
-      this.button1.Text = "Nuova Analisi";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.button1_Click);
-      // 
-      // txtIndirizzoSalva
-      // 
-      this.txtIndirizzoSalva.Enabled = false;
-      this.txtIndirizzoSalva.Location = new System.Drawing.Point(165, 572);
-      this.txtIndirizzoSalva.Name = "txtIndirizzoSalva";
-      this.txtIndirizzoSalva.Size = new System.Drawing.Size(539, 22);
-      this.txtIndirizzoSalva.TabIndex = 10;
-      // 
-      // btnIndirizzoSalva
-      // 
-      this.btnIndirizzoSalva.Location = new System.Drawing.Point(28, 558);
-      this.btnIndirizzoSalva.Name = "btnIndirizzoSalva";
-      this.btnIndirizzoSalva.Size = new System.Drawing.Size(131, 36);
-      this.btnIndirizzoSalva.TabIndex = 9;
-      this.btnIndirizzoSalva.Text = "Apri";
-      this.btnIndirizzoSalva.UseVisualStyleBackColor = true;
-      this.btnIndirizzoSalva.Click += new System.EventHandler(this.btnIndirizzoSalva_Click);
+      this.btnNuovaAnalisi.Location = new System.Drawing.Point(645, 15);
+      this.btnNuovaAnalisi.Name = "btnNuovaAnalisi";
+      this.btnNuovaAnalisi.Size = new System.Drawing.Size(171, 31);
+      this.btnNuovaAnalisi.TabIndex = 11;
+      this.btnNuovaAnalisi.Text = "Nuova Analisi";
+      this.btnNuovaAnalisi.UseVisualStyleBackColor = true;
+      this.btnNuovaAnalisi.Click += new System.EventHandler(this.btnNuovaAnalisi_Click);
       // 
       // chkOrdinamento
       // 
@@ -194,7 +179,6 @@
       this.chkOrdinamento.Text = "Ordinamento Crescente";
       this.chkOrdinamento.UseVisualStyleBackColor = true;
       this.chkOrdinamento.Visible = false;
-      this.chkOrdinamento.CheckedChanged += new System.EventHandler(this.chkOrdinamento_CheckedChanged_1);
       // 
       // btnDeselectAll
       // 
@@ -220,14 +204,23 @@
       // 
       // chklstbxListaCapitoli
       // 
+      this.chklstbxListaCapitoli.CheckOnClick = true;
       this.chklstbxListaCapitoli.FormattingEnabled = true;
       this.chklstbxListaCapitoli.Location = new System.Drawing.Point(395, 59);
       this.chklstbxListaCapitoli.Name = "chklstbxListaCapitoli";
       this.chklstbxListaCapitoli.Size = new System.Drawing.Size(616, 463);
       this.chklstbxListaCapitoli.TabIndex = 5;
+      this.chklstbxListaCapitoli.SelectedIndexChanged += new System.EventHandler(this.chklstbxListaCapitoli_SelectedIndexChanged);
       // 
       // tabPage2
       // 
+      this.tabPage2.Controls.Add(this.label2);
+      this.tabPage2.Controls.Add(this.lstbxListaPagine);
+      this.tabPage2.Controls.Add(this.btnInizia);
+      this.tabPage2.Controls.Add(this.lblDownload);
+      this.tabPage2.Controls.Add(this.progressBar1);
+      this.tabPage2.Controls.Add(this.btnIndirizzoSalva);
+      this.tabPage2.Controls.Add(this.txtIndirizzoSalva);
       this.tabPage2.Controls.Add(this.label1);
       this.tabPage2.Controls.Add(this.numericUpDown1);
       this.tabPage2.Location = new System.Drawing.Point(4, 25);
@@ -237,12 +230,11 @@
       this.tabPage2.TabIndex = 1;
       this.tabPage2.Text = "tabPage2";
       this.tabPage2.UseVisualStyleBackColor = true;
-      this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
       // 
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(123, 95);
+      this.label1.Location = new System.Drawing.Point(921, 46);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(46, 17);
       this.label1.TabIndex = 2;
@@ -250,7 +242,7 @@
       // 
       // numericUpDown1
       // 
-      this.numericUpDown1.Location = new System.Drawing.Point(42, 93);
+      this.numericUpDown1.Location = new System.Drawing.Point(839, 41);
       this.numericUpDown1.Name = "numericUpDown1";
       this.numericUpDown1.Size = new System.Drawing.Size(64, 22);
       this.numericUpDown1.TabIndex = 1;
@@ -264,6 +256,68 @@
       this.tabPage3.TabIndex = 2;
       this.tabPage3.Text = "tabPage3";
       this.tabPage3.UseVisualStyleBackColor = true;
+      // 
+      // txtIndirizzoSalva
+      // 
+      this.txtIndirizzoSalva.Enabled = false;
+      this.txtIndirizzoSalva.Location = new System.Drawing.Point(164, 40);
+      this.txtIndirizzoSalva.Name = "txtIndirizzoSalva";
+      this.txtIndirizzoSalva.Size = new System.Drawing.Size(539, 22);
+      this.txtIndirizzoSalva.TabIndex = 11;
+      // 
+      // btnIndirizzoSalva
+      // 
+      this.btnIndirizzoSalva.Location = new System.Drawing.Point(27, 26);
+      this.btnIndirizzoSalva.Name = "btnIndirizzoSalva";
+      this.btnIndirizzoSalva.Size = new System.Drawing.Size(131, 36);
+      this.btnIndirizzoSalva.TabIndex = 12;
+      this.btnIndirizzoSalva.Text = "Apri";
+      this.btnIndirizzoSalva.UseVisualStyleBackColor = true;
+      this.btnIndirizzoSalva.Click += new System.EventHandler(this.btnIndirizzoSalva_Click);
+      // 
+      // progressBar1
+      // 
+      this.progressBar1.Location = new System.Drawing.Point(42, 549);
+      this.progressBar1.Name = "progressBar1";
+      this.progressBar1.Size = new System.Drawing.Size(925, 52);
+      this.progressBar1.TabIndex = 13;
+      // 
+      // lblDownload
+      // 
+      this.lblDownload.AutoSize = true;
+      this.lblDownload.Location = new System.Drawing.Point(39, 518);
+      this.lblDownload.Name = "lblDownload";
+      this.lblDownload.Size = new System.Drawing.Size(138, 17);
+      this.lblDownload.TabIndex = 14;
+      this.lblDownload.Text = "Sto scaricando il file ";
+      // 
+      // btnInizia
+      // 
+      this.btnInizia.Location = new System.Drawing.Point(385, 430);
+      this.btnInizia.Name = "btnInizia";
+      this.btnInizia.Size = new System.Drawing.Size(230, 64);
+      this.btnInizia.TabIndex = 17;
+      this.btnInizia.Text = "Inizia";
+      this.btnInizia.UseVisualStyleBackColor = true;
+      this.btnInizia.Click += new System.EventHandler(this.button1_Click);
+      // 
+      // lstbxListaPagine
+      // 
+      this.lstbxListaPagine.FormattingEnabled = true;
+      this.lstbxListaPagine.ItemHeight = 16;
+      this.lstbxListaPagine.Location = new System.Drawing.Point(27, 100);
+      this.lstbxListaPagine.Name = "lstbxListaPagine";
+      this.lstbxListaPagine.Size = new System.Drawing.Size(940, 308);
+      this.lstbxListaPagine.TabIndex = 18;
+      // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.Location = new System.Drawing.Point(24, 80);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(107, 17);
+      this.label2.TabIndex = 19;
+      this.label2.Text = "Coda Download";
       // 
       // Form1
       // 
@@ -305,13 +359,18 @@
     private System.Windows.Forms.Button btnDeselectAll;
     private System.Windows.Forms.Button btnSelectAll;
     private System.Windows.Forms.CheckBox chkOrdinamento;
-    private System.Windows.Forms.TextBox txtIndirizzoSalva;
-    private System.Windows.Forms.Button btnIndirizzoSalva;
-    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button btnNuovaAnalisi;
     private System.Windows.Forms.GroupBox groupBox1;
     private System.Windows.Forms.PictureBox pictureBox1;
     private System.Windows.Forms.Label lblStato;
     private System.Windows.Forms.Button btnConfermaDownload;
+    private System.Windows.Forms.Label lblDownload;
+    private System.Windows.Forms.ProgressBar progressBar1;
+    private System.Windows.Forms.Button btnIndirizzoSalva;
+    private System.Windows.Forms.TextBox txtIndirizzoSalva;
+    private System.Windows.Forms.Button btnInizia;
+    private System.Windows.Forms.ListBox lstbxListaPagine;
+    private System.Windows.Forms.Label label2;
   }
 }
 
