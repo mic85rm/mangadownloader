@@ -30,6 +30,7 @@ namespace MangaEdenNETDownloader
     private void Form1_Load(object sender, EventArgs e)
     {
       InizializzaControlli();
+      
     }
 
     
@@ -286,6 +287,9 @@ namespace MangaEdenNETDownloader
       txtLinkManga.Enabled = true;
       pictureBox1.ImageLocation = null;
       chklstbxListaCapitoli.DataSource = null;
+      btnInizia.Enabled = false;
+      btnConfermaDownload.Enabled = false;
+      lstbxListaPagine.Items.Clear();
       btnDeselectAll.Enabled = false;
       btnSelectAll.Enabled = false;
       groupBox1.Text = "Titolo Manga";
@@ -299,6 +303,7 @@ namespace MangaEdenNETDownloader
       {
         btnScarica.Enabled = false;
       }
+      else btnScarica.Enabled = true;
     }
 
     private void btnIndirizzoSalva_Click(object sender, EventArgs e)
@@ -504,6 +509,10 @@ namespace MangaEdenNETDownloader
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
       tabControl1.SelectTab(1);
+      chklstbxListaCapitoli.Enabled = false;
+      btnSelectAll.Enabled = false;
+      btnDeselectAll.Enabled = false;
+      btnConfermaDownload.Enabled = false;
       List<string> listaImmagini= new List<string>();
       foreach (string item in chklstbxListaCapitoli.CheckedItems)
       {
@@ -514,22 +523,35 @@ namespace MangaEdenNETDownloader
         }
         
       }
-      
 
+      btnInizia.Enabled = true;
 
     }
 
     private void button1_Click(object sender, EventArgs e)
     {
       int numerofile = 0;
-      progressBar1.Maximum = lstbxListaPagine.Items.Count;
-      foreach (string conta in lstbxListaPagine.Items)
+      int incremento = 0;
+      
+      incremento = (lstbxListaPagine.Items.Count / 100);
+      if (incremento == 0)
       {
+        incremento = 1;
+      }
+      progressBar1.Maximum = lstbxListaPagine.Items.Count;
+       foreach (string conta in lstbxListaPagine.Items)
+      {
+       
         numerofile++;
-        lblDownload.Text="Sto scaricando il file" + numerofile.ToString()+ "di" + lstbxListaPagine.Items.Count;
-        DownloadRemoteImageFile("https:"+GetImageAddress(conta), ReadSetting("indirizzosalvataggio") + "\\" + TrasformaCifre(numerofile, 6) + ".jpg");
+       
+        // lblDownload.Text="Sto scaricando il file" + numerofile.ToString()+ "di" + lstbxListaPagine.Items.Count;
+        DownloadRemoteImageFile("https:"+GetImageAddress(conta), ReadSetting("indirizzosalvataggio") +  "\\" +TrasformaCifre(numerofile, 6) + ".jpg");
+        
+        progressBar1.Increment(incremento);
+       
         System.Threading.Thread.Sleep(2000);
-        progressBar1.Increment((lstbxListaPagine.Items.Count/100));
+         
+
       }
     }
 
