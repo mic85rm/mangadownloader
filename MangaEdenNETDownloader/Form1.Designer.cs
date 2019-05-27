@@ -54,6 +54,7 @@
       this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
       this.tabPage3 = new System.Windows.Forms.TabPage();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+      this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.groupBox1.SuspendLayout();
@@ -373,6 +374,7 @@
     private System.Windows.Forms.Button btnInizia;
     private System.Windows.Forms.ListBox lstbxListaPagine;
     private System.Windows.Forms.Label label2;
+    private System.ComponentModel.BackgroundWorker backgroundWorker1;
   }
 }
 

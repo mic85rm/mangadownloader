@@ -23,8 +23,7 @@ namespace MangaEdenNETDownloader
     public Form1()
     {
       InitializeComponent();
-      
-
+            
     }
 
     private void Form1_Load(object sender, EventArgs e)
@@ -33,9 +32,10 @@ namespace MangaEdenNETDownloader
       
     }
 
-    
 
-    
+     
+
+ 
 
     #region metodi recupero info html
     private static void DownloadRemoteImageFile(string uri, string fileName)
@@ -110,7 +110,7 @@ namespace MangaEdenNETDownloader
       {
         if (node.HasClass("chapterLink"))
         {
-         
+          
          listaCapitoli.Add("www.mangaeden.com" + node.Attributes["href"].Value);
         }
         ///TextBox2.Text= (node.Attributes["href"].Value);
@@ -286,7 +286,7 @@ namespace MangaEdenNETDownloader
       txtLinkManga.Text = string.Empty;
       txtLinkManga.Enabled = true;
       pictureBox1.ImageLocation = null;
-      chklstbxListaCapitoli.DataSource = null;
+      chklstbxListaCapitoli.Items.Clear();
       btnInizia.Enabled = false;
       btnConfermaDownload.Enabled = false;
       lstbxListaPagine.Items.Clear();
@@ -350,23 +350,62 @@ namespace MangaEdenNETDownloader
     }
     private void btnScarica_Click(object sender, EventArgs e)
     {
-     
+      
       btnSelectAll.Enabled = true;
       btnDeselectAll.Enabled = true;
       btnScarica.Enabled = false;
       txtLinkManga.Enabled = false;
-      // tabControl1.Visible = false;
+       //tabControl1.Visible = false;
       //MessageBox.Show(ReadSetting("ordinamentolista"));
       pictureBox1.ImageLocation = GetImageManga(txtLinkManga.Text);
       groupBox1.Text = GetNameManga(txtLinkManga.Text);
+      
       lblNumeroCapitoli.Text = "Capitoli:" + GetNumberOfChapter(txtLinkManga.Text).ToString();
       //lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text, ReadSetting("ordinamentolista"));
-     
-      chklstbxListaCapitoli.DataSource=GetListChapter(txtLinkManga.Text, true);
-      
+      //chklstbxListaCapitoli.Items.Clear();
+      using (Form2 form2 = new Form2(PopolaData))
+      {
+        form2.ShowDialog(this);
+        List<string> appoggio = new List<string>();
+        appoggio = GetListChapter(txtLinkManga.Text, true);
+
+
+        foreach (string contatore in appoggio)
+        {
+          chklstbxListaCapitoli.Items.Add(contatore);
+        }
+      }
+
+      //List<string> appoggio = new List<string>();
+      //appoggio = GetListChapter(txtLinkManga.Text, true);
+
+
+      //foreach (string contatore in appoggio)
+      //{
+      //  chklstbxListaCapitoli.Items.Add(contatore);
+      //}
+
 
       // lblStato.Text = GetStatoManga(txtLinkManga.Text);
 
+    }
+
+    void PopolaData()
+    {
+
+      for (int i=0;i<=800;i++)
+      {
+        Thread.Sleep(10);
+
+      }
+     
+      //List<string> appoggio = new List<string>();
+      //appoggio = GetListChapter(txtLinkManga.Text, true);
+     
+      //foreach (var contatore in appoggio)
+      //{
+      //  chklstbxListaCapitoli.Items.Add(contatore);
+      //}
     }
 
     protected void lstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
