@@ -16,32 +16,33 @@ using System.Windows.Forms;
 
 namespace MangaEdenNETDownloader
 {
+
   public partial class Form1 : Form
   {
-    
+    List<MANGA> Manga = new List<MANGA>();
 
     public Form1()
     {
       InitializeComponent();
-            
+
     }
 
     private void Form1_Load(object sender, EventArgs e)
     {
       InizializzaControlli();
-      
+
     }
 
 
-     
 
- 
+
+
 
     #region metodi recupero info html
     private static void DownloadRemoteImageFile(string uri, string fileName)
     {
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-    
+
       //request.Proxy = WebRequest.DefaultWebProxy;
       //request.Credentials = System.Net.CredentialCache.DefaultCredentials; ;
       //request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
@@ -75,76 +76,64 @@ namespace MangaEdenNETDownloader
         }
       }
     }
-    private static int GetNumberOfChapter(string link)
-    {
 
+
+
+
+    private bool OttieniListaCapitoli(string link)
+    {
       var html = link;
       HtmlWeb web = new HtmlWeb();
 
       var htmlDoc = web.Load(html);
-
-      string name = htmlDoc.DocumentNode
-             .SelectNodes("//tbody/tr")
-               .First()
-             .Attributes["id"].Value;
-
-      //TextBox1.Text = name.Remove(0, 1);
-
-      return Convert.ToInt32(name.Remove(0, 1));
-    }
-
-    private static List<string> GetListChapter(string link,bool ordinamento)
-    {
-
-      var html = link;
-      HtmlWeb web = new HtmlWeb();
-
-      var htmlDoc = web.Load(html);
-      var htmlNodes = htmlDoc.DocumentNode
-        .SelectNodes("//td/a");
-      List<string> listaCapitoli = new List<string>();
-
-      
-      
+      var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//td/a[@class='chapterLink']");
+      int contatore = 0;
       foreach (var node in htmlNodes)
       {
-        if (node.HasClass("chapterLink"))
-        {
-          
-         listaCapitoli.Add("www.mangaeden.com" + node.Attributes["href"].Value);
-        }
-        ///TextBox2.Text= (node.Attributes["href"].Value);
+        MANGA oggetto = new MANGA();
+        oggetto.Posizione = contatore++;
+        oggetto.LinkCapitolo = "Https://www.mangaeden.com" + node.Attributes["href"].Value;
+        string ricerca = "Capitolo";
+        int posizione = node.InnerText.IndexOf(ricerca);
+        string stringafinale = node.InnerText;
+        stringafinale = stringafinale.Substring(posizione);
+        stringafinale=stringafinale.Replace("\n", " ");
+        oggetto.NomeCapitolo = stringafinale;
 
+        Manga.Add(oggetto);
       }
-      if (ordinamento==true) { listaCapitoli.Reverse(); }
-     
-      return listaCapitoli;
-
-
+      return true;
     }
 
 
     private static string GetImageManga(string link)
     {
 
-      var html = link;
+      string html = link;
       HtmlWeb web = new HtmlWeb();
 
       var htmlDoc = web.Load(html);
-      string htmlNodes = htmlDoc.DocumentNode
-        .SelectNodes("//div[@class='mangaImage2']/img")
-       .First()
+      //string htmlNodes2 = htmlDoc.DocumentNode
+      //  .SelectNodes("//div[@class='mangaImage2']/img")
+      // .First()
+      //      .Attributes["src"].Value;
+
+      string htmlNodes2 = htmlDoc.DocumentNode
+        .SelectSingleNode("//div[@class='mangaImage2']/img")
+
             .Attributes["src"].Value;
-      string indirizzoImage = null;
+
+
+
 
       //foreach (var node in htmlNodes)
       //{
       //  if (node.HasClass("chapterLink"))
-         return indirizzoImage=("https:" + htmlNodes);
+      return ("https:" + htmlNodes2);
       ///TextBox2.Text= (node.Attributes["href"].Value);
 
       //}
-          
+
     }
 
     private static string GetStatoManga(string link)
@@ -155,8 +144,8 @@ namespace MangaEdenNETDownloader
 
       var htmlDoc = web.Load(html);
       //var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='rightContent']/div[2]/text()[5]");
-     var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='rightContent']/div[2]/text()[5]");
-      
+      var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='rightContent']/div[2]/text()[5]");
+
       string statomanga = null;
       statomanga = htmlNodes.ToString();
 
@@ -210,7 +199,7 @@ namespace MangaEdenNETDownloader
       lunghezza = link.Count();
 
       //var html2 = link.Remove(lunghezza - 2, 2);
-      var html2 = "https://"+ link.Remove(lunghezza - 2, 2);
+      var html2 = link.Remove(lunghezza - 2, 2);
       HtmlWeb web2 = new HtmlWeb();
 
       var htmlDoc2 = web2.Load(html2);
@@ -286,7 +275,7 @@ namespace MangaEdenNETDownloader
       txtLinkManga.Text = string.Empty;
       txtLinkManga.Enabled = true;
       pictureBox1.ImageLocation = null;
-      chklstbxListaCapitoli.Items.Clear();
+      //chklstbxListaCapitoli.Items.Clear();
       btnInizia.Enabled = false;
       btnConfermaDownload.Enabled = false;
       lstbxListaPagine.Items.Clear();
@@ -323,6 +312,7 @@ namespace MangaEdenNETDownloader
       {
         chklstbxListaCapitoli.SetItemChecked(i, true);
       }
+     
       btnConfermaDownload.Enabled = true;
     }
 
@@ -332,6 +322,7 @@ namespace MangaEdenNETDownloader
       {
         chklstbxListaCapitoli.SetItemChecked(i, false);
       }
+   
       btnConfermaDownload.Enabled = false;
     }
 
@@ -350,58 +341,34 @@ namespace MangaEdenNETDownloader
     }
     private void btnScarica_Click(object sender, EventArgs e)
     {
-      
+    
       btnSelectAll.Enabled = true;
       btnDeselectAll.Enabled = true;
       btnScarica.Enabled = false;
       txtLinkManga.Enabled = false;
-       //tabControl1.Visible = false;
+      //tabControl1.Visible = false;
       //MessageBox.Show(ReadSetting("ordinamentolista"));
       pictureBox1.ImageLocation = GetImageManga(txtLinkManga.Text);
-      groupBox1.Text = GetNameManga(txtLinkManga.Text);
-      
-      lblNumeroCapitoli.Text = "Capitoli:" + GetNumberOfChapter(txtLinkManga.Text).ToString();
-      //lstbxListaCapitoli.DataSource = GetListChapter(txtLinkManga.Text, ReadSetting("ordinamentolista"));
-      //chklstbxListaCapitoli.Items.Clear();
-      using (Form2 form2 = new Form2(PopolaData))
-      {
-        form2.ShowDialog(this);
-        List<string> appoggio = new List<string>();
-        appoggio = GetListChapter(txtLinkManga.Text, true);
+      //groupBox1.Text = GetNameManga(txtLinkManga.Text);
+      OttieniListaCapitoli(txtLinkManga.Text);
+   
 
-
-        foreach (string contatore in appoggio)
-        {
-          chklstbxListaCapitoli.Items.Add(contatore);
-        }
-      }
-
-      //List<string> appoggio = new List<string>();
-      //appoggio = GetListChapter(txtLinkManga.Text, true);
-
-
-      //foreach (string contatore in appoggio)
-      //{
-      //  chklstbxListaCapitoli.Items.Add(contatore);
-      //}
-
-
-      // lblStato.Text = GetStatoManga(txtLinkManga.Text);
-
+      chklstbxListaCapitoli.DataSource = Manga;
+      chklstbxListaCapitoli.DisplayMember = "NomeCapitolo";
     }
 
     void PopolaData()
     {
 
-      for (int i=0;i<=800;i++)
+      for (int i = 0; i <= 800; i++)
       {
         Thread.Sleep(10);
 
       }
-     
+
       //List<string> appoggio = new List<string>();
       //appoggio = GetListChapter(txtLinkManga.Text, true);
-     
+
       //foreach (var contatore in appoggio)
       //{
       //  chklstbxListaCapitoli.Items.Add(contatore);
@@ -415,23 +382,23 @@ namespace MangaEdenNETDownloader
       List<string> listaDownload = new List<string>();
       //listaDownload = GetListPage("https://" + lstbxListaCapitoli.SelectedValue);
 
-     //lstbxListaLinkDownload.DataSource = listaDownload;
-     //// lstbxListaLinkDownload.DataBind();
-     // foreach (string item in listaDownload)
-     // {
-     //   numerofile++;
-     //   nomefile = "https:" + GetImageAddress(item);
-     //   DownloadRemoteImageFile(nomefile, "d:\\manga" + "\\" + trasformaCifre(numerofile) + ".jpg");
-     //   System.Threading.Thread.Sleep(2000);
-     // }
+      //lstbxListaLinkDownload.DataSource = listaDownload;
+      //// lstbxListaLinkDownload.DataBind();
+      // foreach (string item in listaDownload)
+      // {
+      //   numerofile++;
+      //   nomefile = "https:" + GetImageAddress(item);
+      //   DownloadRemoteImageFile(nomefile, "d:\\manga" + "\\" + trasformaCifre(numerofile) + ".jpg");
+      //   System.Threading.Thread.Sleep(2000);
+      // }
       // DownloadRemoteImageFile("https:" + download, "d:\\prova.jpg");
     }
     #endregion
 
-    
+
 
     #region utility
-    public static string TrasformaCifre(int num,int cifre)
+    public static string TrasformaCifre(int num, int cifre)
     {
 
       string numeroDaStampare = num.ToString().PadLeft(cifre, '0');
@@ -456,13 +423,13 @@ namespace MangaEdenNETDownloader
 
     public void InizializzaControlli()
     {
-     txtLinkManga.Text = "https://www.mangaeden.com/it/it-manga/maison-ikkoku/";
+      txtLinkManga.Text = "https://www.mangaeden.com/it/it-manga/maison-ikkoku/";
       tabControl1.TabPages[0].Text = "MangaEdenNETDownloader";
       tabControl1.TabPages[1].Text = "Opzioni";
       tabControl1.TabPages[2].Text = "Informazioni";
       string path = ReadSetting("indirizzosalvataggio");
-      if (path==string.Empty) { path= Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); }
-      folderBrowserDialog1.SelectedPath =   path;
+      if (path == string.Empty) { path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); }
+      folderBrowserDialog1.SelectedPath = path;
       txtIndirizzoSalva.Text = path;
       //chkOrdinamento.Checked= ToBoolMio( ReadSetting("ordinamentolista"));
       //folderBrowserDialog1.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -470,65 +437,65 @@ namespace MangaEdenNETDownloader
     }
 
     static void ReadAllSettings()
-  {
-    try
     {
-      var appSettings = ConfigurationManager.AppSettings;
+      try
+      {
+        var appSettings = ConfigurationManager.AppSettings;
 
-      if (appSettings.Count == 0)
-      {
-        Console.WriteLine("AppSettings is empty.");
-      }
-      else
-      {
-        foreach (var key in appSettings.AllKeys)
+        if (appSettings.Count == 0)
         {
-          //Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
+          Console.WriteLine("AppSettings is empty.");
+        }
+        else
+        {
+          foreach (var key in appSettings.AllKeys)
+          {
+            //Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
+          }
         }
       }
+      catch (ConfigurationErrorsException)
+      {
+        //Console.WriteLine("Error reading app settings");
+      }
     }
-    catch (ConfigurationErrorsException)
-    {
-      //Console.WriteLine("Error reading app settings");
-    }
-  }
 
-  static string ReadSetting(string key)
-  {
-    try
+    static string ReadSetting(string key)
     {
-      var appSettings = ConfigurationManager.AppSettings;
-      string result = appSettings[key] ?? "Not Found";
-      return result;
-    }
-    catch (ConfigurationErrorsException)
-    {
+      try
+      {
+        var appSettings = ConfigurationManager.AppSettings;
+        string result = appSettings[key] ?? "Not Found";
+        return result;
+      }
+      catch (ConfigurationErrorsException)
+      {
         return null;
+      }
     }
-  }
 
-  static void AddUpdateAppSettings(string key, string value)
-  {
-    try
+    static void AddUpdateAppSettings(string key, string value)
     {
-      var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-      var settings = configFile.AppSettings.Settings;
-      if (settings[key] == null)
+      try
       {
-        settings.Add(key, value);
+        var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        var settings = configFile.AppSettings.Settings;
+        if (settings[key] == null)
+        {
+          settings.Add(key, value);
+        }
+        else
+        {
+          settings[key].Value = value;
+        }
+        configFile.Save(ConfigurationSaveMode.Modified);
+        ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
       }
-      else
+      catch (ConfigurationErrorsException)
       {
-        settings[key].Value = value;
+        Console.WriteLine("Error writing app settings");
       }
-      configFile.Save(ConfigurationSaveMode.Modified);
-      ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
     }
-    catch (ConfigurationErrorsException)
-    {
-      Console.WriteLine("Error writing app settings");
-    }
-  }
 
 
 
@@ -539,29 +506,25 @@ namespace MangaEdenNETDownloader
 
     #endregion
 
-    private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      if (chklstbxListaCapitoli.CheckedItems.Count > 0) btnConfermaDownload.Enabled = true;
-      else btnConfermaDownload.Enabled = false;
-    }
+
 
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
       tabControl1.SelectTab(1);
-      chklstbxListaCapitoli.Enabled = false;
+      //chklstbxListaCapitoli.Enabled = false;
       btnSelectAll.Enabled = false;
       btnDeselectAll.Enabled = false;
       btnConfermaDownload.Enabled = false;
-      List<string> listaImmagini= new List<string>();
-      foreach (string item in chklstbxListaCapitoli.CheckedItems)
-      {
-      listaImmagini=GetListPage(item);
-        foreach(string lista in listaImmagini)
-        {
-          lstbxListaPagine.Items.Add(lista);
-        }
-        
-      }
+      List<string> listaImmagini = new List<string>();
+      //foreach (string item in chklstbxListaCapitoli.CheckedItems)
+      //{
+      //listaImmagini=GetListPage(item);
+      //  foreach(string lista in listaImmagini)
+      //  {
+      //    lstbxListaPagine.Items.Add(lista);
+      //  }
+
+      //}
 
       btnInizia.Enabled = true;
 
@@ -571,28 +534,45 @@ namespace MangaEdenNETDownloader
     {
       int numerofile = 0;
       int incremento = 0;
-      
+
       incremento = (lstbxListaPagine.Items.Count / 100);
       if (incremento == 0)
       {
         incremento = 1;
       }
       progressBar1.Maximum = lstbxListaPagine.Items.Count;
-       foreach (string conta in lstbxListaPagine.Items)
+      foreach (string conta in lstbxListaPagine.Items)
       {
-       
+
         numerofile++;
-       
+
         // lblDownload.Text="Sto scaricando il file" + numerofile.ToString()+ "di" + lstbxListaPagine.Items.Count;
-        DownloadRemoteImageFile("https:"+GetImageAddress(conta), ReadSetting("indirizzosalvataggio") +  "\\" +TrasformaCifre(numerofile, 6) + ".jpg");
-        
+        DownloadRemoteImageFile("https:" + GetImageAddress(conta), ReadSetting("indirizzosalvataggio") + "\\" + TrasformaCifre(numerofile, 6) + ".jpg");
+
         progressBar1.Increment(incremento);
-       
+
         System.Threading.Thread.Sleep(2000);
-         
+
 
       }
     }
 
-    }  
+    private void button1_Click_1(object sender, EventArgs e)
+    {
+
+    }
+
+    private void button1_Click_2(object sender, EventArgs e)
+    {
+
+
+
+    }
+
+    private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+  }
+
 }
