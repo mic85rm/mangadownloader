@@ -8,10 +8,15 @@ namespace MangaEdenNETDownloader
 {
   class MANGA
   {
-    public int Posizione { get; set; }
+    public bool Attivo { get; set; }
     public string NomeCapitolo { get; set; }
-    public string LinkCapitolo { get; set; }
+    public string LinkCapitolo { get ; set; }
+    public int NumeroPagine{ get; set; }
+    public List<string>  ListaLinkImmagini { get; set; }
 
-    public List<string>  ListaPagine { get; set; }
+    public string NomeCartella { get; set; }
   }
+
+  
+
 }

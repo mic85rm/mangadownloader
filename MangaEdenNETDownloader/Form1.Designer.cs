@@ -33,6 +33,7 @@
       this.btnScarica = new System.Windows.Forms.Button();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
+      this.chklstbxListaCapitoli = new System.Windows.Forms.CheckedListBox();
       this.btnConfermaDownload = new System.Windows.Forms.Button();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.lblStato = new System.Windows.Forms.Label();
@@ -56,7 +57,9 @@
       this.button1 = new System.Windows.Forms.Button();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-      this.chklstbxListaCapitoli = new System.Windows.Forms.CheckedListBox();
+      this.textBox1 = new System.Windows.Forms.TextBox();
+      this.button2 = new System.Windows.Forms.Button();
+      this.lblFatto = new System.Windows.Forms.Label();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.groupBox1.SuspendLayout();
@@ -122,6 +125,17 @@
       this.tabPage1.TabIndex = 0;
       this.tabPage1.Text = "tabPage1";
       this.tabPage1.UseVisualStyleBackColor = true;
+      // 
+      // chklstbxListaCapitoli
+      // 
+      this.chklstbxListaCapitoli.CheckOnClick = true;
+      this.chklstbxListaCapitoli.FormattingEnabled = true;
+      this.chklstbxListaCapitoli.Location = new System.Drawing.Point(407, 61);
+      this.chklstbxListaCapitoli.Name = "chklstbxListaCapitoli";
+      this.chklstbxListaCapitoli.Size = new System.Drawing.Size(603, 463);
+      this.chklstbxListaCapitoli.TabIndex = 14;
+      this.chklstbxListaCapitoli.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklstbxListaCapitoli_ItemCheck);
+      this.chklstbxListaCapitoli.SelectedIndexChanged += new System.EventHandler(this.chklstbxListaCapitoli_SelectedIndexChanged);
       // 
       // btnConfermaDownload
       // 
@@ -208,6 +222,7 @@
       // 
       // tabPage2
       // 
+      this.tabPage2.Controls.Add(this.lblFatto);
       this.tabPage2.Controls.Add(this.label2);
       this.tabPage2.Controls.Add(this.lstbxListaPagine);
       this.tabPage2.Controls.Add(this.btnInizia);
@@ -263,6 +278,7 @@
       this.lblDownload.Size = new System.Drawing.Size(138, 17);
       this.lblDownload.TabIndex = 14;
       this.lblDownload.Text = "Sto scaricando il file ";
+      this.lblDownload.Visible = false;
       // 
       // progressBar1
       // 
@@ -270,6 +286,7 @@
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(925, 52);
       this.progressBar1.TabIndex = 13;
+      this.progressBar1.Visible = false;
       // 
       // btnIndirizzoSalva
       // 
@@ -307,6 +324,8 @@
       // 
       // tabPage3
       // 
+      this.tabPage3.Controls.Add(this.button2);
+      this.tabPage3.Controls.Add(this.textBox1);
       this.tabPage3.Controls.Add(this.label3);
       this.tabPage3.Controls.Add(this.button1);
       this.tabPage3.Location = new System.Drawing.Point(4, 25);
@@ -336,14 +355,34 @@
       this.button1.UseVisualStyleBackColor = true;
       this.button1.Click += new System.EventHandler(this.button1_Click_2);
       // 
-      // chklstbxListaCapitoli
+      // textBox1
       // 
-      this.chklstbxListaCapitoli.FormattingEnabled = true;
-      this.chklstbxListaCapitoli.Location = new System.Drawing.Point(407, 61);
-      this.chklstbxListaCapitoli.Name = "chklstbxListaCapitoli";
-      this.chklstbxListaCapitoli.Size = new System.Drawing.Size(603, 463);
-      this.chklstbxListaCapitoli.TabIndex = 14;
-      this.chklstbxListaCapitoli.SelectedIndexChanged += new System.EventHandler(this.chklstbxListaCapitoli_SelectedIndexChanged);
+      this.textBox1.Location = new System.Drawing.Point(363, 119);
+      this.textBox1.Name = "textBox1";
+      this.textBox1.Size = new System.Drawing.Size(237, 22);
+      this.textBox1.TabIndex = 3;
+      // 
+      // button2
+      // 
+      this.button2.Location = new System.Drawing.Point(670, 119);
+      this.button2.Name = "button2";
+      this.button2.Size = new System.Drawing.Size(79, 30);
+      this.button2.TabIndex = 4;
+      this.button2.Text = "button2";
+      this.button2.UseVisualStyleBackColor = true;
+      this.button2.Click += new System.EventHandler(this.button2_Click);
+      // 
+      // lblFatto
+      // 
+      this.lblFatto.AutoSize = true;
+      this.lblFatto.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.lblFatto.Location = new System.Drawing.Point(387, 518);
+      this.lblFatto.Name = "lblFatto";
+      this.lblFatto.Size = new System.Drawing.Size(228, 69);
+      this.lblFatto.TabIndex = 20;
+      this.lblFatto.Text = "FATTO";
+      this.lblFatto.Visible = false;
+      this.lblFatto.Click += new System.EventHandler(this.label4_Click);
       // 
       // Form1
       // 
@@ -402,6 +441,9 @@
     private System.Windows.Forms.Button button1;
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.CheckedListBox chklstbxListaCapitoli;
+    private System.Windows.Forms.Button button2;
+    private System.Windows.Forms.TextBox textBox1;
+    private System.Windows.Forms.Label lblFatto;
   }
 }
 

@@ -87,11 +87,13 @@ namespace MangaEdenNETDownloader
 
       var htmlDoc = web.Load(html);
       var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//td/a[@class='chapterLink']");
-      int contatore = 0;
+     
+      
       foreach (var node in htmlNodes)
       {
         MANGA oggetto = new MANGA();
-        oggetto.Posizione = contatore++;
+        List<string> appoggio = new List<string>();
+        oggetto.Attivo = false;
         oggetto.LinkCapitolo = "Https://www.mangaeden.com" + node.Attributes["href"].Value;
         string ricerca = "Capitolo";
         int posizione = node.InnerText.IndexOf(ricerca);
@@ -99,6 +101,12 @@ namespace MangaEdenNETDownloader
         stringafinale = stringafinale.Substring(posizione);
         stringafinale=stringafinale.Replace("\n", " ");
         oggetto.NomeCapitolo = stringafinale;
+        
+       
+
+        
+        // oggetto.NumeroPagine=GetNumberPage(oggetto.LinkCapitolo);
+        // appoggio=GetListPage(oggetto.LinkCapitolo);
 
         Manga.Add(oggetto);
       }
@@ -197,8 +205,7 @@ namespace MangaEdenNETDownloader
     {
       int lunghezza = 0;
       lunghezza = link.Count();
-
-      //var html2 = link.Remove(lunghezza - 2, 2);
+           
       var html2 = link.Remove(lunghezza - 2, 2);
       HtmlWeb web2 = new HtmlWeb();
 
@@ -208,26 +215,49 @@ namespace MangaEdenNETDownloader
 
              .SelectNodes("//select[@id='pageSelect']/option");
 
-      //TextBox1.Text = name.Remove(0, 1);
-
-      //var htmlNodes2 = htmlDoc2.DocumentNode
-      //  .SelectNodes("//select/option");
+      
       List<string> listaCapitoli2 = new List<string>();
 
       foreach (var node in name2)
       {
 
         listaCapitoli2.Add(html2 + node.Attributes["data-page"].Value + "/");
-        ///TextBox2.Text= (node.Attributes["href"].Value);
+      
 
       }
       return listaCapitoli2;
-      //listaCapitoli2.Reverse();
-      //foreach (string item in listaCapitoli2)
-      //{
-      //  TextBox2.Text += item + Environment.NewLine;
-      //}
+    
+      
+    }
 
+
+    private static int GetNumberPage(string link)
+    {
+      int lunghezza = 0;
+      lunghezza = link.Count();
+
+      //var html2 = link.Remove(lunghezza - 2, 2);
+      //HtmlWeb web2 = new HtmlWeb();
+
+      //var htmlDoc2 = web2.Load(html2);
+
+      //var html2 = link.Remove(lunghezza - 2, 2);
+      //HtmlWeb web2 = new HtmlWeb();
+      HtmlWeb web2 = new HtmlWeb();
+      var htmlDoc2 = web2.Load(link);
+
+      var name2 = htmlDoc2.DocumentNode
+              .SelectSingleNode("//div[@id='pageInfo']");
+
+      string verifica = "";
+      
+
+     
+
+        verifica=name2.InnerText;
+      verifica = verifica.Remove(0,5);
+
+      return Convert.ToInt32(verifica);
 
 
     }
@@ -275,7 +305,7 @@ namespace MangaEdenNETDownloader
       txtLinkManga.Text = string.Empty;
       txtLinkManga.Enabled = true;
       pictureBox1.ImageLocation = null;
-      //chklstbxListaCapitoli.Items.Clear();
+      chklstbxListaCapitoli.DataSource = null;
       btnInizia.Enabled = false;
       btnConfermaDownload.Enabled = false;
       lstbxListaPagine.Items.Clear();
@@ -284,6 +314,7 @@ namespace MangaEdenNETDownloader
       groupBox1.Text = "Titolo Manga";
       lblNumeroCapitoli.Text = "Numero Capitoli:";
       lblStato.Text = "Stato:";
+      Manga = new List<MANGA>();
     }
 
     private void txtLinkManga_TextChanged(object sender, EventArgs e)
@@ -355,6 +386,7 @@ namespace MangaEdenNETDownloader
 
       chklstbxListaCapitoli.DataSource = Manga;
       chklstbxListaCapitoli.DisplayMember = "NomeCapitolo";
+      
     }
 
     void PopolaData()
@@ -364,6 +396,28 @@ namespace MangaEdenNETDownloader
       {
         Thread.Sleep(10);
 
+      }
+      //
+      var html = txtLinkManga.Text;
+      HtmlWeb web = new HtmlWeb();
+
+      var htmlDoc = web.Load(html);
+      var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//td/a[@class='chapterLink']");
+      int contatore = 0;
+      foreach (var node in htmlNodes)
+      {
+        MANGA oggetto = new MANGA();
+               
+        oggetto.Attivo = false;
+        oggetto.LinkCapitolo = "Https://www.mangaeden.com" + node.Attributes["href"].Value;
+        string ricerca = "Capitolo";
+        int posizione = node.InnerText.IndexOf(ricerca);
+        string stringafinale = node.InnerText;
+        stringafinale = stringafinale.Substring(posizione);
+        stringafinale = stringafinale.Replace("\n", " ");
+        oggetto.NomeCapitolo = stringafinale;
+
+        Manga.Add(oggetto);
       }
 
       //List<string> appoggio = new List<string>();
@@ -511,21 +565,26 @@ namespace MangaEdenNETDownloader
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
       tabControl1.SelectTab(1);
-      //chklstbxListaCapitoli.Enabled = false;
+      chklstbxListaCapitoli.Enabled = false;
       btnSelectAll.Enabled = false;
       btnDeselectAll.Enabled = false;
       btnConfermaDownload.Enabled = false;
       List<string> listaImmagini = new List<string>();
-      //foreach (string item in chklstbxListaCapitoli.CheckedItems)
-      //{
-      //listaImmagini=GetListPage(item);
-      //  foreach(string lista in listaImmagini)
-      //  {
-      //    lstbxListaPagine.Items.Add(lista);
-      //  }
 
-      //}
 
+      foreach (var item in Manga)
+      {
+        if (item.Attivo==true)
+        {
+          listaImmagini = GetListPage(item.LinkCapitolo);
+          foreach (string lista in listaImmagini)
+          {
+            
+            lstbxListaPagine.Items.Add(lista);
+          }
+
+        }
+      }
       btnInizia.Enabled = true;
 
     }
@@ -534,7 +593,10 @@ namespace MangaEdenNETDownloader
     {
       int numerofile = 0;
       int incremento = 0;
-
+      string indirizzoSalvataggio = "";
+      button1.Enabled = false;
+      progressBar1.Visible = true;
+      lblDownload.Visible = true;
       incremento = (lstbxListaPagine.Items.Count / 100);
       if (incremento == 0)
       {
@@ -543,18 +605,30 @@ namespace MangaEdenNETDownloader
       progressBar1.Maximum = lstbxListaPagine.Items.Count;
       foreach (string conta in lstbxListaPagine.Items)
       {
+        int lunghezza = conta.Count();
 
+        string conta2=conta.Remove(lunghezza - 2, 2);
+        int posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta2));
+       
+        if (!Directory.Exists(ReadSetting("indirizzosalvataggio") + "\\"+ Manga.ElementAt(posizione).NomeCartella + "\\"))
+        {
+          Directory.CreateDirectory(ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + "\\");
+        }
+        
         numerofile++;
-
+        indirizzoSalvataggio=  ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + "\\"+ TrasformaCifre(numerofile, 6) + ".jpg";
         // lblDownload.Text="Sto scaricando il file" + numerofile.ToString()+ "di" + lstbxListaPagine.Items.Count;
-        DownloadRemoteImageFile("https:" + GetImageAddress(conta), ReadSetting("indirizzosalvataggio") + "\\" + TrasformaCifre(numerofile, 6) + ".jpg");
+        DownloadRemoteImageFile("https:" + GetImageAddress(conta), indirizzoSalvataggio);
 
         progressBar1.Increment(incremento);
-
+        posizione = 0;
         System.Threading.Thread.Sleep(2000);
 
 
       }
+      progressBar1.Visible = false;
+      lblFatto.Visible = true;
+
     }
 
     private void button1_Click_1(object sender, EventArgs e)
@@ -570,6 +644,31 @@ namespace MangaEdenNETDownloader
     }
 
     private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if (chklstbxListaCapitoli.CheckedItems.Count > 0) btnConfermaDownload.Enabled = true;
+      else btnConfermaDownload.Enabled = false;
+      
+    }
+
+    
+
+
+private void button2_Click(object sender, EventArgs e)
+    {
+      int ciao = 0;
+      ciao=GetNumberPage(textBox1.Text);
+    }
+
+    private void chklstbxListaCapitoli_ItemCheck(object sender, ItemCheckEventArgs e)
+    {
+      int position = 0;
+
+      position=chklstbxListaCapitoli.SelectedIndex;
+      Manga.ElementAt(position).Attivo = true;
+      Manga.ElementAt(position).NomeCartella = "ch00"+(Manga.Count-position).ToString();
+    }
+
+    private void label4_Click(object sender, EventArgs e)
     {
 
     }
