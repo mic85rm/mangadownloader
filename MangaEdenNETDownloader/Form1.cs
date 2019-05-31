@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using System.IO.Compression;
 
 namespace MangaEdenNETDownloader
 {
@@ -583,7 +584,7 @@ namespace MangaEdenNETDownloader
             
             lstbxListaPagine.Items.Add(lista);
           }
-
+          lstbxListaPagine.Items.Add("fine");
         }
       }
       btnInizia.Enabled = true;
@@ -606,36 +607,54 @@ namespace MangaEdenNETDownloader
         incremento = 1;
       }
       progressBar1.Maximum = lstbxListaPagine.Items.Count;
+      string percorsoSalvataggio = "";
+      int posizione = 0;
       foreach (string conta in lstbxListaPagine.Items)
       {
-         int lunghezza = conta.Count();
+       
+        int lunghezza = conta.Count();
         string conta2 = conta.Remove(lunghezza - 2, 2);
+        
         //if (lunghezza- == 2) { string conta2 = conta.Remove(lunghezza - 2, 2); }
         //else { string conta2 = conta.Remove(lunghezza - 2, 3); }
+        int posizione2 = 0;
+
+        if (conta == "fine")
+        {
+          ZipFile.CreateFromDirectory(percorsoSalvataggio, ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + ".cbz",CompressionLevel.Fastest,true);
+          continue;
+        }
 
 
-        int posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta2));
+         posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta2));
         if (posizione == -1)
         {
           conta2 = conta.Remove(lunghezza - 3, 3);
+          
           posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta2));
 
         }
-        //int posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta));
 
-        if (!Directory.Exists(ReadSetting("indirizzosalvataggio") + "\\"+ Manga.ElementAt(posizione).NomeCartella + "\\"))
+        percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + "\\";
+       
+
+       
+        
+
+        if (!Directory.Exists(percorsoSalvataggio))
         {
-          Directory.CreateDirectory(ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + "\\");
+          //ZipFile.CreateFromDirectory((ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + "\\"),"d:\\prova.zip");
+          Directory.CreateDirectory(percorsoSalvataggio);
           numerofile = 0;
         }
         
         numerofile++;
-        indirizzoSalvataggio=  ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + "\\"+ TrasformaCifre(numerofile, 6) + ".jpg";
+        indirizzoSalvataggio=  percorsoSalvataggio+ TrasformaCifre(numerofile, 6) + ".jpg";
         // lblDownload.Text="Sto scaricando il file" + numerofile.ToString()+ "di" + lstbxListaPagine.Items.Count;
         DownloadRemoteImageFile("https:" + GetImageAddress(conta), indirizzoSalvataggio);
 
         progressBar1.Increment(incremento);
-        posizione = 0;
+        
         System.Threading.Thread.Sleep(2000);
 
 

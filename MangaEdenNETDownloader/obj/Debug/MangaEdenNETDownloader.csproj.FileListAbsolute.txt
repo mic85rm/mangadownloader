@@ -16,4 +16,3 @@ C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\Mang
 C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.csproj.CopyComplete
 C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.exe
 C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.pdb
-C:\Users\pc\Source\Repos\mangadownload.net\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.csprojAssemblyReference.cache
