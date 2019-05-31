@@ -101,7 +101,7 @@ namespace MangaEdenNETDownloader
         stringafinale = stringafinale.Substring(posizione);
         stringafinale=stringafinale.Replace("\n", " ");
         oggetto.NomeCapitolo = stringafinale;
-        
+        //oggetto.NumeroPagine = GetNumberPage(oggetto.LinkCapitolo);
        
 
         
@@ -577,6 +577,7 @@ namespace MangaEdenNETDownloader
         if (item.Attivo==true)
         {
           listaImmagini = GetListPage(item.LinkCapitolo);
+          item.NumeroPagine = listaImmagini.Count();
           foreach (string lista in listaImmagini)
           {
             
@@ -595,6 +596,8 @@ namespace MangaEdenNETDownloader
       int incremento = 0;
       string indirizzoSalvataggio = "";
       button1.Enabled = false;
+      btnInizia.Enabled = false;
+
       progressBar1.Visible = true;
       lblDownload.Visible = true;
       incremento = (lstbxListaPagine.Items.Count / 100);
@@ -605,14 +608,25 @@ namespace MangaEdenNETDownloader
       progressBar1.Maximum = lstbxListaPagine.Items.Count;
       foreach (string conta in lstbxListaPagine.Items)
       {
-        int lunghezza = conta.Count();
+         int lunghezza = conta.Count();
+        string conta2 = conta.Remove(lunghezza - 2, 2);
+        //if (lunghezza- == 2) { string conta2 = conta.Remove(lunghezza - 2, 2); }
+        //else { string conta2 = conta.Remove(lunghezza - 2, 3); }
 
-        string conta2=conta.Remove(lunghezza - 2, 2);
+
         int posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta2));
-       
+        if (posizione == -1)
+        {
+          conta2 = conta.Remove(lunghezza - 3, 3);
+          posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta2));
+
+        }
+        //int posizione = Manga.FindIndex(x => x.LinkCapitolo.Contains(conta));
+
         if (!Directory.Exists(ReadSetting("indirizzosalvataggio") + "\\"+ Manga.ElementAt(posizione).NomeCartella + "\\"))
         {
           Directory.CreateDirectory(ReadSetting("indirizzosalvataggio") + "\\" + Manga.ElementAt(posizione).NomeCartella + "\\");
+          numerofile = 0;
         }
         
         numerofile++;
@@ -627,6 +641,7 @@ namespace MangaEdenNETDownloader
 
       }
       progressBar1.Visible = false;
+      lblDownload.Visible = false;
       lblFatto.Visible = true;
 
     }
