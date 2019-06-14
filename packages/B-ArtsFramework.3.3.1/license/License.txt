@@ -1,0 +1,24 @@
+La licenza d'uso del ns. software e' condizionata all'accettazione dei termini del presente accordo.  
+Marco Balsamo (BLSMRC80A05F839W) fornisce e destina questo Programma e relativa Licenza d'Uso alla singola azienda in conformita' alle condizioni indicate qui di seguito e l'Acquirente si assume la piena responsabilita' relativamente alla selezione del Programma al fine di raggiungere i risultati prefissati, nonche' ogni responsabilita' relativa al suo uso e risultati ottenuti.
+
+LICENZA D'USO
+e' consentito all'azienda licenziataria installare e usare il Programma sul computer locale.
+
+COPYRIGHT
+Il Software e' di proprieta' di Marco Balsamo ed e' tutelato dalle leggi sul copyright. Non e' consentito affittare, vendere, trasferire o assegnare alcun diritto sul Software o sulla Documentazione di accompagnamento, o distribuire il Software senza prima ottenere un'autorizzazione scritta.
+Non e' consentito rimuovere alcun avviso di copyright o diritti di proprieta' dal Software o dalla Documentazione di accompagnamento.
+Non e' consentito modificare, alterare, tradurre o creare lavori derivati sulla base del Software, cosi' come non e' consentito riprodurre il Manuale ed il materiale scritto di accompagnamento
+
+LIMITI DI GARANZIA
+Il rivenditore e il produttore forniscono il presente Programma senza garanzia di alcun tipo esplicita o implicita ad inclusione, ma non limitatamente alle garanzie relative alla commerciabilita' ed adeguatezza del prodotto o al raggiungimento di un determinato obiettivo.
+Ogni rischio relativo alla qualita' e prestazione del Programma risiede nella persona dell'acquirente.
+Dovesse il Programma rivelarsi difettoso, il costo delle riparazioni o dei rimedi necessari, se non per quanto specificato nel seguente comma, saranno interamente a carico dell'acquirente e non del suo distributore o produttore.
+
+Il produttore GARANTISCE, che le funzioni contenute nel presente Programma e le operazioni da esso svolte siano prive di errori e si impegna, per tanto, a fornire nel, periodo di garanzia, eventuali patch gratuite.  
+
+Dopo aver letto e compreso questo Accordo si acconsente ad essere vincolati ai termini ed alle condizioni in esso contenuti.
+
+LIMITI DI RESPONSABILITa'
+Ne' Marco Balsamo, ne' i concessionari, distributori Software, agenti o impiegati, saranno responsabili di alcun danno diretto, indiretto, extracontrattuale o accidentale, come danni derivanti dalla perdita di utili, interruzione delle attivita' commerciali o perdite di dati risultanti dall'uso del Software o della Documentazione di accompagnamento.
+Nessuna responsabilita' puo' essere attribuita a Marco Balsamo o al rivenditore in ordine al raggiungimento dei risultati che l'utente si prefigge di ottenere con l'utilizzo del Software.
+

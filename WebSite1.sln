@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaEdenNETDownloader", "MangaEdenNETDownloader\MangaEdenNETDownloader.csproj", "{58BC7B82-DBEF-468B-957D-6CAF484B4EB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp2", "WindowsFormsApp2\WindowsFormsApp2.csproj", "{766A551E-EB96-4CBF-B4A5-C8EC8A6ADD13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MangaEdenNETDownloaderAPI", "WindowsFormsApp2\MangaEdenNETDownloaderAPI.csproj", "{766A551E-EB96-4CBF-B4A5-C8EC8A6ADD13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
