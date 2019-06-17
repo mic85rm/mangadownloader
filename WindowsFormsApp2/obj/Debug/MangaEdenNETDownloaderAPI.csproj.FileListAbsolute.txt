@@ -125,3 +125,4 @@ C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\Mang
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\MangaEdenNETDownloaderAPI.csprojAssemblyReference.cache
+C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Downloader.resources
