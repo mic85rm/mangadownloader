@@ -39,6 +39,9 @@
     <Reference Include="B-ArtsFramework, Version=3.3.1.0, Culture=neutral, PublicKeyToken=7a433bb7ef39396b, processorArchitecture=MSIL">
       <HintPath>..\packages\B-ArtsFramework.3.3.1\lib\net46\B-ArtsFramework.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
