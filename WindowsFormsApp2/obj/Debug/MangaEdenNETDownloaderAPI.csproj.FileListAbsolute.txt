@@ -128,3 +128,4 @@ C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\Mang
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Downloader.resources
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\log4net.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\log4net.xml
+C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\log4net.config
