@@ -40,7 +40,9 @@ namespace WindowsFormsApp2
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
       this.tabPage2 = new System.Windows.Forms.TabPage();
-      this.button4 = new System.Windows.Forms.Button();
+      this.txtIndirizzoCartellaSalvataggio = new System.Windows.Forms.TextBox();
+      this.btnApriCartellaSalvataggio = new System.Windows.Forms.Button();
+      this.btnStart = new System.Windows.Forms.Button();
       this.button1 = new System.Windows.Forms.Button();
       this.progressBar = new System.Windows.Forms.ProgressBar();
       this.labelSpeed = new System.Windows.Forms.Label();
@@ -48,8 +50,6 @@ namespace WindowsFormsApp2
       this.labelPerc = new System.Windows.Forms.Label();
       this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-      this.button5 = new System.Windows.Forms.Button();
-      this.textBox1 = new System.Windows.Forms.TextBox();
       this.groupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       this.tabControl1.SuspendLayout();
@@ -157,9 +157,9 @@ namespace WindowsFormsApp2
       // 
       // tabPage2
       // 
-      this.tabPage2.Controls.Add(this.textBox1);
-      this.tabPage2.Controls.Add(this.button5);
-      this.tabPage2.Controls.Add(this.button4);
+      this.tabPage2.Controls.Add(this.txtIndirizzoCartellaSalvataggio);
+      this.tabPage2.Controls.Add(this.btnApriCartellaSalvataggio);
+      this.tabPage2.Controls.Add(this.btnStart);
       this.tabPage2.Controls.Add(this.button1);
       this.tabPage2.Controls.Add(this.progressBar);
       this.tabPage2.Controls.Add(this.labelSpeed);
@@ -173,22 +173,42 @@ namespace WindowsFormsApp2
       this.tabPage2.Text = "tabPage2";
       this.tabPage2.UseVisualStyleBackColor = true;
       // 
-      // button4
+      // txtIndirizzoCartellaSalvataggio
       // 
-      this.button4.Location = new System.Drawing.Point(147, 405);
-      this.button4.Name = "button4";
-      this.button4.Size = new System.Drawing.Size(220, 45);
-      this.button4.TabIndex = 5;
-      this.button4.Text = "button4";
-      this.button4.UseVisualStyleBackColor = true;
+      this.txtIndirizzoCartellaSalvataggio.Location = new System.Drawing.Point(180, 40);
+      this.txtIndirizzoCartellaSalvataggio.Name = "txtIndirizzoCartellaSalvataggio";
+      this.txtIndirizzoCartellaSalvataggio.Size = new System.Drawing.Size(410, 22);
+      this.txtIndirizzoCartellaSalvataggio.TabIndex = 7;
+      // 
+      // btnApriCartellaSalvataggio
+      // 
+      this.btnApriCartellaSalvataggio.Location = new System.Drawing.Point(33, 32);
+      this.btnApriCartellaSalvataggio.Name = "btnApriCartellaSalvataggio";
+      this.btnApriCartellaSalvataggio.Size = new System.Drawing.Size(116, 30);
+      this.btnApriCartellaSalvataggio.TabIndex = 6;
+      this.btnApriCartellaSalvataggio.Text = "Apri";
+      this.btnApriCartellaSalvataggio.UseVisualStyleBackColor = true;
+      this.btnApriCartellaSalvataggio.Click += new System.EventHandler(this.btnApriCartellaSalvataggio_Click);
+      // 
+      // btnStart
+      // 
+      this.btnStart.Enabled = false;
+      this.btnStart.Location = new System.Drawing.Point(54, 405);
+      this.btnStart.Name = "btnStart";
+      this.btnStart.Size = new System.Drawing.Size(220, 45);
+      this.btnStart.TabIndex = 5;
+      this.btnStart.Text = "Inizia Download";
+      this.btnStart.UseVisualStyleBackColor = true;
+      this.btnStart.Click += new System.EventHandler(this.button4_Click);
       // 
       // button1
       // 
-      this.button1.Location = new System.Drawing.Point(454, 412);
+      this.button1.Enabled = false;
+      this.button1.Location = new System.Drawing.Point(449, 411);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(197, 39);
       this.button1.TabIndex = 4;
-      this.button1.Text = "button1";
+      this.button1.Text = "Annulla";
       this.button1.UseVisualStyleBackColor = true;
       // 
       // progressBar
@@ -201,7 +221,7 @@ namespace WindowsFormsApp2
       // labelSpeed
       // 
       this.labelSpeed.AutoSize = true;
-      this.labelSpeed.Location = new System.Drawing.Point(387, 232);
+      this.labelSpeed.Location = new System.Drawing.Point(464, 156);
       this.labelSpeed.Name = "labelSpeed";
       this.labelSpeed.Size = new System.Drawing.Size(46, 17);
       this.labelSpeed.TabIndex = 2;
@@ -219,7 +239,7 @@ namespace WindowsFormsApp2
       // labelPerc
       // 
       this.labelPerc.AutoSize = true;
-      this.labelPerc.Location = new System.Drawing.Point(381, 90);
+      this.labelPerc.Location = new System.Drawing.Point(226, 156);
       this.labelPerc.Name = "labelPerc";
       this.labelPerc.Size = new System.Drawing.Size(46, 17);
       this.labelPerc.TabIndex = 0;
@@ -228,22 +248,6 @@ namespace WindowsFormsApp2
       // backgroundWorker1
       // 
       this.backgroundWorker1.WorkerSupportsCancellation = true;
-      // 
-      // button5
-      // 
-      this.button5.Location = new System.Drawing.Point(34, 32);
-      this.button5.Name = "button5";
-      this.button5.Size = new System.Drawing.Size(116, 30);
-      this.button5.TabIndex = 6;
-      this.button5.Text = "button5";
-      this.button5.UseVisualStyleBackColor = true;
-      // 
-      // textBox1
-      // 
-      this.textBox1.Location = new System.Drawing.Point(176, 32);
-      this.textBox1.Name = "textBox1";
-      this.textBox1.Size = new System.Drawing.Size(251, 22);
-      this.textBox1.TabIndex = 7;
       // 
       // Form1
       // 
@@ -279,11 +283,11 @@ namespace WindowsFormsApp2
     private Label labelSpeed;
     private Label labelDownloaded;
     private Label labelPerc;
-    private Button button4;
+    private Button btnStart;
     private Button button1;
     private System.ComponentModel.BackgroundWorker backgroundWorker1;
-    private TextBox textBox1;
-    private Button button5;
+    private TextBox txtIndirizzoCartellaSalvataggio;
+    private Button btnApriCartellaSalvataggio;
     private FolderBrowserDialog folderBrowserDialog1;
   }
 }

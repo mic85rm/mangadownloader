@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using log4net;
+using System.Configuration;
+using System.IO.Compression;
 
 namespace WindowsFormsApp2
 {
@@ -27,6 +29,7 @@ namespace WindowsFormsApp2
     private const string K_IndirizzoWebCopertineManga = "https://cdn.mangaeden.com/mangasimg/200x/";
     private const string K_IndirizzoWebListaCapitoliMangaEdenItaliana = "https://www.mangaeden.com/api/manga/";
     private const string K_EstensioneFileJpg = ".jpg";
+    private const string K_EstensioneFileCbz = ".cbz";
     #endregion
     ListaManga listamanga = new ListaManga();
     PaginaCapitoli paginacapitoli = new PaginaCapitoli();
@@ -47,10 +50,63 @@ namespace WindowsFormsApp2
     {
       CaricaListaTitoliManga(K_IndirizzoWebListaMangaEdenItaliana);
       InizializzaComboBox();
+      InizializzaControlli();
      }
 
 
     #region utility
+
+
+
+   private void InizializzaControlli()
+    {
+      string path = ReadSetting("indirizzosalvataggio");
+      if (path == string.Empty) { path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); }
+      folderBrowserDialog1.SelectedPath = path;
+      txtIndirizzoCartellaSalvataggio.Text = path;
+      txtIndirizzoCartellaSalvataggio.Enabled = false;
+      tabControl1.TabPages[0].Text = "MangaEden";
+      tabControl1.TabPages[1].Text = "Download";
+
+    }
+
+    static string ReadSetting(string key)
+    {
+      try
+      {
+        var appSettings = ConfigurationManager.AppSettings;
+        string result = appSettings[key] ?? "Not Found";
+        return result;
+      }
+      catch (ConfigurationErrorsException)
+      {
+        return null;
+      }
+    }
+
+    static void AddUpdateAppSettings(string key, string value)
+    {
+      try
+      {
+        var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        var settings = configFile.AppSettings.Settings;
+        if (settings[key] == null)
+        {
+          settings.Add(key, value);
+        }
+        else
+        {
+          settings[key].Value = value;
+        }
+        configFile.Save(ConfigurationSaveMode.Modified);
+        ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+      }
+      catch (ConfigurationErrorsException)
+      {
+        Console.WriteLine("Error writing app settings");
+      }
+    }
+
     private static void DownloadRemoteImageFile(string uri, string fileName)
     {
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
@@ -91,36 +147,37 @@ namespace WindowsFormsApp2
       return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "");
     }
 
-    public List<string> ConvertToList(IList<JToken> list)
+    public List<string> ConvertToList(IList<JToken> list,string numerocapitolo)
     {
-
-      int numerofile = 0;
+      //string percorsoSalvataggio = "";
+      //int numerofile = 0;
       // Add rows.
+      List<string> listaimmagini = new List<string>();
+      listaimmagini.Add("CH00000"+numerocapitolo);
       foreach (var array in list)
       {
-        string appoggio = PulisciStringa(array.ToString());
-       // string appoggio = array.ToString().Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "");
-        string[] ciao = appoggio.Split(',');
-
-        for (int i = 0; i < ciao.Count(); i++)
-        {
-          ciao[i] = ciao[i].TrimStart(' ');
-          // listaimmagini.Add();
-        }
-        appoggio = ciao[1].ToString();
+        
+        string appoggio = EstrazioneIndirizzoImmagine(PulisciStringa(array.ToString()));
         listaimmagini.Add(appoggio);
-        //string indirizzoSalvataggio = percorsoSalvataggio + TrasformaCifre(numerofile, 6) + EstensioneFileJpg;
-        string indirizzoSalvataggio = "d:\\manga\\" + AggiungiZeroAlNomeFile(numerofile, 6) + K_EstensioneFileJpg;
-        DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + appoggio, indirizzoSalvataggio);
+      //   string indirizzoSalvataggio = percorsoSalvataggio + AggiungiZeroAlNomeFile(numerofile, 6) + K_EstensioneFileJpg;
+       // DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + appoggio, indirizzoSalvataggio);
 
-        numerofile++;
-        //table.Rows.Add(ciao);
+        //numerofile++;
       }
-
-
-
-
+      listaimmagini.Add("CH00000" + numerocapitolo);
+      listaimmagini.Reverse();
       return listaimmagini;
+    }
+
+    public string EstrazioneIndirizzoImmagine(string StringaDaSplittare)
+    {
+      string[] stringatoarray = StringaDaSplittare.Split(',');
+
+      for (int i = 0; i < stringatoarray.Count(); i++)
+      {
+        stringatoarray[i] = stringatoarray[i].TrimStart(' ');
+       }
+      return stringatoarray[1].ToString();
     }
     public static string AggiungiZeroAlNomeFile(int num, int cifre)
     {
@@ -141,12 +198,16 @@ namespace WindowsFormsApp2
       {
         table.Columns.Add();
       }
-
+      table.Columns[0].ColumnName = "NumeroCapitolo";
+      table.Columns[1].ColumnName = "DataInserimentoUltimoCapitolo";
+      table.Columns[2].ColumnName = "TitoloCapitolo";
+      table.Columns[3].ColumnName = "IdCapitolo";
+      table.Columns[4].ColumnName = "NumeroeTitoloCapitolo";
+      table.AcceptChanges();
       // Add rows.
       foreach (var array in list)
       {
         string stringaripulita = PulisciStringa(array.ToString());
-        //string stringaripulita = array.ToString().Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "");
         string[] stringa_a_vettore = stringaripulita.Split(',');
 
         for (int i = 0; i < stringa_a_vettore.Count(); i++)
@@ -159,7 +220,7 @@ namespace WindowsFormsApp2
       }
       foreach (DataRow row in table.Rows)
       {
-        row["Column5"] = row["Column1"].ToString() + " - " + row["Column3"].ToString();
+        row["NumeroeTitoloCapitolo"] = row["NumeroCapitolo"].ToString() + " - " + row["TitoloCapitolo"].ToString();
       }
 
 
@@ -181,13 +242,24 @@ namespace WindowsFormsApp2
       bs.DataMember = "Table1";
 
       chklstbxListaCapitoli.DataSource = bs;
-      chklstbxListaCapitoli.DisplayMember = "Column5";
+      chklstbxListaCapitoli.DisplayMember = "NumeroeTitoloCapitolo";
 
     }
 
     #endregion
 
     #region eventi controlli
+
+    private void btnApriCartellaSalvataggio_Click(object sender, EventArgs e)
+    {
+      folderBrowserDialog1.ShowNewFolderButton = false;
+      DialogResult result = this.folderBrowserDialog1.ShowDialog();
+      if (result == DialogResult.OK)
+      {
+        txtIndirizzoCartellaSalvataggio.Text = folderBrowserDialog1.SelectedPath;
+        AddUpdateAppSettings("indirizzosalvataggio", folderBrowserDialog1.SelectedPath);
+      }
+    }
 
     private void CbxListaManga_TextChanged(object sender, EventArgs e)
     {
@@ -221,13 +293,15 @@ namespace WindowsFormsApp2
 
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
-
+      btnStart.Enabled = true;
+      tabControl1.SelectTab(1);
       CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
       if ((indices.Count) > 1)
       {
         foreach (int index in indices)
         {
-          CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString());
+         // nomecartella.Add(data.Rows[index][0].ToString());
+          CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
           //listaimmagini.Add("-");
 
 
@@ -235,7 +309,7 @@ namespace WindowsFormsApp2
       }
       else
       {
-        CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[chklstbxListaCapitoli.SelectedIndex][3].ToString());
+        CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[chklstbxListaCapitoli.SelectedIndex][3].ToString(), data.Rows[chklstbxListaCapitoli.SelectedIndex][0].ToString());
       }
 
     }
@@ -250,7 +324,7 @@ namespace WindowsFormsApp2
     {
       pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).im;
       CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).i);
-
+      List<string> listaimmagini = new List<string>();
       // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
       Popola_chklstbxListaCapitoli(data);
     }
@@ -264,9 +338,8 @@ namespace WindowsFormsApp2
 
     #region metodi json
 
-    public void CreazioneCodaDownload(string IndirizzoSito, string id)
+    public void CreazioneCodaDownload(string IndirizzoSito, string id,string numerocapitolo)
     {
-      paginacapitoli = new PaginaCapitoli();
       string jsonurl = Uri.EscapeUriString(IndirizzoSito + id);
       string json = "";
       using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
@@ -280,7 +353,7 @@ namespace WindowsFormsApp2
         IList<JToken> risultati = cerca["images"].Children().ToList();
 
         // data = ConvertListToDataTable(results);
-        listaimmagini = ConvertToList(risultati);
+        listaimmagini = ConvertToList(risultati,numerocapitolo);
         // numeropaginepercapitolo.Add(listaimmagini.Count());
       }
       catch (Exception ex)
@@ -326,9 +399,41 @@ namespace WindowsFormsApp2
       }
     }
 
+
+
+
     #endregion
 
-  
+    private void button4_Click(object sender, EventArgs e)
+    {
+      int numero = 0;
+      string percorsoSalvataggioCapitolo = "";
+      string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\"+listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString() ;
+      foreach (string item in listaimmagini)
+      {
+        if (item.Contains("CH00000")) {
+          if (!Directory.Exists(percorsoSalvataggio+item))
+          {
+           
+            Directory.CreateDirectory(percorsoSalvataggio+item);
+            percorsoSalvataggioCapitolo = percorsoSalvataggio + item+"\\";
+             numero = 0;
+          }
+          else
+          {
+            ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item+".zip");
 
+          }
+
+        }
+        else
+        {
+
+          DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item,percorsoSalvataggioCapitolo+AggiungiZeroAlNomeFile(numero,6) +K_EstensioneFileJpg);
+          numero++;
+        }
+
+      }
+    }
   }
 }

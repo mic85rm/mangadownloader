@@ -7,14 +7,14 @@
     <framework targetVersion="4.6.1" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="MangaEdenNETDownloader.exe.manifest" size="4292">
+    <dependentAssembly dependencyType="install" codebase="MangaEdenNETDownloader.exe.manifest" size="4959">
       <assemblyIdentity name="MangaEdenNETDownloader.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>A4RAbTEZ8q15YQYxnJPbu/LlyPWX1t5efKG35OJSJsI=</dsig:DigestValue>
+        <dsig:DigestValue>sWi28HQpNWKYyBCY0fYIR8SknoS5RT0JQMLU6rmLqtg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
