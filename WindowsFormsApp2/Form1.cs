@@ -30,6 +30,7 @@ namespace WindowsFormsApp2
     private const string K_IndirizzoWebListaCapitoliMangaEdenItaliana = "https://www.mangaeden.com/api/manga/";
     private const string K_EstensioneFileJpg = ".jpg";
     private const string K_EstensioneFileCbz = ".cbz";
+    private const string K_NomeInizialeCapitolo = "CH0000";
     #endregion
     ListaManga listamanga = new ListaManga();
     PaginaCapitoli paginacapitoli = new PaginaCapitoli();
@@ -39,11 +40,16 @@ namespace WindowsFormsApp2
     List<int> numeropaginepercapitolo = new List<int>();
     private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
-
+    string percorsoSalvataggio = "";
 
     public Form1()
     {
       InitializeComponent();
+      backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+      backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+      backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+      backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
+      backgroundWorker1.WorkerReportsProgress = true;
     }
 
     private void Form1_Load(object sender, EventArgs e)
@@ -158,8 +164,8 @@ namespace WindowsFormsApp2
       //string percorsoSalvataggio = "";
       //int numerofile = 0;
       // Add rows.
-      List<string> listaimmagini = new List<string>();
-      listaimmagini.Add("CH00000"+numerocapitolo);
+      //List<string> listaimmagini = new List<string>();
+      listaimmagini.Add(K_NomeInizialeCapitolo + numerocapitolo);
       foreach (var array in list)
       {
         
@@ -170,7 +176,7 @@ namespace WindowsFormsApp2
 
         //numerofile++;
       }
-      listaimmagini.Add("CH00000" + numerocapitolo);
+      listaimmagini.Add(K_NomeInizialeCapitolo + numerocapitolo);
       listaimmagini.Reverse();
       return listaimmagini;
     }
@@ -197,6 +203,7 @@ namespace WindowsFormsApp2
 
     public  DataTable ConvertListToDataTable(IList<JToken> list)
     {
+      list=list.Reverse().ToList();
       // New table.
       DataTable table = new DataTable();
       // Add columns.
@@ -217,7 +224,7 @@ namespace WindowsFormsApp2
         string[] stringa_a_vettore = stringaripulita.Split(',');
 
         for (int i = 0; i < stringa_a_vettore.Count(); i++)
-        {
+             {
           stringa_a_vettore[i] = stringa_a_vettore[i].TrimStart(' ');
         }
         stringaripulita = stringa_a_vettore.ToString();
@@ -378,6 +385,8 @@ namespace WindowsFormsApp2
         json = client.DownloadString(jsonurl);
       }
       listamanga = JsonConvert.DeserializeObject<ListaManga>(json);
+      
+      listamanga.manga=listamanga.manga.OrderBy(x=>x.t).ToList();
     }
 
 
@@ -412,34 +421,136 @@ namespace WindowsFormsApp2
 
     private void button4_Click(object sender, EventArgs e)
     {
+      this.backgroundWorker1.RunWorkerAsync();
+      percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString();
+      // Disable the button for the duration of the download.
+      this.btnStart.Enabled = false;
+      progressBar.Maximum = listaimmagini.Count();
+      
+      // Once you have started the background thread you 
+      // can exit the handler and the application will 
+      // wait until the RunWorkerCompleted event is raised.
+
+      // Or if you want to do something else in the main thread,
+      // such as update a progress bar, you can do so in a loop 
+      // while checking IsBusy to see if the background task is
+      // still running.
+
+      while (this.backgroundWorker1.IsBusy)
+      {
+        //progressBar.Increment(1);
+        // Keep UI messages moving, so the form remains 
+        // responsive during the asynchronous operation.
+        Application.DoEvents();
+       
+      }
+
+
+      // Starts the download
+
+
+      //int numero = 0;
+      //string percorsoSalvataggioCapitolo = "";
+      //string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\"+listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString() ;
+      //foreach (string item in listaimmagini)
+      //{
+      //  if (item.Contains("CH000")) {
+      //    if (!Directory.Exists(percorsoSalvataggio+item))
+      //    {
+
+      //      Directory.CreateDirectory(percorsoSalvataggio+item);
+      //      percorsoSalvataggioCapitolo = percorsoSalvataggio + item+"\\";
+      //       numero = 0;
+      //    }
+      //    else
+      //    {
+      //      ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item+".zip");
+
+      //    }
+
+      //  }
+      //  else
+      //  {
+
+
+      //      DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item,percorsoSalvataggioCapitolo+AggiungiZeroAlNomeFile(numero,6) +K_EstensioneFileJpg);
+      //      numero++;
+
+      //  }
+
+      //}
+    }
+
+    private void backgroundWorker1_DoWork( object sender,DoWorkEventArgs e)
+    {
       int numero = 0;
       string percorsoSalvataggioCapitolo = "";
-      string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\"+listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString() ;
+
+      var backgroundWorker = sender as BackgroundWorker;
+      int percent;
+      //string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString();
       foreach (string item in listaimmagini)
       {
-        if (item.Contains("CH00000")) {
-          if (!Directory.Exists(percorsoSalvataggio+item))
+        percent = numero;
+        backgroundWorker.ReportProgress(percent);
+        if (item.Contains(K_NomeInizialeCapitolo))
+        {
+          if (!Directory.Exists(percorsoSalvataggio + item))
           {
-           
-            Directory.CreateDirectory(percorsoSalvataggio+item);
-            percorsoSalvataggioCapitolo = percorsoSalvataggio + item+"\\";
-             numero = 0;
+
+            Directory.CreateDirectory(percorsoSalvataggio + item);
+            percorsoSalvataggioCapitolo = percorsoSalvataggio + item + "\\";
+            numero = 0;
           }
           else
           {
-            ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item+".zip");
-
+            if (!File.Exists(percorsoSalvataggio + item + K_EstensioneFileCbz))
+            {
+              ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz);
+            }
           }
 
         }
         else
         {
 
-          DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item,percorsoSalvataggioCapitolo+AggiungiZeroAlNomeFile(numero,6) +K_EstensioneFileJpg);
+
+          DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item, percorsoSalvataggioCapitolo + AggiungiZeroAlNomeFile(numero, 6) + K_EstensioneFileJpg);
           numero++;
+
         }
 
       }
+    }
+
+    private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+      progressBar.Value = e.ProgressPercentage;
+    }
+
+    private void backgroundWorker1_RunWorkerCompleted(
+       object sender,
+       RunWorkerCompletedEventArgs e)
+    {
+      // Set progress bar to 100% in case it's not already there.
+      progressBar.Value = listaimmagini.Count();
+
+      if (e.Error == null)
+      {
+        MessageBox.Show( "Download Complete");
+      }
+      else
+      {
+        MessageBox.Show(
+            "Failed to download file",
+            "Download failed",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error);
+      }
+
+      // Enable the download button and reset the progress bar.
+      this.btnStart.Enabled = true;
+      progressBar.Value = 0;
     }
   }
 }

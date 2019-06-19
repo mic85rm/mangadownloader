@@ -255,6 +255,8 @@ namespace WindowsFormsApp2
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(782, 584);
       this.Controls.Add(this.tabControl1);
+      this.MaximizeBox = false;
+      this.MinimizeBox = false;
       this.Name = "Form1";
       this.Text = "MangaEdenDownloader";
       this.Load += new System.EventHandler(this.Form1_Load);
