@@ -157,6 +157,7 @@ namespace WindowsFormsApp2
       // 
       // tabPage2
       // 
+      this.tabPage2.Controls.Add(this.labelPerc);
       this.tabPage2.Controls.Add(this.txtIndirizzoCartellaSalvataggio);
       this.tabPage2.Controls.Add(this.btnApriCartellaSalvataggio);
       this.tabPage2.Controls.Add(this.btnStart);
@@ -164,7 +165,6 @@ namespace WindowsFormsApp2
       this.tabPage2.Controls.Add(this.progressBar);
       this.tabPage2.Controls.Add(this.labelSpeed);
       this.tabPage2.Controls.Add(this.labelDownloaded);
-      this.tabPage2.Controls.Add(this.labelPerc);
       this.tabPage2.Location = new System.Drawing.Point(4, 25);
       this.tabPage2.Name = "tabPage2";
       this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -203,19 +203,19 @@ namespace WindowsFormsApp2
       // 
       // button1
       // 
-      this.button1.Enabled = false;
       this.button1.Location = new System.Drawing.Point(449, 411);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(197, 39);
       this.button1.TabIndex = 4;
       this.button1.Text = "Annulla";
       this.button1.UseVisualStyleBackColor = true;
+      this.button1.Click += new System.EventHandler(this.btoCancel_Click);
       // 
       // progressBar
       // 
-      this.progressBar.Location = new System.Drawing.Point(263, 307);
+      this.progressBar.Location = new System.Drawing.Point(33, 299);
       this.progressBar.Name = "progressBar";
-      this.progressBar.Size = new System.Drawing.Size(218, 41);
+      this.progressBar.Size = new System.Drawing.Size(592, 41);
       this.progressBar.TabIndex = 3;
       // 
       // labelSpeed
@@ -239,7 +239,7 @@ namespace WindowsFormsApp2
       // labelPerc
       // 
       this.labelPerc.AutoSize = true;
-      this.labelPerc.Location = new System.Drawing.Point(226, 156);
+      this.labelPerc.Location = new System.Drawing.Point(30, 268);
       this.labelPerc.Name = "labelPerc";
       this.labelPerc.Size = new System.Drawing.Size(46, 17);
       this.labelPerc.TabIndex = 0;

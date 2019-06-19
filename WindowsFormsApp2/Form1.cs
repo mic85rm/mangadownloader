@@ -49,6 +49,7 @@ namespace WindowsFormsApp2
       backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
       backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
       backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
+      backgroundWorker1.WorkerSupportsCancellation = true;
       backgroundWorker1.WorkerReportsProgress = true;
     }
 
@@ -337,7 +338,7 @@ namespace WindowsFormsApp2
     {
       pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).im;
       CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).i);
-      List<string> listaimmagini = new List<string>();
+      listaimmagini.Clear();
       // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
       Popola_chklstbxListaCapitoli(data);
     }
@@ -493,6 +494,7 @@ namespace WindowsFormsApp2
       {
         percent = numero;
         backgroundWorker.ReportProgress(percent);
+        
         if (item.Contains(K_NomeInizialeCapitolo))
         {
           if (!Directory.Exists(percorsoSalvataggio + item))
@@ -504,10 +506,13 @@ namespace WindowsFormsApp2
           }
           else
           {
-            if (!File.Exists(percorsoSalvataggio + item + K_EstensioneFileCbz))
+            percorsoSalvataggioCapitolo = percorsoSalvataggio + item + "\\";
+            if ((File.Exists(percorsoSalvataggio + item + K_EstensioneFileCbz)))
             {
-              ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz);
+                       
+              File.Delete(percorsoSalvataggio + item + K_EstensioneFileCbz);
             }
+            ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
           }
 
         }
@@ -523,9 +528,17 @@ namespace WindowsFormsApp2
       }
     }
 
+    private void btoCancel_Click(object sender, EventArgs e)
+    {
+      //notify background worker we want to cancel the operation.  
+      //this code doesn't actually cancel or kill the thread that is executing the job.  
+     this.backgroundWorker1.CancelAsync();
+    }
+
     private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
       progressBar.Value = e.ProgressPercentage;
+      labelPerc.Text = e.ProgressPercentage.ToString() + "%";
     }
 
     private void backgroundWorker1_RunWorkerCompleted(
@@ -537,7 +550,18 @@ namespace WindowsFormsApp2
 
       if (e.Error == null)
       {
-        MessageBox.Show( "Download Complete");
+        labelPerc.Text = "Finito!";
+         MessageBox.Show( "Download Complete");
+      }
+      else if (e.Cancelled)
+      {
+        // Next, handle the case where the user canceled 
+        // the operation.
+        // Note that due to a race condition in 
+        // the DoWork event handler, the Cancelled
+        // flag may not have been set, even though
+        // CancelAsync was called.
+        labelPerc.Text = "Canceled";
       }
       else
       {
@@ -551,6 +575,7 @@ namespace WindowsFormsApp2
       // Enable the download button and reset the progress bar.
       this.btnStart.Enabled = true;
       progressBar.Value = 0;
+      labelPerc.Text = "0%";
     }
   }
 }
