@@ -524,7 +524,11 @@ namespace WindowsFormsApp2
           numero++;
 
         }
-
+        if (backgroundWorker1.CancellationPending)
+        {
+          e.Cancel = true;
+          return;
+        }
       }
     }
 
@@ -547,35 +551,51 @@ namespace WindowsFormsApp2
     {
       // Set progress bar to 100% in case it's not already there.
       progressBar.Value = listaimmagini.Count();
-
-      if (e.Error == null)
+      if (e.Cancelled == true)
       {
-        labelPerc.Text = "Finito!";
-         MessageBox.Show( "Download Complete");
+        labelPerc.Text = "Canceled!";
       }
-      else if (e.Cancelled)
+      else if (e.Error != null)
       {
-        // Next, handle the case where the user canceled 
-        // the operation.
-        // Note that due to a race condition in 
-        // the DoWork event handler, the Cancelled
-        // flag may not have been set, even though
-        // CancelAsync was called.
-        labelPerc.Text = "Canceled";
+        labelPerc.Text = "Error: " + e.Error.Message;
       }
       else
       {
-        MessageBox.Show(
-            "Failed to download file",
-            "Download failed",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error);
+        labelPerc.Text = "Done!";
       }
+      //if (e.Error == null)
+      //{        
+      //  labelPerc.Text = "Finito!";
+      //   MessageBox.Show( "Download Complete");
+      //}
+      //else if (e.Cancelled==true)
+      //{
+      //  // Next, handle the case where the user canceled 
+      //  // the operation.
+      //  // Note that due to a race condition in 
+      //  // the DoWork event handler, the Cancelled
+      //  // flag may not have been set, even though
+      //  // CancelAsync was called.
+      //  labelPerc.Text = "Canceled";
+      //}
+      //else
+      //{
+      //  MessageBox.Show(
+      //      "Failed to download file",
+      //      "Download failed",
+      //      MessageBoxButtons.OK,
+      //      MessageBoxIcon.Error);
+      //}
 
       // Enable the download button and reset the progress bar.
       this.btnStart.Enabled = true;
       progressBar.Value = 0;
-      labelPerc.Text = "0%";
+      //labelPerc.Text = "0%";
+    }
+
+    private void groupBox6_Enter(object sender, EventArgs e)
+    {
+
     }
   }
 }
