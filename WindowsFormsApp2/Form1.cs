@@ -36,6 +36,7 @@ namespace WindowsFormsApp2
     PaginaCapitoli paginacapitoli = new PaginaCapitoli();
     List<CAPITOLI> listacapitoli = new List<CAPITOLI>();
     DataTable data = new DataTable();
+    DataTable dtlistamanga = new DataTable();
     List<string> listaimmagini = new List<string>();
     List<int> numeropaginepercapitolo = new List<int>();
     private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -277,8 +278,9 @@ namespace WindowsFormsApp2
 
     private void CbxListaManga_TextChanged(object sender, EventArgs e)
     {
-
-      cbxListaManga.DroppedDown = false;
+      DataView dv1 = new DataView(dtlistamanga);
+      dv1.RowFilter = "TitoloManga like '%'"+"Maison";
+      //cbxListaManga.DroppedDown = false;
     }
 
 
@@ -388,6 +390,7 @@ namespace WindowsFormsApp2
       listamanga = JsonConvert.DeserializeObject<ListaManga>(json);
       
       listamanga.manga=listamanga.manga.OrderBy(x=>x.t).ToList();
+      dtlistamanga=ConvertListToDataTable(listamanga);
     }
 
 
@@ -592,7 +595,28 @@ namespace WindowsFormsApp2
       progressBar.Value = 0;
       //labelPerc.Text = "0%";
     }
+    public DataTable ConvertListToDataTable(ListaManga list)
+    {     
+       DataTable table = new DataTable();
+       
+      table.Columns.Add();
+      
+      table.Columns[0].ColumnName = "TitoloManga";
+      
+      table.AcceptChanges();
+    
 
+      foreach(var item in list.manga)
+       {
+          
+
+       table.Rows.Add(item.t);
+     }
+      
+
+
+      return table;
+    }
     private void groupBox6_Enter(object sender, EventArgs e)
     {
 
