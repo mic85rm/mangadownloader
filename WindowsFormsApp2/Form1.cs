@@ -30,6 +30,7 @@ namespace WindowsFormsApp2
     private const string K_IndirizzoWebListaCapitoliMangaEdenItaliana = "https://www.mangaeden.com/api/manga/";
     private const string K_EstensioneFileJpg = ".jpg";
     private const string K_EstensioneFileCbz = ".cbz";
+    private const string K_EstensioneFileZip = ".zip";
     private const string K_NomeInizialeCapitolo = "CH0000";
     #endregion
     ListaManga listamanga = new ListaManga();
@@ -42,7 +43,7 @@ namespace WindowsFormsApp2
     private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
     string percorsoSalvataggio = "";
-
+    string descrizione = "";
     public Form1()
     {
       InitializeComponent();
@@ -75,7 +76,7 @@ namespace WindowsFormsApp2
       txtIndirizzoCartellaSalvataggio.Enabled = false;
       tabControl1.TabPages[0].Text = "MangaEden";
       tabControl1.TabPages[1].Text = "Download";
-
+      tabControl1.TabPages[2].Text = "Informazioni";
     }
 
     static string ReadSetting(string key)
@@ -158,25 +159,19 @@ namespace WindowsFormsApp2
 
     public string PulisciStringa(string StringaPassata)
     {
-      return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "");
+      // return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "");
+      return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "")
+        .Replace("\br",""); 
     }
 
     public List<string> ConvertToList(IList<JToken> list,string numerocapitolo)
     {
-      //string percorsoSalvataggio = "";
-      //int numerofile = 0;
-      // Add rows.
-      //List<string> listaimmagini = new List<string>();
       listaimmagini.Add(K_NomeInizialeCapitolo + numerocapitolo);
       foreach (var array in list)
       {
         
         string appoggio = EstrazioneIndirizzoImmagine(PulisciStringa(array.ToString()));
         listaimmagini.Add(appoggio);
-      //   string indirizzoSalvataggio = percorsoSalvataggio + AggiungiZeroAlNomeFile(numerofile, 6) + K_EstensioneFileJpg;
-       // DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + appoggio, indirizzoSalvataggio);
-
-        //numerofile++;
       }
       listaimmagini.Add(K_NomeInizialeCapitolo + numerocapitolo);
       listaimmagini.Reverse();
@@ -195,10 +190,8 @@ namespace WindowsFormsApp2
     }
     public static string AggiungiZeroAlNomeFile(int num, int cifre)
     {
-
       string numeroDaStampare = num.ToString().PadLeft(cifre, '0');
       //ad ogni iterazione del ciclo : numeroDaStampare = 030 ; 029 ; 028 ... 009 ; 008 ecc.
-
       return numeroDaStampare;
     }
 
@@ -237,10 +230,7 @@ namespace WindowsFormsApp2
       {
         row["NumeroeTitoloCapitolo"] = row["NumeroCapitolo"].ToString() + " - " + row["TitoloCapitolo"].ToString();
       }
-
-
-
-      return table;
+     return table;
     }
 
 
@@ -249,17 +239,13 @@ namespace WindowsFormsApp2
 
       chklstbxListaCapitoli.DataSource = null;
       DataSet ds = new DataSet();
-
       ds.Tables.Add(dt);
-
       BindingSource bs = new BindingSource();
       bs.DataSource = ds;
       bs.DataMember = "Table1";
-
       chklstbxListaCapitoli.DataSource = bs;
       chklstbxListaCapitoli.DisplayMember = "NumeroeTitoloCapitolo";
-
-    }
+     }
 
     #endregion
 
@@ -278,10 +264,40 @@ namespace WindowsFormsApp2
 
     private void CbxListaManga_TextChanged(object sender, EventArgs e)
     {
-      DataView dv1 = new DataView(dtlistamanga);
-      dv1.RowFilter = "TitoloManga like '%'"+"Maison";
-      //cbxListaManga.DroppedDown = false;
+      //DataView dv1 = new DataView(dtlistamanga);
+      //dv1.RowFilter = " TitoloManga like '%"+cbxListaManga.Text+"'";
+    
     }
+    private void comboBox1_TextUpdate(object sender, EventArgs e)
+    {
+      string filter_param = cbxListaManga.Text;
+     // List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().StartsWith(filter_param.ToLower()));
+      List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
+      // another variant for filtering using StartsWith:
+        
+     cbxListaManga.DataSource = filteredItems;
+
+      if (String.IsNullOrWhiteSpace(filter_param))
+      {
+        cbxListaManga.DataSource = listamanga.manga;
+        cbxListaManga.DisplayMember = "t";
+        
+      }
+      cbxListaManga.DroppedDown = true;
+      Cursor.Current = Cursors.Default;
+      // this will ensure that the drop down is as long as the list
+      cbxListaManga.IntegralHeight = true;
+
+      // remove automatically selected first item
+     // cbxListaManga.SelectedIndex = -1;
+
+      cbxListaManga.Text = filter_param;
+
+      // set the position of the cursor
+      cbxListaManga.SelectionStart = filter_param.Length;
+      cbxListaManga.SelectionLength = 0;
+    }
+
 
 
     private void BtnDeselectAll_Click(object sender, EventArgs e)
@@ -316,18 +332,14 @@ namespace WindowsFormsApp2
       {
         foreach (int index in indices)
         {
-         // nomecartella.Add(data.Rows[index][0].ToString());
           CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
-          //listaimmagini.Add("-");
-
-
-        }
+         }
       }
       else
       {
         CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[chklstbxListaCapitoli.SelectedIndex][3].ToString(), data.Rows[chklstbxListaCapitoli.SelectedIndex][0].ToString());
       }
-
+      
     }
 
     private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
@@ -338,12 +350,20 @@ namespace WindowsFormsApp2
 
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
-      pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).im;
-      CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).i);
-      listaimmagini.Clear();
-      // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
-      Popola_chklstbxListaCapitoli(data);
+      int index = listamanga.manga.FindIndex(x=>x.t.Equals(cbxListaManga.Text));
+      if (index != -1)
+      {
+        pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(index).im;
+        CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(index).i);
+
+        listaimmagini.Clear();
+        // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
+        Popola_chklstbxListaCapitoli(data);
+        textBox1.Text = PulisciStringa(descrizione);
+      }
     }
+    
+
 
     public void InizializzaComboBox()
     {
@@ -364,7 +384,6 @@ namespace WindowsFormsApp2
       }
       try
       {
-
         JObject cerca = JObject.Parse(json);
         IList<JToken> risultati = cerca["images"].Children().ToList();
 
@@ -410,7 +429,7 @@ namespace WindowsFormsApp2
         IList<JToken> risultati = cerca["chapters"].Children().ToList();
         
         data = ConvertListToDataTable(risultati);
-
+        descrizione= cerca["description"].ToString();
       }
       catch (Exception ex) {
        
@@ -618,6 +637,16 @@ namespace WindowsFormsApp2
       return table;
     }
     private void groupBox6_Enter(object sender, EventArgs e)
+    {
+
+    }
+
+    private void button4_Click_1(object sender, EventArgs e)
+    {
+      MessageBox.Show(cbxListaManga.Text);
+    }
+
+    private void groupBox7_Enter(object sender, EventArgs e)
     {
 
     }
