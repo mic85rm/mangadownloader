@@ -32,13 +32,14 @@ namespace WindowsFormsApp2
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
       this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.groupBox7 = new System.Windows.Forms.GroupBox();
+      this.textBox1 = new System.Windows.Forms.TextBox();
+      this.groupBox5 = new System.Windows.Forms.GroupBox();
+      this.pictureBox1 = new System.Windows.Forms.PictureBox();
       this.groupBox6 = new System.Windows.Forms.GroupBox();
       this.chklstbxListaCapitoli = new System.Windows.Forms.CheckedListBox();
       this.button2 = new System.Windows.Forms.Button();
       this.button3 = new System.Windows.Forms.Button();
-      this.groupBox5 = new System.Windows.Forms.GroupBox();
-      this.groupBox7 = new System.Windows.Forms.GroupBox();
-      this.pictureBox1 = new System.Windows.Forms.PictureBox();
       this.btnConfermaDownload = new System.Windows.Forms.Button();
       this.cbxListaManga = new System.Windows.Forms.ComboBox();
       this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -56,20 +57,20 @@ namespace WindowsFormsApp2
       this.groupBox3 = new System.Windows.Forms.GroupBox();
       this.labelPerc = new System.Windows.Forms.Label();
       this.btnStart = new System.Windows.Forms.Button();
-      this.button1 = new System.Windows.Forms.Button();
+      this.btnStopDownload = new System.Windows.Forms.Button();
       this.progressBar = new System.Windows.Forms.ProgressBar();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
       this.txtIndirizzoCartellaSalvataggio = new System.Windows.Forms.TextBox();
       this.btnApriCartellaSalvataggio = new System.Windows.Forms.Button();
       this.tabPage3 = new System.Windows.Forms.TabPage();
-      this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+      this.bgwDownloadAsincrono = new System.ComponentModel.BackgroundWorker();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-      this.textBox1 = new System.Windows.Forms.TextBox();
+      this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.groupBox1.SuspendLayout();
-      this.groupBox6.SuspendLayout();
-      this.groupBox5.SuspendLayout();
       this.groupBox7.SuspendLayout();
+      this.groupBox5.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+      this.groupBox6.SuspendLayout();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.groupBox4.SuspendLayout();
@@ -92,6 +93,51 @@ namespace WindowsFormsApp2
       this.groupBox1.TabIndex = 1;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Anteprima Manga";
+      // 
+      // groupBox7
+      // 
+      this.groupBox7.Controls.Add(this.textBox1);
+      this.groupBox7.Location = new System.Drawing.Point(30, 21);
+      this.groupBox7.Name = "groupBox7";
+      this.groupBox7.Size = new System.Drawing.Size(950, 166);
+      this.groupBox7.TabIndex = 1;
+      this.groupBox7.TabStop = false;
+      this.groupBox7.Text = "Trama";
+      this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
+      // 
+      // textBox1
+      // 
+      this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+      this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.textBox1.Location = new System.Drawing.Point(17, 21);
+      this.textBox1.Multiline = true;
+      this.textBox1.Name = "textBox1";
+      this.textBox1.ReadOnly = true;
+      this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.textBox1.Size = new System.Drawing.Size(913, 127);
+      this.textBox1.TabIndex = 1;
+      // 
+      // groupBox5
+      // 
+      this.groupBox5.Controls.Add(this.pictureBox1);
+      this.groupBox5.Location = new System.Drawing.Point(6, 193);
+      this.groupBox5.Name = "groupBox5";
+      this.groupBox5.Size = new System.Drawing.Size(367, 413);
+      this.groupBox5.TabIndex = 8;
+      this.groupBox5.TabStop = false;
+      this.groupBox5.Text = "Copertina ";
+      // 
+      // pictureBox1
+      // 
+      this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+      this.pictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.ErrorImage")));
+      this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+      this.pictureBox1.Location = new System.Drawing.Point(16, 21);
+      this.pictureBox1.Name = "pictureBox1";
+      this.pictureBox1.Size = new System.Drawing.Size(328, 375);
+      this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+      this.pictureBox1.TabIndex = 0;
+      this.pictureBox1.TabStop = false;
       // 
       // groupBox6
       // 
@@ -134,39 +180,6 @@ namespace WindowsFormsApp2
       this.button3.Text = "Deseleziona Tutto";
       this.button3.UseVisualStyleBackColor = true;
       this.button3.Click += new System.EventHandler(this.BtnDeselectAll_Click);
-      // 
-      // groupBox5
-      // 
-      this.groupBox5.Controls.Add(this.pictureBox1);
-      this.groupBox5.Location = new System.Drawing.Point(6, 193);
-      this.groupBox5.Name = "groupBox5";
-      this.groupBox5.Size = new System.Drawing.Size(367, 413);
-      this.groupBox5.TabIndex = 8;
-      this.groupBox5.TabStop = false;
-      this.groupBox5.Text = "Copertina ";
-      // 
-      // groupBox7
-      // 
-      this.groupBox7.Controls.Add(this.textBox1);
-      this.groupBox7.Location = new System.Drawing.Point(30, 21);
-      this.groupBox7.Name = "groupBox7";
-      this.groupBox7.Size = new System.Drawing.Size(950, 166);
-      this.groupBox7.TabIndex = 1;
-      this.groupBox7.TabStop = false;
-      this.groupBox7.Text = "Trama";
-      this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
-      // 
-      // pictureBox1
-      // 
-      this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.pictureBox1.ErrorImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.ErrorImage")));
-      this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-      this.pictureBox1.Location = new System.Drawing.Point(16, 21);
-      this.pictureBox1.Name = "pictureBox1";
-      this.pictureBox1.Size = new System.Drawing.Size(328, 375);
-      this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-      this.pictureBox1.TabIndex = 0;
-      this.pictureBox1.TabStop = false;
       // 
       // btnConfermaDownload
       // 
@@ -246,7 +259,7 @@ namespace WindowsFormsApp2
       this.groupBox10.Size = new System.Drawing.Size(957, 214);
       this.groupBox10.TabIndex = 12;
       this.groupBox10.TabStop = false;
-      this.groupBox10.Text = "Trama";
+      this.groupBox10.Text = "Info Download";
       // 
       // groupBox9
       // 
@@ -320,7 +333,7 @@ namespace WindowsFormsApp2
       // 
       this.groupBox3.Controls.Add(this.labelPerc);
       this.groupBox3.Controls.Add(this.btnStart);
-      this.groupBox3.Controls.Add(this.button1);
+      this.groupBox3.Controls.Add(this.btnStopDownload);
       this.groupBox3.Controls.Add(this.progressBar);
       this.groupBox3.Location = new System.Drawing.Point(41, 559);
       this.groupBox3.Name = "groupBox3";
@@ -349,16 +362,16 @@ namespace WindowsFormsApp2
       this.btnStart.UseVisualStyleBackColor = true;
       this.btnStart.Click += new System.EventHandler(this.button4_Click);
       // 
-      // button1
+      // btnStopDownload
       // 
-      this.button1.Enabled = false;
-      this.button1.Location = new System.Drawing.Point(249, 107);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(197, 45);
-      this.button1.TabIndex = 4;
-      this.button1.Text = "Annulla";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.btoCancel_Click);
+      this.btnStopDownload.Enabled = false;
+      this.btnStopDownload.Location = new System.Drawing.Point(249, 107);
+      this.btnStopDownload.Name = "btnStopDownload";
+      this.btnStopDownload.Size = new System.Drawing.Size(197, 45);
+      this.btnStopDownload.TabIndex = 4;
+      this.btnStopDownload.Text = "Annulla";
+      this.btnStopDownload.UseVisualStyleBackColor = true;
+      this.btnStopDownload.Click += new System.EventHandler(this.btoCancel_Click);
       // 
       // progressBar
       // 
@@ -405,21 +418,9 @@ namespace WindowsFormsApp2
       this.tabPage3.Text = "tabPage3";
       this.tabPage3.UseVisualStyleBackColor = true;
       // 
-      // backgroundWorker1
+      // bgwDownloadAsincrono
       // 
-      this.backgroundWorker1.WorkerSupportsCancellation = true;
-      // 
-      // textBox1
-      // 
-      this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-      this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.textBox1.Location = new System.Drawing.Point(17, 21);
-      this.textBox1.Multiline = true;
-      this.textBox1.Name = "textBox1";
-      this.textBox1.ReadOnly = true;
-      this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox1.Size = new System.Drawing.Size(913, 127);
-      this.textBox1.TabIndex = 1;
+      this.bgwDownloadAsincrono.WorkerSupportsCancellation = true;
       // 
       // Form1
       // 
@@ -433,11 +434,11 @@ namespace WindowsFormsApp2
       this.Text = "MangaEdenDownloader";
       this.Load += new System.EventHandler(this.Form1_Load);
       this.groupBox1.ResumeLayout(false);
-      this.groupBox6.ResumeLayout(false);
-      this.groupBox5.ResumeLayout(false);
       this.groupBox7.ResumeLayout(false);
       this.groupBox7.PerformLayout();
+      this.groupBox5.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+      this.groupBox6.ResumeLayout(false);
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
       this.groupBox4.ResumeLayout(false);
@@ -468,8 +469,8 @@ namespace WindowsFormsApp2
     private ProgressBar progressBar;
     private Label labelPerc;
     private Button btnStart;
-    private Button button1;
-    private System.ComponentModel.BackgroundWorker backgroundWorker1;
+    private Button btnStopDownload;
+    private System.ComponentModel.BackgroundWorker bgwDownloadAsincrono;
     private TextBox txtIndirizzoCartellaSalvataggio;
     private Button btnApriCartellaSalvataggio;
     private FolderBrowserDialog folderBrowserDialog1;
@@ -489,6 +490,7 @@ namespace WindowsFormsApp2
     private CheckBox checkBox2;
     private CheckBox checkBox1;
     private TextBox textBox1;
+    private System.ComponentModel.BackgroundWorker bgwCreazioneListaDownload;
   }
 }
 
