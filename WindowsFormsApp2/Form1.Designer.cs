@@ -38,8 +38,8 @@ namespace WindowsFormsApp2
       this.pictureBox1 = new System.Windows.Forms.PictureBox();
       this.groupBox6 = new System.Windows.Forms.GroupBox();
       this.chklstbxListaCapitoli = new System.Windows.Forms.CheckedListBox();
-      this.button2 = new System.Windows.Forms.Button();
-      this.button3 = new System.Windows.Forms.Button();
+      this.btnSelectAll = new System.Windows.Forms.Button();
+      this.btnDeselectAll = new System.Windows.Forms.Button();
       this.btnConfermaDownload = new System.Windows.Forms.Button();
       this.cbxListaManga = new System.Windows.Forms.ComboBox();
       this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -142,8 +142,8 @@ namespace WindowsFormsApp2
       // groupBox6
       // 
       this.groupBox6.Controls.Add(this.chklstbxListaCapitoli);
-      this.groupBox6.Controls.Add(this.button2);
-      this.groupBox6.Controls.Add(this.button3);
+      this.groupBox6.Controls.Add(this.btnSelectAll);
+      this.groupBox6.Controls.Add(this.btnDeselectAll);
       this.groupBox6.Location = new System.Drawing.Point(379, 193);
       this.groupBox6.Name = "groupBox6";
       this.groupBox6.Size = new System.Drawing.Size(618, 485);
@@ -161,25 +161,25 @@ namespace WindowsFormsApp2
       this.chklstbxListaCapitoli.TabIndex = 4;
       this.chklstbxListaCapitoli.SelectedIndexChanged += new System.EventHandler(this.chklstbxListaCapitoli_SelectedIndexChanged);
       // 
-      // button2
+      // btnSelectAll
       // 
-      this.button2.Location = new System.Drawing.Point(281, 453);
-      this.button2.Name = "button2";
-      this.button2.Size = new System.Drawing.Size(140, 26);
-      this.button2.TabIndex = 6;
-      this.button2.Text = "Seleziona Tutto";
-      this.button2.UseVisualStyleBackColor = true;
-      this.button2.Click += new System.EventHandler(this.BtnSelectAll_Click);
+      this.btnSelectAll.Location = new System.Drawing.Point(281, 453);
+      this.btnSelectAll.Name = "btnSelectAll";
+      this.btnSelectAll.Size = new System.Drawing.Size(140, 26);
+      this.btnSelectAll.TabIndex = 6;
+      this.btnSelectAll.Text = "Seleziona Tutto";
+      this.btnSelectAll.UseVisualStyleBackColor = true;
+      this.btnSelectAll.Click += new System.EventHandler(this.BtnSelectAll_Click);
       // 
-      // button3
+      // btnDeselectAll
       // 
-      this.button3.Location = new System.Drawing.Point(439, 453);
-      this.button3.Name = "button3";
-      this.button3.Size = new System.Drawing.Size(173, 25);
-      this.button3.TabIndex = 7;
-      this.button3.Text = "Deseleziona Tutto";
-      this.button3.UseVisualStyleBackColor = true;
-      this.button3.Click += new System.EventHandler(this.BtnDeselectAll_Click);
+      this.btnDeselectAll.Location = new System.Drawing.Point(439, 453);
+      this.btnDeselectAll.Name = "btnDeselectAll";
+      this.btnDeselectAll.Size = new System.Drawing.Size(173, 25);
+      this.btnDeselectAll.TabIndex = 7;
+      this.btnDeselectAll.Text = "Deseleziona Tutto";
+      this.btnDeselectAll.UseVisualStyleBackColor = true;
+      this.btnDeselectAll.Click += new System.EventHandler(this.BtnDeselectAll_Click);
       // 
       // btnConfermaDownload
       // 
@@ -464,8 +464,8 @@ namespace WindowsFormsApp2
     private TabControl tabControl1;
     private TabPage tabPage1;
     private TabPage tabPage2;
-    private Button button3;
-    private Button button2;
+    private Button btnDeselectAll;
+    private Button btnSelectAll;
     private ProgressBar progressBar;
     private Label labelPerc;
     private Button btnStart;
@@ -490,7 +490,7 @@ namespace WindowsFormsApp2
     private CheckBox checkBox2;
     private CheckBox checkBox1;
     private TextBox textBox1;
-    private System.ComponentModel.BackgroundWorker bgwCreazioneListaDownload;
+    public System.ComponentModel.BackgroundWorker bgwCreazioneListaDownload;
   }
 }
 

@@ -19,6 +19,7 @@ using System.IO.Compression;
 
 namespace WindowsFormsApp2
 {
+ 
   public partial class Form1 : Form
   {
 
@@ -41,7 +42,10 @@ namespace WindowsFormsApp2
     DataTable dtlistamanga = new DataTable();
     List<string> listaimmagini = new List<string>();
     List<int> numeropaginepercapitolo = new List<int>();
-   
+    frmWaitDialog frm = new frmWaitDialog();
+
+    
+
 
     private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
@@ -57,12 +61,13 @@ namespace WindowsFormsApp2
       bgwDownloadAsincrono.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
       bgwDownloadAsincrono.WorkerSupportsCancellation = true;
       bgwDownloadAsincrono.WorkerReportsProgress = true;
+
       bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       bgwCreazioneListaDownload.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwCreazioneListaDownload_DoWork);
       bgwCreazioneListaDownload.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreazioneListaDownload_RunWorkerCompleted);
-      bgwCreazioneListaDownload.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
-      
-      bgwDownloadAsincrono.WorkerReportsProgress = true;
+      bgwCreazioneListaDownload.ProgressChanged += new ProgressChangedEventHandler(bgwCreazioneListaDownload_ProgressChanged);
+      bgwCreazioneListaDownload.WorkerSupportsCancellation = true;
+      bgwCreazioneListaDownload.WorkerReportsProgress = true;
     }
 
     private void Form1_Load(object sender, EventArgs e)
@@ -345,10 +350,16 @@ namespace WindowsFormsApp2
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
       this.bgwCreazioneListaDownload.RunWorkerAsync();
-      //btnStart.Enabled = true;
-      //tabControl1.SelectTab(1);
 
-      while (this.bgwDownloadAsincrono.IsBusy)
+      // tabControl1.SelectTab(1);
+      
+       
+      frm.Location = new Point(
+    (this.Location.X + this.Width / 2) - (frm.Width / 2),
+    (this.Location.Y + this.Height / 2) - (frm.Height / 2));
+      frm.StartPosition = FormStartPosition.Manual;
+      frm.ShowDialog(this);
+      while (this.bgwCreazioneListaDownload.IsBusy)
       {
         //progressBar.Increment(1);
         // Keep UI messages moving, so the form remains 
@@ -356,19 +367,11 @@ namespace WindowsFormsApp2
         Application.DoEvents();
 
       }
-      //CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
-      //if ((indices.Count) > 1)
-      //{
-      //  foreach (int index in indices)
-      //  {
-      //    CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
-      //   }
-      //}
-      //else
-      //{
-      //  CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[chklstbxListaCapitoli.SelectedIndex][3].ToString(), data.Rows[chklstbxListaCapitoli.SelectedIndex][0].ToString());
-      //}
-      
+      btnConfermaDownload.Enabled = false;
+      chklstbxListaCapitoli.Enabled = false;
+      btnSelectAll.Enabled = false;
+      btnDeselectAll.Enabled = false;
+      btnStart.Enabled = true;
     }
 
     private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
@@ -558,21 +561,15 @@ namespace WindowsFormsApp2
     private void bgwCreazioneListaDownload_DoWork(object sender, DoWorkEventArgs e)
     {
       CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
-      if ((indices.Count) > 1)
-      {
+     
         foreach (int index in indices)
         {
           CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
         }
-      }
-      else
-      {
-        CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[chklstbxListaCapitoli.SelectedIndex][3].ToString(), data.Rows[chklstbxListaCapitoli.SelectedIndex][0].ToString());
-      }
-     
+    
     }
 
-      private void btoCancel_Click(object sender, EventArgs e)
+    private void btoCancel_Click(object sender, EventArgs e)
     {
       //notify background worker we want to cancel the operation.  
       //this code doesn't actually cancel or kill the thread that is executing the job.  
@@ -580,11 +577,29 @@ namespace WindowsFormsApp2
       btnStopDownload.Enabled = false;
       
     }
+   
+    
+    public void AnnullaCreazioneListaDownload(object sender, EventArgs e)
+    {
+      //notify background worker we want to cancel the operation.  
+      //this code doesn't actually cancel or kill the thread that is executing the job.  
+      bgwCreazioneListaDownload.CancelAsync();
+      
+
+    }
 
     private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
       progressBar.Value = e.ProgressPercentage;
       labelPerc.Text = e.ProgressPercentage.ToString() + "%";
+    }
+
+    private void bgwCreazioneListaDownload_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+     
+        frm.progressBar1.Value = e.ProgressPercentage;
+    
+      //labelPerc.Text = e.ProgressPercentage.ToString() + "%";
     }
 
     private void bgwDownloadAsincrono_RunWorkerCompleted(
@@ -617,24 +632,27 @@ namespace WindowsFormsApp2
        object sender,
        RunWorkerCompletedEventArgs e)
     {
-      //progressBar.Value = 100;
-       if (e.Error != null)
+      if (e.Cancelled == true)
       {
-        //labelPerc.Text = "Error: " + e.Error.Message;
+       
+        frm.Close();
+      }
+      else if (e.Error != null)
+      {
+        labelPerc.Text = "Error: " + e.Error.Message;
       }
       else
       {
-        //labelPerc.Text = "Done!";
+        
       }
-      // Enable the download button and reset the progress bar.
-      this.btnStart.Enabled = true;
+     
       this.btnStopDownload.Enabled = false;
-
-      btnStart.Enabled = true;
-      tabControl1.SelectTab(1);
+      frm.Close();
+      
+      tabControl1.SelectTab(0);
     }
 
-      public DataTable ConvertListToDataTable(ListaManga list)
+    public DataTable ConvertListToDataTable(ListaManga list)
     {     
        DataTable table = new DataTable();
        
@@ -669,6 +687,18 @@ namespace WindowsFormsApp2
     private void groupBox7_Enter(object sender, EventArgs e)
     {
 
+    }
+
+
+    void CreoListaCodaDownload()
+    {
+      CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
+      
+        foreach (int index in indices)
+        {
+          CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
+        }
+  
     }
   }
 }

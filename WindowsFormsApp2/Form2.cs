@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp2
+{
+  public partial class frmWaitDialog : Form
+  {
+    public Action Worker { get; set; }
+    public frmWaitDialog()
+    {
+      InitializeComponent();
+      
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+      //base.OnLoad(e);
+      //Task.Factory.StartNew(Worker).ContinueWith(t => { this.Close(); }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
+    private void Form2_Load(object sender, EventArgs e)
+    {
+      this.Location = this.Owner.Location;
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      
+     
+      
+
+    }
+  }
+}
