@@ -54,7 +54,8 @@ namespace WindowsFormsApp2
     public Form1()
     {
       InitializeComponent();
-      GlobalContext.Properties["Log"] = ReadSetting("indirizzosalvataggio");  //log file path
+      //GlobalContext.Properties["Log"] = ReadSetting("indirizzosalvataggio");  //log file path
+     
       bgwDownloadAsincrono = new System.ComponentModel.BackgroundWorker();
       bgwDownloadAsincrono.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwDownloadAsincrono_DoWork);
       bgwDownloadAsincrono.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwDownloadAsincrono_RunWorkerCompleted);
@@ -92,6 +93,9 @@ namespace WindowsFormsApp2
       tabControl1.TabPages[0].Text = "MangaEden";
       tabControl1.TabPages[1].Text = "Download";
       tabControl1.TabPages[2].Text = "Informazioni";
+      GlobalContext.Properties["LogFileName"] = "d:\\manga";
+      log4net.Config.XmlConfigurator.Configure();
+      //log4net.XmlConfigurator.Configure();
     }
 
     static string ReadSetting(string key)
@@ -349,6 +353,7 @@ namespace WindowsFormsApp2
 
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
+      listaimmagini.Clear();
       this.bgwCreazioneListaDownload.RunWorkerAsync();
 
       // tabControl1.SelectTab(1);
@@ -367,11 +372,7 @@ namespace WindowsFormsApp2
         Application.DoEvents();
 
       }
-      btnConfermaDownload.Enabled = false;
-      chklstbxListaCapitoli.Enabled = false;
-      btnSelectAll.Enabled = false;
-      btnDeselectAll.Enabled = false;
-      btnStart.Enabled = true;
+      
     }
 
     private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
@@ -480,7 +481,7 @@ namespace WindowsFormsApp2
     {
       this.bgwDownloadAsincrono.RunWorkerAsync();
       btnStopDownload.Enabled = true;
-      percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString();
+      percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + cbxListaManga.Text.ToString();
       // Disable the button for the duration of the download.
       this.btnStart.Enabled = false;
       progressBar.Maximum = listaimmagini.Count();
@@ -523,22 +524,27 @@ namespace WindowsFormsApp2
         
         if (item.Contains(K_NomeInizialeCapitolo))
         {
+          percorsoSalvataggioCapitolo = percorsoSalvataggio + item + "\\";
+          numero = 0;
           if (!Directory.Exists(percorsoSalvataggio + item))
           {
 
             Directory.CreateDirectory(percorsoSalvataggio + item);
-            percorsoSalvataggioCapitolo = percorsoSalvataggio + item + "\\";
-            numero = 0;
+            
           }
           else
           {
-            percorsoSalvataggioCapitolo = percorsoSalvataggio + item + "\\";
+          
             if ((File.Exists(percorsoSalvataggio + item + K_EstensioneFileCbz)))
             {
                        
               File.Delete(percorsoSalvataggio + item + K_EstensioneFileCbz);
+              ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
             }
-            ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
+            else
+            {
+              ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
+            }
           }
 
         }
@@ -565,8 +571,13 @@ namespace WindowsFormsApp2
         foreach (int index in indices)
         {
           CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
+        if (bgwCreazioneListaDownload.CancellationPending)
+        {
+          e.Cancel = true;
+          return;
         }
-    
+      }
+     
     }
 
     private void btoCancel_Click(object sender, EventArgs e)
@@ -618,6 +629,9 @@ namespace WindowsFormsApp2
       }
       else
       {
+        MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO");
+        chklstbxListaCapitoli.Enabled = true;
+        cbxListaManga.Enabled = true;
         labelPerc.Text = "Done!";
       }
          // Enable the download button and reset the progress bar.
@@ -634,22 +648,29 @@ namespace WindowsFormsApp2
     {
       if (e.Cancelled == true)
       {
-       
+        listaimmagini.Clear();
         frm.Close();
       }
       else if (e.Error != null)
       {
-        labelPerc.Text = "Error: " + e.Error.Message;
+        
+        listaimmagini.Clear();
+        frm.Close();
       }
       else
       {
-        
+        frm.Close();
+        //listaimmagini.Clear();
+        tabControl1.SelectTab(1);
+        cbxListaManga.Enabled = false;
+        btnConfermaDownload.Enabled = false;
+        chklstbxListaCapitoli.Enabled = false;
+        btnSelectAll.Enabled = false;
+        btnDeselectAll.Enabled = false;
+        btnStart.Enabled = true;
       }
+
      
-      this.btnStopDownload.Enabled = false;
-      frm.Close();
-      
-      tabControl1.SelectTab(0);
     }
 
     public DataTable ConvertListToDataTable(ListaManga list)

@@ -31,9 +31,8 @@ namespace WindowsFormsApp2
 
     private void button1_Click(object sender, EventArgs e)
     {
-      
-     
-      
+      Form1 form1 = Application.OpenForms["Form1"] as Form1;
+      form1.bgwCreazioneListaDownload.CancelAsync();
 
     }
   }
