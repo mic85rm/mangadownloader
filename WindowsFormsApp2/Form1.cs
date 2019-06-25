@@ -13,9 +13,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using log4net;
+
 using System.Configuration;
 using System.IO.Compression;
+using NLog;
 
 namespace WindowsFormsApp2
 {
@@ -44,10 +45,10 @@ namespace WindowsFormsApp2
     List<int> numeropaginepercapitolo = new List<int>();
     frmWaitDialog frm = new frmWaitDialog();
 
-    
+
+    private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
 
-    private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
     string percorsoSalvataggio = "";
     string descrizione = "";
@@ -69,10 +70,15 @@ namespace WindowsFormsApp2
       bgwCreazioneListaDownload.ProgressChanged += new ProgressChangedEventHandler(bgwCreazioneListaDownload_ProgressChanged);
       bgwCreazioneListaDownload.WorkerSupportsCancellation = true;
       bgwCreazioneListaDownload.WorkerReportsProgress = true;
+
+      LogManager.Configuration.Variables["mydir"] = ReadSetting("indirizzoSalvataggio");
+
+
     }
 
     private void Form1_Load(object sender, EventArgs e)
     {
+   
       CaricaListaTitoliManga(K_IndirizzoWebListaMangaEdenItaliana);
       InizializzaComboBox();
       InizializzaControlli();
@@ -93,8 +99,7 @@ namespace WindowsFormsApp2
       tabControl1.TabPages[0].Text = "MangaEden";
       tabControl1.TabPages[1].Text = "Download";
       tabControl1.TabPages[2].Text = "Informazioni";
-      GlobalContext.Properties["LogFileName"] = "d:\\manga";
-      log4net.Config.XmlConfigurator.Configure();
+ 
       //log4net.XmlConfigurator.Configure();
     }
 
@@ -172,7 +177,7 @@ namespace WindowsFormsApp2
         }
       }
       catch (Exception ex) {
-        log.Fatal(ex.Message);
+        Logger.Error(ex.Message, "[DownloadRemoteImageFile]");
       }
     }
 
@@ -427,7 +432,7 @@ namespace WindowsFormsApp2
       }
       catch (Exception ex)
       {
-        log.Fatal(ex.Message);
+        Logger.Error(ex, "[CreazioneCodaDownload]");
         //MessageBox.Show(ex.ToString());
       }
     }
@@ -467,7 +472,7 @@ namespace WindowsFormsApp2
         descrizione= cerca["description"].ToString();
       }
       catch (Exception ex) {
-       
+        Logger.Error(ex, "[CaricaListaCapitoli]");
         MessageBox.Show(ex.ToString());
       }
     }

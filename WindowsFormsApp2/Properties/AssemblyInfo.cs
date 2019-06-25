@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // Se il progetto viene esposto a COM, il GUID seguente verrà utilizzato come ID della libreria dei tipi
 [assembly: Guid("766a551e-eb96-4cbf-b4a5-c8ec8a6add13")]
 
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]
+
 
 // Le informazioni sulla versione di un assembly sono costituite dai seguenti quattro valori:
 //
