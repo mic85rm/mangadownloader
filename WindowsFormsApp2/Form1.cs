@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Configuration;
 using System.IO.Compression;
 using NLog;
+using System.Web;
 
 namespace WindowsFormsApp2
 {
@@ -33,9 +34,11 @@ namespace WindowsFormsApp2
     private const string K_EstensioneFileJpg = ".jpg";
     private const string K_EstensioneFileCbz = ".cbz";
     private const string K_EstensioneFileZip = ".zip";
-    private const string K_NomeInizialeCapitolo = "CH0000";
-    
+    private const string K_NomeInizialeCapitolo = "CH";
+
     #endregion
+
+    #region dichiarazione variabili
     ListaManga listamanga = new ListaManga();
     PaginaCapitoli paginacapitoli = new PaginaCapitoli();
     List<CAPITOLI> listacapitoli = new List<CAPITOLI>();
@@ -44,14 +47,16 @@ namespace WindowsFormsApp2
     List<string> listaimmagini = new List<string>();
     List<int> numeropaginepercapitolo = new List<int>();
     frmWaitDialog frm = new frmWaitDialog();
-
-
+    TimeSpan ts = new TimeSpan();
+    Stopwatch stopWatch = new Stopwatch();
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-
+    string elapsedTime = "";
+    int numeroCapitoliSelezionati = 0;
     Stopwatch sw = new Stopwatch();    // The stopwatch which we will be using to calculate the download speed
     string percorsoSalvataggio = "";
     string descrizione = "";
+
+    #endregion
     public Form1()
     {
       InitializeComponent();
@@ -78,7 +83,7 @@ namespace WindowsFormsApp2
 
     private void Form1_Load(object sender, EventArgs e)
     {
-   
+      Logger.Info("Applicazione Inizializzata");
       CaricaListaTitoliManga(K_IndirizzoWebListaMangaEdenItaliana);
       InizializzaComboBox();
       InizializzaControlli();
@@ -99,8 +104,6 @@ namespace WindowsFormsApp2
       tabControl1.TabPages[0].Text = "MangaEden";
       tabControl1.TabPages[1].Text = "Download";
       tabControl1.TabPages[2].Text = "Informazioni";
- 
-      //log4net.XmlConfigurator.Configure();
     }
 
     static string ReadSetting(string key)
@@ -178,6 +181,7 @@ namespace WindowsFormsApp2
       }
       catch (Exception ex) {
         Logger.Error(ex.Message, "[DownloadRemoteImageFile]");
+        //MessageBox.Show(ex.Message);
       }
     }
 
@@ -186,7 +190,6 @@ namespace WindowsFormsApp2
 
     public string PulisciStringa(string StringaPassata)
     {
-      // return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "");
       return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "")
         .Replace("\br","").Replace("&", "").Replace("&*quot*", "").Replace("&*QUOT*", "").Replace("#039", "").Replace("!<BR />","")
         .Replace("<BR/>", ""); 
@@ -194,14 +197,14 @@ namespace WindowsFormsApp2
 
     public List<string> ConvertToList(IList<JToken> list,string numerocapitolo)
     {
-      listaimmagini.Add(K_NomeInizialeCapitolo + numerocapitolo);
+      listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo,numeroCapitoliSelezionati));
       foreach (var array in list)
       {
         
         string appoggio = EstrazioneIndirizzoImmagine(PulisciStringa(array.ToString()));
         listaimmagini.Add(appoggio);
       }
-      listaimmagini.Add(K_NomeInizialeCapitolo + numerocapitolo);
+      listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo, numeroCapitoliSelezionati));
       listaimmagini.Reverse();
       return listaimmagini;
     }
@@ -216,12 +219,41 @@ namespace WindowsFormsApp2
        }
       return stringatoarray[1].ToString();
     }
-    public static string AggiungiZeroAlNomeFile(int num, int cifre)
-    {
-      string numeroDaStampare = num.ToString().PadLeft(cifre, '0');
+    public static string AggiungiZeroAlNomeFile(int numeroCapitolo, int cifreNumeroFoto)
+    {//per i file immagine
+      int i = 0;
+      int numeroAppoggio = cifreNumeroFoto;
+      while ((numeroAppoggio != 0))
+      {
+        numeroAppoggio /= 10;
+        i++;
+      }
+
+      string numeroDaStampare = numeroCapitolo.ToString().PadLeft(i+1, '0');
       //ad ogni iterazione del ciclo : numeroDaStampare = 030 ; 029 ; 028 ... 009 ; 008 ecc.
       return numeroDaStampare;
+                
+     }
+
+   
+    public static string AggiungiZeroAlNomeFile(string numeroCapitolo, int cifreNumeroCapitoli)
+    {//per i capitoli
+      int i = 0;
+      int numeroAppoggio = cifreNumeroCapitoli;
+         while ((numeroAppoggio != 0))
+      {
+        numeroAppoggio /= 10;
+        i++;
+      }
+        string numeroDaStampare = numeroCapitolo.PadLeft(i+1, '0');
+
+      return numeroDaStampare;
+
+      
+
     }
+
+
 
 
     public  DataTable ConvertListToDataTable(IList<JToken> list)
@@ -254,6 +286,9 @@ namespace WindowsFormsApp2
 
         table.Rows.Add(stringa_a_vettore);
       }
+      int contarighe = table.Rows.Count;
+      if (contarighe>0)
+      numeroCapitoliSelezionati = Convert.ToInt32(table.Rows[contarighe-1]["NumeroCapitolo"]);
       foreach (DataRow row in table.Rows)
       {
         row["NumeroeTitoloCapitolo"] = row["NumeroCapitolo"].ToString() + " - " + row["TitoloCapitolo"].ToString();
@@ -358,6 +393,9 @@ namespace WindowsFormsApp2
 
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
+     
+      Logger.Info("Titolo="+cbxListaManga.Text + ",#capitoli=" + chklstbxListaCapitoli.CheckedItems.Count);
+       
       listaimmagini.Clear();
       this.bgwCreazioneListaDownload.RunWorkerAsync();
 
@@ -377,7 +415,7 @@ namespace WindowsFormsApp2
         Application.DoEvents();
 
       }
-      
+     
     }
 
     private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
@@ -397,7 +435,8 @@ namespace WindowsFormsApp2
         listaimmagini.Clear();
         // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
         Popola_chklstbxListaCapitoli(data);
-        textBox1.Text = PulisciStringa(descrizione);
+
+        txtTrama.Text = HttpUtility.HtmlDecode(descrizione);
       }
     }
     
@@ -414,8 +453,10 @@ namespace WindowsFormsApp2
 
     public void CreazioneCodaDownload(string IndirizzoSito, string id,string numerocapitolo)
     {
+     
       try
       {
+        
         string jsonurl = Uri.EscapeUriString(IndirizzoSito + id);
       string json = "";
       using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
@@ -425,20 +466,24 @@ namespace WindowsFormsApp2
       
         JObject cerca = JObject.Parse(json);
         IList<JToken> risultati = cerca["images"].Children().ToList();
-
+        
         // data = ConvertListToDataTable(results);
-        listaimmagini = ConvertToList(risultati,numerocapitolo);
+        
+        listaimmagini=ConvertToList(risultati,numerocapitolo);
         // numeropaginepercapitolo.Add(listaimmagini.Count());
+    
+        
+        
       }
       catch (Exception ex)
       {
-        Logger.Error(ex, "[CreazioneCodaDownload]");
-        //MessageBox.Show(ex.ToString());
+        Logger.Error(ex.Message, "[CreazioneCodaDownload]");
       }
+     
     }
 
     public void CaricaListaTitoliManga(string IndirizzoSito)
-    {
+    {// inserire try catch
       string jsonurl = Uri.EscapeUriString(IndirizzoSito);
       string json = "";
       using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
@@ -482,14 +527,16 @@ namespace WindowsFormsApp2
 
     #endregion
 
-    private void button4_Click(object sender, EventArgs e)
+    private void btnStartDownload_Click(object sender, EventArgs e)
     {
-      this.bgwDownloadAsincrono.RunWorkerAsync();
+      
       btnStopDownload.Enabled = true;
-      percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + cbxListaManga.Text.ToString();
+      //altra funzione per pulire il titolo
+      percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + cbxListaManga.Text.Replace(" ", "");
+      this.bgwDownloadAsincrono.RunWorkerAsync();
       // Disable the button for the duration of the download.
       this.btnStart.Enabled = false;
-      progressBar.Maximum = listaimmagini.Count();
+      progressBar.Maximum = 100;
       
       // Once you have started the background thread you 
       // can exit the handler and the application will 
@@ -520,12 +567,17 @@ namespace WindowsFormsApp2
       var backgroundWorker = sender as BackgroundWorker;
       int numero = 0;
       string percorsoSalvataggioCapitolo = "";
-      int percent;
+      double percent= 0; 
       //string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString();
       foreach (string item in listaimmagini)
       {
-        percent = numero;
-        backgroundWorker.ReportProgress(percent);
+       
+          percent += Math.Round(((double)100 / (double)listaimmagini.Count()),3,MidpointRounding.AwayFromZero);
+        if (percent >= 100)
+        {
+          percent = 100;
+        }
+        backgroundWorker.ReportProgress(Convert.ToInt32(percent));
         
         if (item.Contains(K_NomeInizialeCapitolo))
         {
@@ -556,8 +608,8 @@ namespace WindowsFormsApp2
         else
         {
 
-
-          DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item, percorsoSalvataggioCapitolo + AggiungiZeroAlNomeFile(numero, 6) + K_EstensioneFileJpg);
+          //va messo come prima
+          DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item, percorsoSalvataggioCapitolo + AggiungiZeroAlNomeFile(numero, listaimmagini.Count) + K_EstensioneFileJpg);
           numero++;
 
         }
@@ -573,14 +625,24 @@ namespace WindowsFormsApp2
     {
       CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
      
-        foreach (int index in indices)
+      
+      foreach (int index in indices)
         {
-          CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
+        stopWatch.Start();
+        CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
         if (bgwCreazioneListaDownload.CancellationPending)
         {
           e.Cancel = true;
           return;
         }
+        stopWatch.Stop();
+        ts = stopWatch.Elapsed;
+       elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+        
+
+       
       }
      
     }
@@ -594,15 +656,7 @@ namespace WindowsFormsApp2
       
     }
    
-    
-    public void AnnullaCreazioneListaDownload(object sender, EventArgs e)
-    {
-      //notify background worker we want to cancel the operation.  
-      //this code doesn't actually cancel or kill the thread that is executing the job.  
-      bgwCreazioneListaDownload.CancelAsync();
-      
-
-    }
+   
 
     private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
@@ -614,8 +668,9 @@ namespace WindowsFormsApp2
     {
      
         frm.progressBar1.Value = e.ProgressPercentage;
-    
-      //labelPerc.Text = e.ProgressPercentage.ToString() + "%";
+      //frm.lblTempoRimanente.Text =( elapsedTime * listacapitoli.Count()).tostring();
+
+
     }
 
     private void bgwDownloadAsincrono_RunWorkerCompleted(
@@ -623,7 +678,8 @@ namespace WindowsFormsApp2
        RunWorkerCompletedEventArgs e)
     {
       // Set progress bar to 100% in case it's not already there.
-      progressBar.Value = listaimmagini.Count();
+      progressBar.Value = 100;
+      labelPerc.Text = "100%";
       if (e.Cancelled == true)
       {
         labelPerc.Text = "Canceled!";
@@ -637,11 +693,15 @@ namespace WindowsFormsApp2
         MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO");
         chklstbxListaCapitoli.Enabled = true;
         cbxListaManga.Enabled = true;
-        labelPerc.Text = "Done!";
+        labelPerc.Text = "";
+        btnSelectAll.Enabled = true;
+        btnDeselectAll.Enabled = true;
+
       }
          // Enable the download button and reset the progress bar.
       this.btnStart.Enabled = true;
       this.btnStopDownload.Enabled = false;
+    
       progressBar.Value = 0;
       //labelPerc.Text = "0%";
     }
@@ -725,6 +785,11 @@ namespace WindowsFormsApp2
           CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
         }
   
+    }
+
+    private void timer1_Tick(object sender, EventArgs e)
+    {
+
     }
   }
 }

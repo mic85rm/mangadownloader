@@ -116,7 +116,6 @@ C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\it\M
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\it\Microsoft.VisualStudio.Data.Core.resources.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\it\Microsoft.VisualStudio.GraphModel.resources.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe.config
-C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Downloader.resources
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Form1.resources
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.frmWaitDialog.resources
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties.Resources.resources

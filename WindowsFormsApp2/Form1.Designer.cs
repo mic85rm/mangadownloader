@@ -30,10 +30,11 @@ namespace WindowsFormsApp2
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.groupBox7 = new System.Windows.Forms.GroupBox();
-      this.textBox1 = new System.Windows.Forms.TextBox();
+      this.txtTrama = new System.Windows.Forms.TextBox();
       this.groupBox5 = new System.Windows.Forms.GroupBox();
       this.pictureBox1 = new System.Windows.Forms.PictureBox();
       this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -49,7 +50,6 @@ namespace WindowsFormsApp2
       this.groupBox10 = new System.Windows.Forms.GroupBox();
       this.groupBox9 = new System.Windows.Forms.GroupBox();
       this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-      this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
       this.groupBox8 = new System.Windows.Forms.GroupBox();
       this.checkBox3 = new System.Windows.Forms.CheckBox();
       this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -66,6 +66,7 @@ namespace WindowsFormsApp2
       this.bgwDownloadAsincrono = new System.ComponentModel.BackgroundWorker();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
+      this.timer1 = new System.Windows.Forms.Timer(this.components);
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -76,7 +77,6 @@ namespace WindowsFormsApp2
       this.groupBox4.SuspendLayout();
       this.tabPage2.SuspendLayout();
       this.groupBox9.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
       this.groupBox8.SuspendLayout();
       this.groupBox3.SuspendLayout();
       this.groupBox2.SuspendLayout();
@@ -96,7 +96,7 @@ namespace WindowsFormsApp2
       // 
       // groupBox7
       // 
-      this.groupBox7.Controls.Add(this.textBox1);
+      this.groupBox7.Controls.Add(this.txtTrama);
       this.groupBox7.Location = new System.Drawing.Point(30, 21);
       this.groupBox7.Name = "groupBox7";
       this.groupBox7.Size = new System.Drawing.Size(950, 166);
@@ -105,17 +105,17 @@ namespace WindowsFormsApp2
       this.groupBox7.Text = "Trama";
       this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
       // 
-      // textBox1
+      // txtTrama
       // 
-      this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-      this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.textBox1.Location = new System.Drawing.Point(17, 21);
-      this.textBox1.Multiline = true;
-      this.textBox1.Name = "textBox1";
-      this.textBox1.ReadOnly = true;
-      this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.textBox1.Size = new System.Drawing.Size(913, 127);
-      this.textBox1.TabIndex = 1;
+      this.txtTrama.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+      this.txtTrama.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.txtTrama.Location = new System.Drawing.Point(17, 21);
+      this.txtTrama.Multiline = true;
+      this.txtTrama.Name = "txtTrama";
+      this.txtTrama.ReadOnly = true;
+      this.txtTrama.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.txtTrama.Size = new System.Drawing.Size(913, 127);
+      this.txtTrama.TabIndex = 1;
       // 
       // groupBox5
       // 
@@ -264,7 +264,6 @@ namespace WindowsFormsApp2
       // groupBox9
       // 
       this.groupBox9.Controls.Add(this.richTextBox1);
-      this.groupBox9.Controls.Add(this.numericUpDown1);
       this.groupBox9.Location = new System.Drawing.Point(48, 227);
       this.groupBox9.Name = "groupBox9";
       this.groupBox9.Size = new System.Drawing.Size(572, 76);
@@ -274,18 +273,11 @@ namespace WindowsFormsApp2
       // 
       // richTextBox1
       // 
-      this.richTextBox1.Location = new System.Drawing.Point(239, 24);
+      this.richTextBox1.Location = new System.Drawing.Point(16, 31);
       this.richTextBox1.Name = "richTextBox1";
       this.richTextBox1.Size = new System.Drawing.Size(127, 30);
       this.richTextBox1.TabIndex = 1;
       this.richTextBox1.Text = "";
-      // 
-      // numericUpDown1
-      // 
-      this.numericUpDown1.Location = new System.Drawing.Point(19, 32);
-      this.numericUpDown1.Name = "numericUpDown1";
-      this.numericUpDown1.Size = new System.Drawing.Size(116, 22);
-      this.numericUpDown1.TabIndex = 0;
       // 
       // groupBox8
       // 
@@ -360,7 +352,7 @@ namespace WindowsFormsApp2
       this.btnStart.TabIndex = 5;
       this.btnStart.Text = "Inizia Download";
       this.btnStart.UseVisualStyleBackColor = true;
-      this.btnStart.Click += new System.EventHandler(this.button4_Click);
+      this.btnStart.Click += new System.EventHandler(this.btnStartDownload_Click);
       // 
       // btnStopDownload
       // 
@@ -422,6 +414,10 @@ namespace WindowsFormsApp2
       // 
       this.bgwDownloadAsincrono.WorkerSupportsCancellation = true;
       // 
+      // timer1
+      // 
+      this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -444,7 +440,6 @@ namespace WindowsFormsApp2
       this.groupBox4.ResumeLayout(false);
       this.tabPage2.ResumeLayout(false);
       this.groupBox9.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
       this.groupBox8.ResumeLayout(false);
       this.groupBox8.PerformLayout();
       this.groupBox3.ResumeLayout(false);
@@ -484,13 +479,13 @@ namespace WindowsFormsApp2
     private GroupBox groupBox10;
     private GroupBox groupBox9;
     private RichTextBox richTextBox1;
-    private NumericUpDown numericUpDown1;
     private GroupBox groupBox8;
     private CheckBox checkBox3;
     private CheckBox checkBox2;
     private CheckBox checkBox1;
-    private TextBox textBox1;
+    private TextBox txtTrama;
     public System.ComponentModel.BackgroundWorker bgwCreazioneListaDownload;
+    private Timer timer1;
   }
 }
 
