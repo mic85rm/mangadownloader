@@ -394,7 +394,8 @@ namespace WindowsFormsApp2
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
      
-      Logger.Info("Titolo="+cbxListaManga.Text + ",#capitoli=" + chklstbxListaCapitoli.CheckedItems.Count);
+      //dafare
+      Logger.Info("Titolo="+cbxListaManga.Text + ",#capitoli=" + chklstbxListaCapitoli.CheckedItems.Count+"indici cap=");
        
       listaimmagini.Clear();
       this.bgwCreazioneListaDownload.RunWorkerAsync();
