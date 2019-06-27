@@ -67,6 +67,9 @@ namespace WindowsFormsApp2
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
+      this.btnModifica = new System.Windows.Forms.Button();
+      this.dataGridView1 = new System.Windows.Forms.DataGridView();
+      this.lblTempoStimatoDownload = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -76,10 +79,12 @@ namespace WindowsFormsApp2
       this.tabPage1.SuspendLayout();
       this.groupBox4.SuspendLayout();
       this.tabPage2.SuspendLayout();
+      this.groupBox10.SuspendLayout();
       this.groupBox9.SuspendLayout();
       this.groupBox8.SuspendLayout();
       this.groupBox3.SuspendLayout();
       this.groupBox2.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
       this.SuspendLayout();
       // 
       // groupBox1
@@ -254,9 +259,11 @@ namespace WindowsFormsApp2
       // 
       // groupBox10
       // 
-      this.groupBox10.Location = new System.Drawing.Point(41, 328);
+      this.groupBox10.Controls.Add(this.dataGridView1);
+      this.groupBox10.Controls.Add(this.btnModifica);
+      this.groupBox10.Location = new System.Drawing.Point(54, 197);
       this.groupBox10.Name = "groupBox10";
-      this.groupBox10.Size = new System.Drawing.Size(957, 214);
+      this.groupBox10.Size = new System.Drawing.Size(957, 356);
       this.groupBox10.TabIndex = 12;
       this.groupBox10.TabStop = false;
       this.groupBox10.Text = "Info Download";
@@ -264,7 +271,7 @@ namespace WindowsFormsApp2
       // groupBox9
       // 
       this.groupBox9.Controls.Add(this.richTextBox1);
-      this.groupBox9.Location = new System.Drawing.Point(48, 227);
+      this.groupBox9.Location = new System.Drawing.Point(54, 115);
       this.groupBox9.Name = "groupBox9";
       this.groupBox9.Size = new System.Drawing.Size(572, 76);
       this.groupBox9.TabIndex = 11;
@@ -284,7 +291,7 @@ namespace WindowsFormsApp2
       this.groupBox8.Controls.Add(this.checkBox3);
       this.groupBox8.Controls.Add(this.checkBox2);
       this.groupBox8.Controls.Add(this.checkBox1);
-      this.groupBox8.Location = new System.Drawing.Point(54, 117);
+      this.groupBox8.Location = new System.Drawing.Point(673, 24);
       this.groupBox8.Name = "groupBox8";
       this.groupBox8.Size = new System.Drawing.Size(332, 76);
       this.groupBox8.TabIndex = 10;
@@ -323,6 +330,7 @@ namespace WindowsFormsApp2
       // 
       // groupBox3
       // 
+      this.groupBox3.Controls.Add(this.lblTempoStimatoDownload);
       this.groupBox3.Controls.Add(this.labelPerc);
       this.groupBox3.Controls.Add(this.btnStart);
       this.groupBox3.Controls.Add(this.btnStopDownload);
@@ -416,7 +424,37 @@ namespace WindowsFormsApp2
       // 
       // timer1
       // 
+      this.timer1.Enabled = true;
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+      // 
+      // btnModifica
+      // 
+      this.btnModifica.Enabled = false;
+      this.btnModifica.Location = new System.Drawing.Point(813, 301);
+      this.btnModifica.Name = "btnModifica";
+      this.btnModifica.Size = new System.Drawing.Size(124, 40);
+      this.btnModifica.TabIndex = 0;
+      this.btnModifica.Text = "Modifica";
+      this.btnModifica.UseVisualStyleBackColor = true;
+      this.btnModifica.Click += new System.EventHandler(this.btnModifica_Click);
+      // 
+      // dataGridView1
+      // 
+      this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridView1.Location = new System.Drawing.Point(10, 21);
+      this.dataGridView1.Name = "dataGridView1";
+      this.dataGridView1.RowTemplate.Height = 24;
+      this.dataGridView1.Size = new System.Drawing.Size(927, 274);
+      this.dataGridView1.TabIndex = 1;
+      // 
+      // lblTempoStimatoDownload
+      // 
+      this.lblTempoStimatoDownload.AutoSize = true;
+      this.lblTempoStimatoDownload.Location = new System.Drawing.Point(539, 30);
+      this.lblTempoStimatoDownload.Name = "lblTempoStimatoDownload";
+      this.lblTempoStimatoDownload.Size = new System.Drawing.Size(46, 17);
+      this.lblTempoStimatoDownload.TabIndex = 6;
+      this.lblTempoStimatoDownload.Text = "label1";
       // 
       // Form1
       // 
@@ -439,6 +477,7 @@ namespace WindowsFormsApp2
       this.tabPage1.ResumeLayout(false);
       this.groupBox4.ResumeLayout(false);
       this.tabPage2.ResumeLayout(false);
+      this.groupBox10.ResumeLayout(false);
       this.groupBox9.ResumeLayout(false);
       this.groupBox8.ResumeLayout(false);
       this.groupBox8.PerformLayout();
@@ -446,6 +485,7 @@ namespace WindowsFormsApp2
       this.groupBox3.PerformLayout();
       this.groupBox2.ResumeLayout(false);
       this.groupBox2.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -486,6 +526,9 @@ namespace WindowsFormsApp2
     private TextBox txtTrama;
     public System.ComponentModel.BackgroundWorker bgwCreazioneListaDownload;
     private Timer timer1;
+    private DataGridView dataGridView1;
+    private Button btnModifica;
+    private Label lblTempoStimatoDownload;
   }
 }
 
