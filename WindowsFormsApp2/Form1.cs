@@ -191,11 +191,19 @@ namespace WindowsFormsApp2
 
   
 
-    public string PulisciStringa(string StringaPassata)
+    public string PulisciStringa(string StringaPassata,int opzione=0)
     {
-      return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "")
-        .Replace("\br","").Replace("&", "").Replace("&*quot*", "").Replace("&*QUOT*", "").Replace("#039", "").Replace("!<BR />","")
-        .Replace("<BR/>", ""); 
+      if (opzione == 0)
+      {
+        return StringaPassata.Replace("\n", "").Replace("\r", "").Replace(@"""", "").Replace("[", "").Replace("]", "")
+          .Replace("\br", "").Replace("&", "").Replace("&*quot*", "").Replace("&*QUOT*", "").Replace("#039", "").Replace("!<BR />", "")
+          .Replace("<BR/>", "");
+      }
+      else
+      {
+        string [] finale= StringaPassata.Split('.');
+        return finale[0];
+      }
     }
 
     public List<string> ConvertToList(IList<JToken> list,string numerocapitolo)
@@ -291,8 +299,11 @@ namespace WindowsFormsApp2
         table.Rows.Add(stringa_a_vettore);
       }
       int contarighe = table.Rows.Count;
-      if (contarighe>0)
-      numeroCapitoliSelezionati = Convert.ToInt32(table.Rows[contarighe-1]["NumeroCapitolo"]);
+      if (contarighe > 0)
+      {
+        string pulizia =PulisciStringa(table.Rows[contarighe - 1]["NumeroCapitolo"].ToString(),1);
+        numeroCapitoliSelezionati = (Convert.ToInt32(pulizia));
+      }
       foreach (DataRow row in table.Rows)
       {
         row["NumeroeTitoloCapitolo"] = row["NumeroCapitolo"].ToString() + " - " + row["TitoloCapitolo"].ToString();
@@ -336,38 +347,39 @@ namespace WindowsFormsApp2
     }
     private void comboBox1_TextUpdate(object sender, EventArgs e)
     {
-
-      // tremendamente lenta
-      string filter_param = cbxListaManga.Text;
-      // List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().StartsWith(filter_param.ToLower()));
-       List<Manga> filteredItems= listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
-    
-      // List<Manga> filteredItems = listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
-      // another variant for filtering using StartsWith:
-
-      cbxListaManga.DataSource = filteredItems;
-    
-      //cbxListaManga.DataSource= listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
-
-      if (String.IsNullOrWhiteSpace(filter_param))
+      if (cbxListaManga.Text.Length >= 3)
       {
-        cbxListaManga.DataSource = listamanga.manga;
-        cbxListaManga.DisplayMember = "t";
-        
+        // tremendamente lenta
+        string filter_param = cbxListaManga.Text;
+        // List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().StartsWith(filter_param.ToLower()));
+        List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
+
+        // List<Manga> filteredItems = listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
+
+
+        cbxListaManga.DataSource = filteredItems;
+
+        //cbxListaManga.DataSource= listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
+
+        if (String.IsNullOrWhiteSpace(filter_param))
+        {
+          cbxListaManga.DataSource = listamanga.manga;
+          cbxListaManga.DisplayMember = "t";
+
+        }
+        cbxListaManga.DroppedDown = true;
+        Cursor.Current = Cursors.Default;
+
+        cbxListaManga.IntegralHeight = true;
+
+
+
+        cbxListaManga.Text = filter_param;
+
+
+        cbxListaManga.SelectionStart = filter_param.Length;
+        cbxListaManga.SelectionLength = 0;
       }
-      cbxListaManga.DroppedDown = true;
-      Cursor.Current = Cursors.Default;
-      // this will ensure that the drop down is as long as the list
-      cbxListaManga.IntegralHeight = true;
-
-      // remove automatically selected first item
-     // cbxListaManga.SelectedIndex = -1;
-
-      cbxListaManga.Text = filter_param;
-
-      // set the position of the cursor
-      cbxListaManga.SelectionStart = filter_param.Length;
-      cbxListaManga.SelectionLength = 0;
     }
 
 
@@ -895,7 +907,8 @@ namespace WindowsFormsApp2
       dataGridView1.Columns[1].Visible = false;
       dataGridView1.Columns[2].Visible = false;
       dataGridView1.Columns[3].Visible = false;
-
+      dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+     
 
 
     }
