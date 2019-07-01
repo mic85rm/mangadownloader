@@ -57,7 +57,7 @@ namespace WindowsFormsApp2
     string descrizione = "";
     string listaNumeriCapitoliLogger = "";
     string nomeManga = "";
-
+    List<string> velocita = new List<string>();
     #endregion
     public Form1()
     {
@@ -84,8 +84,10 @@ namespace WindowsFormsApp2
 
     private void Form1_Load(object sender, EventArgs e)
     {
+     // this.ShowInTaskbar = false;
       Logger.Info("Applicazione Inizializzata");
       CaricaListaTitoliManga(K_IndirizzoWebListaMangaEdenItaliana);
+      lstboxManga.DataSource = velocita;
       InizializzaComboBox();
       InizializzaControlli();
      }
@@ -183,7 +185,7 @@ namespace WindowsFormsApp2
       }
        
       catch (Exception ex) {
-        Logger.Error(ex.Message, "[DownloadRemoteImageFile]");
+        Logger.Error(fileName+ex.Message);
         //MessageBox.Show(ex.Message);
       }
     }
@@ -199,15 +201,21 @@ namespace WindowsFormsApp2
           .Replace("\br", "").Replace("&", "").Replace("&*quot*", "").Replace("&*QUOT*", "").Replace("#039", "").Replace("!<BR />", "")
           .Replace("<BR/>", "");
       }
-      else
+      if (opzione == 1)
       {
         string [] finale= StringaPassata.Split('.');
         return finale[0];
+      }
+      else
+      {
+        StringaPassata = StringaPassata.Replace(',' ,' ');
+        return StringaPassata;
       }
     }
 
     public List<string> ConvertToList(IList<JToken> list,string numerocapitolo)
     {
+      
       listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo,numeroCapitoliSelezionati));
       foreach (var array in list)
       {
@@ -216,7 +224,8 @@ namespace WindowsFormsApp2
         listaimmagini.Add(appoggio);
       }
       listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo, numeroCapitoliSelezionati));
-      
+
+      //
       listaimmagini.Reverse();
       return listaimmagini;
     }
@@ -286,6 +295,9 @@ namespace WindowsFormsApp2
       // Add rows.
       foreach (var array in list)
       {
+        
+          array[2] = PulisciStringa(array[2].ToString(),2);
+        
         string stringaripulita = PulisciStringa(array.ToString()) + ",null";
         string[] stringa_a_vettore = stringaripulita.Split(',');
 
@@ -295,7 +307,7 @@ namespace WindowsFormsApp2
         }
        
         stringaripulita = stringa_a_vettore.ToString();
-
+        //da controlalre qui
         table.Rows.Add(stringa_a_vettore);
       }
       int contarighe = table.Rows.Count;
@@ -352,19 +364,23 @@ namespace WindowsFormsApp2
         // tremendamente lenta
         string filter_param = cbxListaManga.Text;
         // List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().StartsWith(filter_param.ToLower()));
-        List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
-
+      //  List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
+        List<string> filteredItems = velocita.FindAll(x => x.ToLower().Contains(filter_param.ToLower()));
         // List<Manga> filteredItems = listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
-
-
-        cbxListaManga.DataSource = filteredItems;
+        cbxListaManga.DataBindings.Clear();
+       // cbxListaManga.DisplayMember = "t";
+       cbxListaManga.DataSource = filteredItems;
 
         //cbxListaManga.DataSource= listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
 
         if (String.IsNullOrWhiteSpace(filter_param))
         {
-          cbxListaManga.DataSource = listamanga.manga;
-          cbxListaManga.DisplayMember = "t";
+          cbxListaManga.DataSource = null;
+          cbxListaManga.SuspendLayout();
+          //cbxListaManga.DisplayMember = "t";
+          //cbxListaManga.DataSource = listamanga.manga;
+          cbxListaManga.DataSource = velocita;
+          cbxListaManga.ResumeLayout(false);
 
         }
         cbxListaManga.DroppedDown = true;
@@ -409,8 +425,9 @@ namespace WindowsFormsApp2
 
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
-      nomeManga = cbxListaManga.Text.Replace(" ", "");
-
+      txtCerca.Enabled = false;
+      //nomeManga = cbxListaManga.Text.Replace(" ", "");
+      nomeManga = lstboxManga.Text.Replace(" ","");
       listaimmagini.Clear();
       this.bgwCreazioneListaDownload.RunWorkerAsync();
 
@@ -436,42 +453,47 @@ namespace WindowsFormsApp2
 
     private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
     {
-      if (chklstbxListaCapitoli.CheckedItems.Count > 0) btnConfermaDownload.Enabled = true;
+      if ((chklstbxListaCapitoli.CheckedItems.Count > 0)&&(chklstbxListaCapitoli.DataSource!=null)) btnConfermaDownload.Enabled = true;
       else btnConfermaDownload.Enabled = false;
     }
 
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
-      int index = listamanga.manga.FindIndex(x=>x.t.Equals(cbxListaManga.Text));
-      if (index != -1)
-      {
-        pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(index).im;
-        CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(index).i);
+      //pictureBox1.ImageLocation =null;
+      //int index = listamanga.manga.FindIndex(x=>x.t.Equals(cbxListaManga.Text));
+      //if (index != -1)
+      //{
+      //  pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(index).im;
+      //  CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(index).i);
 
-        listaimmagini.Clear();
-        // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
-        Popola_chklstbxListaCapitoli(data);
+      //  listaimmagini.Clear();
+      //  // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
+      //  Popola_chklstbxListaCapitoli(data);
 
-        txtTrama.Text = HttpUtility.HtmlDecode(descrizione);
-      }
-      if (chklstbxListaCapitoli.Items.Count==0)
-      {
-        btnSelectAll.Enabled = false;
-        btnDeselectAll.Enabled = false;
-      }
-      else
-      {
-        btnSelectAll.Enabled = true;
-        btnDeselectAll.Enabled = true;
-      }
+      //  txtTrama.Text = HttpUtility.HtmlDecode(descrizione);
+      //}
+      //if (chklstbxListaCapitoli.Items.Count==0)
+      //{
+      //  btnSelectAll.Enabled = false;
+      //  btnDeselectAll.Enabled = false;
+      //}
+      //else
+      //{
+      //  btnSelectAll.Enabled = true;
+      //  btnDeselectAll.Enabled = true;
+      //}
     }
     
 
 
     public void InizializzaComboBox()
     {
-      cbxListaManga.DataSource= listamanga.manga;
-      cbxListaManga.DisplayMember = "t";
+      //  cbxListaManga.SuspendLayout();
+      // cbxListaManga.DisplayMember = "t";
+      // cbxListaManga.DataSource= listamanga.manga;
+      //  cbxListaManga.ResumeLayout(false);
+      //cbxListaManga.DataSource = velocita;
+      
     }
     #endregion
 
@@ -494,7 +516,7 @@ namespace WindowsFormsApp2
         IList<JToken> risultati = cerca["images"].Children().ToList();
 
         // data = ConvertListToDataTable(results);
-        
+       
         listaimmagini =ConvertToList(risultati,numerocapitolo);
         // numeropaginepercapitolo.Add(listaimmagini.Count());
         int indice = 0;
@@ -532,8 +554,18 @@ namespace WindowsFormsApp2
       
       listamanga.manga=listamanga.manga.OrderBy(x=>x.t).ToList();
       dtlistamanga=ConvertListToDataTable(listamanga);
+      velocita = ConvertiListSoloTitoliManga(listamanga);
     }
 
+    public List<string> ConvertiListSoloTitoliManga(ListaManga listapassata)
+    {
+      List<string> nuovalista = new List<string>();
+      foreach(var item in listapassata.manga)
+      {
+        nuovalista.Add(item.t);
+      }
+      return nuovalista;
+    }
 
     public void CaricaListaCapitoli(string IndirizzoSito,string id)
     {
@@ -677,9 +709,15 @@ namespace WindowsFormsApp2
     {
       listaNumeriCapitoliLogger = string.Empty;
       CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
-     
-      
-      foreach (int index in indices)
+      int ii = indices.Count - 1;
+      int[] numero = new int[indices.Count];
+      foreach (int index in indices) {
+        
+        numero[ii] = index;
+        ii--;
+      }
+     Array.Sort(numero);
+      foreach (int index in numero.Reverse())
         {
         listaNumeriCapitoliLogger+=(data.Rows[index][0].ToString())+"-";
         //stopWatch.Start();
@@ -755,7 +793,8 @@ namespace WindowsFormsApp2
         MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO");
         Logger.Info("DOWNLOAD TERMINATO CON SUCCESSO ");
         chklstbxListaCapitoli.Enabled = true;
-        cbxListaManga.Enabled = true;
+        //cbxListaManga.Enabled = true;
+        lstboxManga.Enabled = true;
         labelPerc.Text = "";
         btnSelectAll.Enabled = true;
         btnDeselectAll.Enabled = true;
@@ -793,7 +832,8 @@ namespace WindowsFormsApp2
         frm.Close();
         //listaimmagini.Clear();
         tabControl1.SelectTab(1);
-        cbxListaManga.Enabled = false;
+        //cbxListaManga.Enabled = false;
+        lstboxManga.Enabled = false;
         btnConfermaDownload.Enabled = false;
         chklstbxListaCapitoli.Enabled = false;
         btnSelectAll.Enabled = false;
@@ -845,16 +885,16 @@ namespace WindowsFormsApp2
     }
 
 
-    void CreoListaCodaDownload()
-    {
-      CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
+    //void CreoListaCodaDownload()
+    //{
+    //  CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
       
-        foreach (int index in indices)
-        {
-          CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
-        }
+    //    foreach (int index in indices)
+    //    {
+    //      CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
+    //    }
   
-    }
+    //}
 
     private void timer1_Tick(object sender, EventArgs e)
     {
@@ -917,12 +957,93 @@ namespace WindowsFormsApp2
     {
       tabControl1.SelectTab(0);
       chklstbxListaCapitoli.Enabled = true;
-      cbxListaManga.Enabled = true;
-     
+      txtCerca.Enabled = true;
+      //cbxListaManga.Enabled = true;
+      lstboxManga.Enabled = true;
       btnSelectAll.Enabled = true;
       btnDeselectAll.Enabled = true;
     }
+
+    private void tabPage1_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      btnConfermaDownload.Enabled = false;
+      int index = listamanga.manga.FindIndex(x => x.t.Equals(lstboxManga.SelectedItem));
+      if (index != -1)
+      {
+        CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(index).i);
+        pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(index).im;
+        
+
+        //listaimmagini.Clear();
+        // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
+        Popola_chklstbxListaCapitoli(data);
+
+        txtTrama.Text = HttpUtility.HtmlDecode(descrizione);
+      }
+      if (chklstbxListaCapitoli.Items.Count == 0)
+      {
+        btnSelectAll.Enabled = false;
+        btnDeselectAll.Enabled = false;
+      }
+      else
+      {
+        btnSelectAll.Enabled = true;
+        btnDeselectAll.Enabled = true;
+      }
+    }
+
+    private void textBox1_TextChanged(object sender, EventArgs e)
+    {
+      if (txtCerca.TextLength >=1) btnCerca.Enabled = true;
+      else { btnCerca.Enabled = false;
+        lstboxManga.DataSource = velocita;
+      }
+    }
+
+    private void btnCerca_Click(object sender, EventArgs e)
+    {
+      string filter_param = txtCerca.Text;
+      // List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().StartsWith(filter_param.ToLower()));
+      //  List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
+      //List<string> filteredItems = velocita.FindAll(x => x.ToLower().Contains(filter_param.ToLower()));
+      List<string> filteredItems = velocita.FindAll(x => x.ToLower().StartsWith(filter_param.ToLower()));
+      // List<Manga> filteredItems = listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
+      //cbxListaManga.DataBindings.Clear();
+      // cbxListaManga.DisplayMember = "t";
+      lstboxManga.DataSource = filteredItems;
+
+      //cbxListaManga.DataSource= listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
+
+      if (String.IsNullOrWhiteSpace(filter_param))
+      {
+        lstboxManga.DataSource = null;
+        lstboxManga.SuspendLayout();
+        //cbxListaManga.DisplayMember = "t";
+        //cbxListaManga.DataSource = listamanga.manga;
+        lstboxManga.DataSource = velocita;
+        lstboxManga.ResumeLayout(false);
+
+      }
+     // cbxListaManga.DroppedDown = true;
+      //Cursor.Current = Cursors.Default;
+
+      //cbxListaManga.IntegralHeight = true;
+
+
+
+      txtCerca.Text = filter_param;
+
+
+      //cbxListaManga.SelectionStart = filter_param.Length;
+      //cbxListaManga.SelectionLength = 0;
+    }
   }
+  
 }
 
 

@@ -70,6 +70,9 @@ namespace WindowsFormsApp2
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
+      this.lstboxManga = new System.Windows.Forms.ListBox();
+      this.btnCerca = new System.Windows.Forms.Button();
+      this.txtCerca = new System.Windows.Forms.TextBox();
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -92,9 +95,9 @@ namespace WindowsFormsApp2
       this.groupBox1.Controls.Add(this.groupBox7);
       this.groupBox1.Controls.Add(this.groupBox5);
       this.groupBox1.Controls.Add(this.groupBox6);
-      this.groupBox1.Location = new System.Drawing.Point(12, 105);
+      this.groupBox1.Location = new System.Drawing.Point(427, 16);
       this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(1003, 684);
+      this.groupBox1.Size = new System.Drawing.Size(967, 684);
       this.groupBox1.TabIndex = 1;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Anteprima Manga";
@@ -102,9 +105,9 @@ namespace WindowsFormsApp2
       // groupBox7
       // 
       this.groupBox7.Controls.Add(this.txtTrama);
-      this.groupBox7.Location = new System.Drawing.Point(30, 21);
+      this.groupBox7.Location = new System.Drawing.Point(6, 21);
       this.groupBox7.Name = "groupBox7";
-      this.groupBox7.Size = new System.Drawing.Size(950, 166);
+      this.groupBox7.Size = new System.Drawing.Size(930, 154);
       this.groupBox7.TabIndex = 1;
       this.groupBox7.TabStop = false;
       this.groupBox7.Text = "Trama";
@@ -119,15 +122,15 @@ namespace WindowsFormsApp2
       this.txtTrama.Name = "txtTrama";
       this.txtTrama.ReadOnly = true;
       this.txtTrama.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.txtTrama.Size = new System.Drawing.Size(913, 127);
+      this.txtTrama.Size = new System.Drawing.Size(884, 127);
       this.txtTrama.TabIndex = 1;
       // 
       // groupBox5
       // 
       this.groupBox5.Controls.Add(this.pictureBox1);
-      this.groupBox5.Location = new System.Drawing.Point(6, 193);
+      this.groupBox5.Location = new System.Drawing.Point(6, 181);
       this.groupBox5.Name = "groupBox5";
-      this.groupBox5.Size = new System.Drawing.Size(367, 413);
+      this.groupBox5.Size = new System.Drawing.Size(300, 389);
       this.groupBox5.TabIndex = 8;
       this.groupBox5.TabStop = false;
       this.groupBox5.Text = "Copertina ";
@@ -139,7 +142,7 @@ namespace WindowsFormsApp2
       this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
       this.pictureBox1.Location = new System.Drawing.Point(16, 21);
       this.pictureBox1.Name = "pictureBox1";
-      this.pictureBox1.Size = new System.Drawing.Size(328, 375);
+      this.pictureBox1.Size = new System.Drawing.Size(270, 352);
       this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
       this.pictureBox1.TabIndex = 0;
       this.pictureBox1.TabStop = false;
@@ -149,7 +152,7 @@ namespace WindowsFormsApp2
       this.groupBox6.Controls.Add(this.chklstbxListaCapitoli);
       this.groupBox6.Controls.Add(this.btnSelectAll);
       this.groupBox6.Controls.Add(this.btnDeselectAll);
-      this.groupBox6.Location = new System.Drawing.Point(379, 193);
+      this.groupBox6.Location = new System.Drawing.Point(318, 181);
       this.groupBox6.Name = "groupBox6";
       this.groupBox6.Size = new System.Drawing.Size(618, 485);
       this.groupBox6.TabIndex = 9;
@@ -160,9 +163,9 @@ namespace WindowsFormsApp2
       // 
       this.chklstbxListaCapitoli.CheckOnClick = true;
       this.chklstbxListaCapitoli.FormattingEnabled = true;
-      this.chklstbxListaCapitoli.Location = new System.Drawing.Point(6, 21);
+      this.chklstbxListaCapitoli.Location = new System.Drawing.Point(12, 18);
       this.chklstbxListaCapitoli.Name = "chklstbxListaCapitoli";
-      this.chklstbxListaCapitoli.Size = new System.Drawing.Size(606, 429);
+      this.chklstbxListaCapitoli.Size = new System.Drawing.Size(600, 429);
       this.chklstbxListaCapitoli.TabIndex = 4;
       this.chklstbxListaCapitoli.SelectedIndexChanged += new System.EventHandler(this.chklstbxListaCapitoli_SelectedIndexChanged);
       // 
@@ -189,9 +192,9 @@ namespace WindowsFormsApp2
       // btnConfermaDownload
       // 
       this.btnConfermaDownload.Enabled = false;
-      this.btnConfermaDownload.Location = new System.Drawing.Point(550, 36);
+      this.btnConfermaDownload.Location = new System.Drawing.Point(433, 723);
       this.btnConfermaDownload.Name = "btnConfermaDownload";
-      this.btnConfermaDownload.Size = new System.Drawing.Size(459, 60);
+      this.btnConfermaDownload.Size = new System.Drawing.Size(958, 60);
       this.btnConfermaDownload.TabIndex = 5;
       this.btnConfermaDownload.Text = "Download";
       this.btnConfermaDownload.UseVisualStyleBackColor = true;
@@ -200,10 +203,11 @@ namespace WindowsFormsApp2
       // cbxListaManga
       // 
       this.cbxListaManga.FormattingEnabled = true;
-      this.cbxListaManga.Location = new System.Drawing.Point(16, 21);
+      this.cbxListaManga.Location = new System.Drawing.Point(51, 78);
       this.cbxListaManga.Name = "cbxListaManga";
-      this.cbxListaManga.Size = new System.Drawing.Size(455, 24);
+      this.cbxListaManga.Size = new System.Drawing.Size(278, 24);
       this.cbxListaManga.TabIndex = 3;
+      this.cbxListaManga.Visible = false;
       this.cbxListaManga.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
       this.cbxListaManga.TextUpdate += new System.EventHandler(this.comboBox1_TextUpdate);
       this.cbxListaManga.TextChanged += new System.EventHandler(this.CbxListaManga_TextChanged);
@@ -216,7 +220,7 @@ namespace WindowsFormsApp2
       this.tabControl1.Location = new System.Drawing.Point(12, 12);
       this.tabControl1.Name = "tabControl1";
       this.tabControl1.SelectedIndex = 0;
-      this.tabControl1.Size = new System.Drawing.Size(1032, 830);
+      this.tabControl1.Size = new System.Drawing.Size(1405, 830);
       this.tabControl1.TabIndex = 4;
       // 
       // tabPage1
@@ -227,17 +231,21 @@ namespace WindowsFormsApp2
       this.tabPage1.Location = new System.Drawing.Point(4, 25);
       this.tabPage1.Name = "tabPage1";
       this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage1.Size = new System.Drawing.Size(1024, 801);
+      this.tabPage1.Size = new System.Drawing.Size(1397, 801);
       this.tabPage1.TabIndex = 0;
       this.tabPage1.Text = "tabPage1";
       this.tabPage1.UseVisualStyleBackColor = true;
+      this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
       // 
       // groupBox4
       // 
+      this.groupBox4.Controls.Add(this.txtCerca);
+      this.groupBox4.Controls.Add(this.btnCerca);
+      this.groupBox4.Controls.Add(this.lstboxManga);
       this.groupBox4.Controls.Add(this.cbxListaManga);
-      this.groupBox4.Location = new System.Drawing.Point(20, 36);
+      this.groupBox4.Location = new System.Drawing.Point(6, 6);
       this.groupBox4.Name = "groupBox4";
-      this.groupBox4.Size = new System.Drawing.Size(496, 60);
+      this.groupBox4.Size = new System.Drawing.Size(412, 777);
       this.groupBox4.TabIndex = 6;
       this.groupBox4.TabStop = false;
       this.groupBox4.Text = "Lista Manga";
@@ -252,7 +260,7 @@ namespace WindowsFormsApp2
       this.tabPage2.Location = new System.Drawing.Point(4, 25);
       this.tabPage2.Name = "tabPage2";
       this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage2.Size = new System.Drawing.Size(1024, 801);
+      this.tabPage2.Size = new System.Drawing.Size(1397, 801);
       this.tabPage2.TabIndex = 1;
       this.tabPage2.Text = "tabPage2";
       this.tabPage2.UseVisualStyleBackColor = true;
@@ -447,7 +455,7 @@ namespace WindowsFormsApp2
       this.tabPage3.Location = new System.Drawing.Point(4, 25);
       this.tabPage3.Name = "tabPage3";
       this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage3.Size = new System.Drawing.Size(1024, 801);
+      this.tabPage3.Size = new System.Drawing.Size(1397, 801);
       this.tabPage3.TabIndex = 2;
       this.tabPage3.Text = "tabPage3";
       this.tabPage3.UseVisualStyleBackColor = true;
@@ -461,11 +469,40 @@ namespace WindowsFormsApp2
       this.timer1.Enabled = true;
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
       // 
+      // lstboxManga
+      // 
+      this.lstboxManga.FormattingEnabled = true;
+      this.lstboxManga.ItemHeight = 16;
+      this.lstboxManga.Location = new System.Drawing.Point(6, 108);
+      this.lstboxManga.Name = "lstboxManga";
+      this.lstboxManga.Size = new System.Drawing.Size(398, 628);
+      this.lstboxManga.TabIndex = 9;
+      this.lstboxManga.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+      // 
+      // btnCerca
+      // 
+      this.btnCerca.Enabled = false;
+      this.btnCerca.Location = new System.Drawing.Point(296, 31);
+      this.btnCerca.Name = "btnCerca";
+      this.btnCerca.Size = new System.Drawing.Size(94, 41);
+      this.btnCerca.TabIndex = 10;
+      this.btnCerca.Text = "Cerca";
+      this.btnCerca.UseVisualStyleBackColor = true;
+      this.btnCerca.Click += new System.EventHandler(this.btnCerca_Click);
+      // 
+      // txtCerca
+      // 
+      this.txtCerca.Location = new System.Drawing.Point(6, 40);
+      this.txtCerca.Name = "txtCerca";
+      this.txtCerca.Size = new System.Drawing.Size(274, 22);
+      this.txtCerca.TabIndex = 11;
+      this.txtCerca.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1056, 853);
+      this.ClientSize = new System.Drawing.Size(1429, 853);
       this.Controls.Add(this.tabControl1);
       this.MaximizeBox = false;
       this.MinimizeBox = false;
@@ -481,6 +518,7 @@ namespace WindowsFormsApp2
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
       this.groupBox4.ResumeLayout(false);
+      this.groupBox4.PerformLayout();
       this.tabPage2.ResumeLayout(false);
       this.groupBox10.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -534,6 +572,9 @@ namespace WindowsFormsApp2
     private DataGridView dataGridView1;
     private Button btnModifica;
     private Label lblTempoStimatoDownload;
+    private ListBox lstboxManga;
+    private TextBox txtCerca;
+    private Button btnCerca;
   }
 }
 
