@@ -46,6 +46,9 @@ namespace WindowsFormsApp2
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
       this.groupBox4 = new System.Windows.Forms.GroupBox();
+      this.txtCerca = new System.Windows.Forms.TextBox();
+      this.btnCerca = new System.Windows.Forms.Button();
+      this.lstboxManga = new System.Windows.Forms.ListBox();
       this.tabPage2 = new System.Windows.Forms.TabPage();
       this.groupBox10 = new System.Windows.Forms.GroupBox();
       this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -70,9 +73,7 @@ namespace WindowsFormsApp2
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
-      this.lstboxManga = new System.Windows.Forms.ListBox();
-      this.btnCerca = new System.Windows.Forms.Button();
-      this.txtCerca = new System.Windows.Forms.TextBox();
+      this.lblNumeroElencoMangaTrovati = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -203,7 +204,7 @@ namespace WindowsFormsApp2
       // cbxListaManga
       // 
       this.cbxListaManga.FormattingEnabled = true;
-      this.cbxListaManga.Location = new System.Drawing.Point(51, 78);
+      this.cbxListaManga.Location = new System.Drawing.Point(6, 0);
       this.cbxListaManga.Name = "cbxListaManga";
       this.cbxListaManga.Size = new System.Drawing.Size(278, 24);
       this.cbxListaManga.TabIndex = 3;
@@ -239,6 +240,7 @@ namespace WindowsFormsApp2
       // 
       // groupBox4
       // 
+      this.groupBox4.Controls.Add(this.lblNumeroElencoMangaTrovati);
       this.groupBox4.Controls.Add(this.txtCerca);
       this.groupBox4.Controls.Add(this.btnCerca);
       this.groupBox4.Controls.Add(this.lstboxManga);
@@ -249,6 +251,35 @@ namespace WindowsFormsApp2
       this.groupBox4.TabIndex = 6;
       this.groupBox4.TabStop = false;
       this.groupBox4.Text = "Lista Manga";
+      // 
+      // txtCerca
+      // 
+      this.txtCerca.Location = new System.Drawing.Point(16, 40);
+      this.txtCerca.Name = "txtCerca";
+      this.txtCerca.Size = new System.Drawing.Size(274, 22);
+      this.txtCerca.TabIndex = 11;
+      this.txtCerca.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+      // 
+      // btnCerca
+      // 
+      this.btnCerca.Enabled = false;
+      this.btnCerca.Location = new System.Drawing.Point(296, 31);
+      this.btnCerca.Name = "btnCerca";
+      this.btnCerca.Size = new System.Drawing.Size(94, 41);
+      this.btnCerca.TabIndex = 10;
+      this.btnCerca.Text = "Cerca";
+      this.btnCerca.UseVisualStyleBackColor = true;
+      this.btnCerca.Click += new System.EventHandler(this.btnCerca_Click);
+      // 
+      // lstboxManga
+      // 
+      this.lstboxManga.FormattingEnabled = true;
+      this.lstboxManga.ItemHeight = 16;
+      this.lstboxManga.Location = new System.Drawing.Point(6, 108);
+      this.lstboxManga.Name = "lstboxManga";
+      this.lstboxManga.Size = new System.Drawing.Size(398, 628);
+      this.lstboxManga.TabIndex = 9;
+      this.lstboxManga.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
       // 
       // tabPage2
       // 
@@ -469,34 +500,14 @@ namespace WindowsFormsApp2
       this.timer1.Enabled = true;
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
       // 
-      // lstboxManga
+      // lblNumeroElencoMangaTrovati
       // 
-      this.lstboxManga.FormattingEnabled = true;
-      this.lstboxManga.ItemHeight = 16;
-      this.lstboxManga.Location = new System.Drawing.Point(6, 108);
-      this.lstboxManga.Name = "lstboxManga";
-      this.lstboxManga.Size = new System.Drawing.Size(398, 628);
-      this.lstboxManga.TabIndex = 9;
-      this.lstboxManga.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
-      // 
-      // btnCerca
-      // 
-      this.btnCerca.Enabled = false;
-      this.btnCerca.Location = new System.Drawing.Point(296, 31);
-      this.btnCerca.Name = "btnCerca";
-      this.btnCerca.Size = new System.Drawing.Size(94, 41);
-      this.btnCerca.TabIndex = 10;
-      this.btnCerca.Text = "Cerca";
-      this.btnCerca.UseVisualStyleBackColor = true;
-      this.btnCerca.Click += new System.EventHandler(this.btnCerca_Click);
-      // 
-      // txtCerca
-      // 
-      this.txtCerca.Location = new System.Drawing.Point(6, 40);
-      this.txtCerca.Name = "txtCerca";
-      this.txtCerca.Size = new System.Drawing.Size(274, 22);
-      this.txtCerca.TabIndex = 11;
-      this.txtCerca.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+      this.lblNumeroElencoMangaTrovati.AutoSize = true;
+      this.lblNumeroElencoMangaTrovati.Location = new System.Drawing.Point(47, 77);
+      this.lblNumeroElencoMangaTrovati.Name = "lblNumeroElencoMangaTrovati";
+      this.lblNumeroElencoMangaTrovati.Size = new System.Drawing.Size(99, 17);
+      this.lblNumeroElencoMangaTrovati.TabIndex = 12;
+      this.lblNumeroElencoMangaTrovati.Text = "numeromanga";
       // 
       // Form1
       // 
@@ -505,9 +516,9 @@ namespace WindowsFormsApp2
       this.ClientSize = new System.Drawing.Size(1429, 853);
       this.Controls.Add(this.tabControl1);
       this.MaximizeBox = false;
-      this.MinimizeBox = false;
       this.Name = "Form1";
       this.Text = "MangaEdenDownloader";
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
       this.Load += new System.EventHandler(this.Form1_Load);
       this.groupBox1.ResumeLayout(false);
       this.groupBox7.ResumeLayout(false);
@@ -575,6 +586,7 @@ namespace WindowsFormsApp2
     private ListBox lstboxManga;
     private TextBox txtCerca;
     private Button btnCerca;
+    private Label lblNumeroElencoMangaTrovati;
   }
 }
 

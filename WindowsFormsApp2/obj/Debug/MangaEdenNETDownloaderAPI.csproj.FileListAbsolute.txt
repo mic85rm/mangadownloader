@@ -1,3 +1,4 @@
+C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\NLog.config
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\SqlServerTypes\x64\msvcr120.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\SqlServerTypes\x64\SqlServerSpatial140.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\SqlServerTypes\x86\msvcr120.dll
@@ -15,6 +16,7 @@ C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Micr
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Microsoft.ReportViewer.WinForms.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Microsoft.SqlServer.Types.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Newtonsoft.Json.dll
+C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\NLog.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\QRCoder.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\System.Drawing.Common.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\System.Security.Cryptography.Pkcs.dll
@@ -50,6 +52,7 @@ C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Micr
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Microsoft.VisualStudio.TextManager.Interop.10.0.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\VSLangProj2.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Newtonsoft.Json.xml
+C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\NLog.xml
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\System.ValueTuple.xml
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\Microsoft.VisualStudio.TemplateWizardInterface.xml
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\de\Microsoft.ReportViewer.Common.resources.dll
@@ -115,6 +118,7 @@ C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\zh-C
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\it\Microsoft.VisualStudio.Data.Services.resources.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\it\Microsoft.VisualStudio.Data.Core.resources.dll
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\it\Microsoft.VisualStudio.GraphModel.resources.dll
+C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\MangaEdenNETDownloaderAPI.csprojAssemblyReference.cache
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe.config
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Form1.resources
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.frmWaitDialog.resources
@@ -124,7 +128,3 @@ C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\Mang
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\MangaEdenNETDownloaderAPI.csproj.CopyComplete
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
 C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
-C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\NLog.dll
-C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\NLog.xml
-C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\obj\Debug\MangaEdenNETDownloaderAPI.csprojAssemblyReference.cache
-C:\Users\MTRAETTA\Source\Repos\mangadownload.net\WindowsFormsApp2\bin\Debug\NLog.config

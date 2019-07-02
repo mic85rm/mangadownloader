@@ -22,7 +22,7 @@ using System.Collections;
 
 namespace WindowsFormsApp2
 {
- 
+
   public partial class Form1 : Form
   {
 
@@ -63,7 +63,7 @@ namespace WindowsFormsApp2
     public Form1()
     {
       InitializeComponent();
-           
+
       bgwDownloadAsincrono = new System.ComponentModel.BackgroundWorker();
       bgwDownloadAsincrono.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwDownloadAsincrono_DoWork);
       bgwDownloadAsincrono.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwDownloadAsincrono_RunWorkerCompleted);
@@ -85,20 +85,21 @@ namespace WindowsFormsApp2
 
     private void Form1_Load(object sender, EventArgs e)
     {
-     // this.ShowInTaskbar = false;
+      // this.ShowInTaskbar = false;
       Logger.Info("Applicazione Inizializzata");
       CaricaListaTitoliManga(K_IndirizzoWebListaMangaEdenItaliana);
       lstboxManga.DataSource = velocita;
+      lblNumeroElencoMangaTrovati.Text = "Manga Trovati= " + velocita.Count();
       InizializzaComboBox();
       InizializzaControlli();
-     }
+    }
 
 
     #region utility
 
 
 
-   private void InizializzaControlli()
+    private void InizializzaControlli()
     {
       string path = ReadSetting("indirizzosalvataggio");
       if (path == string.Empty) { path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); }
@@ -151,7 +152,7 @@ namespace WindowsFormsApp2
     {
       try
       {
-        
+
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
         //request.Proxy = WebRequest.DefaultWebProxy;
@@ -184,17 +185,18 @@ namespace WindowsFormsApp2
           }
         }
       }
-       
-      catch (Exception ex) {
-        Logger.Error(fileName+ex.Message);
+
+      catch (Exception ex)
+      {
+        Logger.Error(fileName + ex.Message);
         //MessageBox.Show(ex.Message);
       }
     }
 
 
-  
 
-    public string PulisciStringa(string StringaPassata,int opzione=0)
+
+    public string PulisciStringa(string StringaPassata, int opzione = 0)
     {
       if (opzione == 0)
       {
@@ -204,28 +206,28 @@ namespace WindowsFormsApp2
       }
       if (opzione == 1)
       {
-        string [] finale= StringaPassata.Split('.');
+        string[] finale = StringaPassata.Split('.');
         return finale[0];
       }
       else
       {
-        StringaPassata = StringaPassata.Replace(',' ,' ');
+        StringaPassata = StringaPassata.Replace(',', ' ');
         return StringaPassata;
       }
     }
 
-    public List<string> ConvertToList(IList<JToken> list,string numerocapitolo)
+    public List<string> ConvertToList(IList<JToken> list, string numerocapitolo)
     {
-      
-      listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo,numeroCapitoliSelezionati));
+
+      listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo, numeroCapitoliSelezionati));
       foreach (var array in list)
       {
-        
+
         string appoggio = EstrazioneIndirizzoImmagine(PulisciStringa(array.ToString()));
         listaimmagini.Add(appoggio);
       }
       listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo, numeroCapitoliSelezionati));
-           
+
       return listaimmagini;
     }
 
@@ -236,7 +238,7 @@ namespace WindowsFormsApp2
       for (int i = 0; i < stringatoarray.Count(); i++)
       {
         stringatoarray[i] = stringatoarray[i].TrimStart(' ');
-       }
+      }
       return stringatoarray[1].ToString();
     }
     public static string AggiungiZeroAlNomeFile(int numeroCapitolo, int cifreNumeroFoto)
@@ -249,34 +251,34 @@ namespace WindowsFormsApp2
         i++;
       }
 
-      string numeroDaStampare = numeroCapitolo.ToString().PadLeft(i+1, '0');
+      string numeroDaStampare = numeroCapitolo.ToString().PadLeft(i + 1, '0');
       //ad ogni iterazione del ciclo : numeroDaStampare = 030 ; 029 ; 028 ... 009 ; 008 ecc.
       return numeroDaStampare;
-                
-     }
 
-   
+    }
+
+
     public static string AggiungiZeroAlNomeFile(string numeroCapitolo, int cifreNumeroCapitoli)
     {//per i capitoli
       int i = 0;
       int numeroAppoggio = cifreNumeroCapitoli;
-         while ((numeroAppoggio != 0))
+      while ((numeroAppoggio != 0))
       {
         numeroAppoggio /= 10;
         i++;
       }
-        string numeroDaStampare = numeroCapitolo.PadLeft(i+1, '0');
+      string numeroDaStampare = numeroCapitolo.PadLeft(i + 1, '0');
 
       return numeroDaStampare;
-        
-          }
+
+    }
 
 
 
 
-    public  DataTable ConvertListToDataTable(IList<JToken> list)
+    public DataTable ConvertListToDataTable(IList<JToken> list)
     {
-      list=list.Reverse().ToList();
+      list = list.Reverse().ToList();
       // New table.
       DataTable table = new DataTable();
       // Add columns.
@@ -292,29 +294,29 @@ namespace WindowsFormsApp2
       table.Columns[5].ColumnName = "NumeroPagineapitolo";
       table.AcceptChanges();
       // Add rows.
-      
+
       foreach (var array in list)
       {
-        
-          array[2] = PulisciStringa(array[2].ToString(),2);
-        
+
+        array[2] = PulisciStringa(array[2].ToString(), 2);
+
         string stringaripulita = PulisciStringa(array.ToString()) + ",null";
         string[] stringa_a_vettore = stringaripulita.Split(',');
 
         for (int i = 0; i < stringa_a_vettore.Count(); i++)
-             {
+        {
           stringa_a_vettore[i] = stringa_a_vettore[i].TrimStart(' ');
         }
-       
+
         stringaripulita = stringa_a_vettore.ToString();
-        
+
         table.Rows.Add(stringa_a_vettore);
       }
-      
+
       int contarighe = table.Rows.Count;
       if (contarighe > 0)
       {
-        string pulizia =PulisciStringa(table.Rows[contarighe - 1]["NumeroCapitolo"].ToString(),1);
+        string pulizia = PulisciStringa(table.Rows[contarighe - 1]["NumeroCapitolo"].ToString(), 1);
         numeroCapitoliSelezionati = (Convert.ToInt32(pulizia));
       }
       foreach (DataRow row in table.Rows)
@@ -322,7 +324,7 @@ namespace WindowsFormsApp2
         row["NumeroeTitoloCapitolo"] = row["NumeroCapitolo"].ToString() + " - " + row["TitoloCapitolo"].ToString();
       }
 
-     return table;
+      return table;
     }
 
 
@@ -337,7 +339,7 @@ namespace WindowsFormsApp2
       bs.DataMember = "Table1";
       chklstbxListaCapitoli.DataSource = bs;
       chklstbxListaCapitoli.DisplayMember = "NumeroeTitoloCapitolo";
-     }
+    }
 
     #endregion
 
@@ -356,8 +358,8 @@ namespace WindowsFormsApp2
 
     private void CbxListaManga_TextChanged(object sender, EventArgs e)
     {
-    
-    
+
+
     }
     private void comboBox1_TextUpdate(object sender, EventArgs e)
     {
@@ -366,12 +368,12 @@ namespace WindowsFormsApp2
         // tremendamente lenta
         string filter_param = cbxListaManga.Text;
         // List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().StartsWith(filter_param.ToLower()));
-      //  List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
+        //  List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
         List<string> filteredItems = velocita.FindAll(x => x.ToLower().Contains(filter_param.ToLower()));
         // List<Manga> filteredItems = listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
         cbxListaManga.DataBindings.Clear();
-       // cbxListaManga.DisplayMember = "t";
-       cbxListaManga.DataSource = filteredItems;
+        // cbxListaManga.DisplayMember = "t";
+        cbxListaManga.DataSource = filteredItems;
 
         //cbxListaManga.DataSource= listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
 
@@ -428,11 +430,11 @@ namespace WindowsFormsApp2
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
       txtCerca.Enabled = false;
-      nomeManga = lstboxManga.Text.Replace(" ","").Replace(@"/" ,"").Replace(":","");
+      nomeManga = lstboxManga.Text.Replace(" ", "").Replace(@"/", "").Replace(":", "");
       listaimmagini.Clear();
       this.bgwCreazioneListaDownload.RunWorkerAsync();
 
-     
+
       // tabControl1.SelectTab(1);
 
 
@@ -449,12 +451,12 @@ namespace WindowsFormsApp2
         Application.DoEvents();
 
       }
-     
+
     }
 
     private void chklstbxListaCapitoli_SelectedIndexChanged(object sender, EventArgs e)
     {
-      if ((chklstbxListaCapitoli.CheckedItems.Count > 0)&&(chklstbxListaCapitoli.DataSource!=null)) btnConfermaDownload.Enabled = true;
+      if ((chklstbxListaCapitoli.CheckedItems.Count > 0) && (chklstbxListaCapitoli.DataSource != null)) btnConfermaDownload.Enabled = true;
       else btnConfermaDownload.Enabled = false;
     }
 
@@ -484,7 +486,7 @@ namespace WindowsFormsApp2
       //  btnDeselectAll.Enabled = true;
       //}
     }
-    
+
 
 
     public void InizializzaComboBox()
@@ -494,53 +496,53 @@ namespace WindowsFormsApp2
       // cbxListaManga.DataSource= listamanga.manga;
       //  cbxListaManga.ResumeLayout(false);
       //cbxListaManga.DataSource = velocita;
-      
+
     }
     #endregion
 
     #region metodi json
 
-    public void CreazioneCodaDownload(string IndirizzoSito, string id,string numerocapitolo)
+    public void CreazioneCodaDownload(string IndirizzoSito, string id, string numerocapitolo)
     {
-     
+
       try
       {
-        
+
         string jsonurl = Uri.EscapeUriString(IndirizzoSito + id);
-      string json = "";
-      using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
-      {
-        json = client.DownloadString(jsonurl);
-      }
-      
+        string json = "";
+        using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
+        {
+          json = client.DownloadString(jsonurl);
+        }
+
         JObject cerca = JObject.Parse(json);
         IList<JToken> risultati = cerca["images"].Children().ToList();
 
         // data = ConvertListToDataTable(results);
-       
-        listaimmagini =ConvertToList(risultati,numerocapitolo);
+
+        listaimmagini = ConvertToList(risultati, numerocapitolo);
         // numeropaginepercapitolo.Add(listaimmagini.Count());
         int indice = 0;
         int conta = 0;
-      
-       
-        foreach(DataRow row in data.Rows)
+
+
+        foreach (DataRow row in data.Rows)
         {
           string prova = row[3].ToString();
           if (prova.Equals(id))
           {
-            indice =conta;
+            indice = conta;
           }
           conta++;
         }
         data.Rows[indice][5] = risultati.Count().ToString();
-        
+
       }
       catch (Exception ex)
       {
         Logger.Error(ex.Message, "[CreazioneCodaDownload]");
       }
-     
+
     }
 
     public void CaricaListaTitoliManga(string IndirizzoSito)
@@ -559,7 +561,7 @@ namespace WindowsFormsApp2
         dtlistamanga = ConvertListToDataTable(listamanga);
         velocita = ConvertiListSoloTitoliManga(listamanga);
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         Logger.Error(ex.Message, "[CaricaListaTitoliManga]");
       }
@@ -568,35 +570,36 @@ namespace WindowsFormsApp2
     public List<string> ConvertiListSoloTitoliManga(ListaManga listapassata)
     {
       List<string> nuovalista = new List<string>();
-      foreach(var item in listapassata.manga)
+      foreach (var item in listapassata.manga)
       {
         nuovalista.Add(item.t);
       }
       return nuovalista;
     }
 
-    public void CaricaListaCapitoli(string IndirizzoSito,string id)
+    public void CaricaListaCapitoli(string IndirizzoSito, string id)
     {
       try
       {
         paginacapitoli = new PaginaCapitoli();
-      string jsonurl = Uri.EscapeUriString(IndirizzoSito+id);
-      string json = "";
-      using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
-      {
-        json = client.DownloadString(jsonurl);
-      }
-      
-     
+        string jsonurl = Uri.EscapeUriString(IndirizzoSito + id);
+        string json = "";
+        using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
+        {
+          json = client.DownloadString(jsonurl);
+        }
+
+
         JObject cerca = JObject.Parse(json);
         IList<JToken> risultati = cerca["chapters"].Children().ToList();
-        
+
         data = ConvertListToDataTable(risultati);
-       descrizione= cerca["description"].ToString();
+        descrizione = cerca["description"].ToString();
       }
-      catch (Exception ex) {
+      catch (Exception ex)
+      {
         Logger.Error(ex, "[CaricaListaCapitoli]");
-       // MessageBox.Show(ex.ToString());
+        // MessageBox.Show(ex.ToString());
       }
     }
 
@@ -607,16 +610,17 @@ namespace WindowsFormsApp2
 
     private void btnStartDownload_Click(object sender, EventArgs e)
     {
-      btnModifica.Enabled=false;
+      btnModifica.Enabled = false;
       btnStopDownload.Enabled = true;
+      btnApriCartellaSalvataggio.Enabled = false;
       //altra funzione per pulire il titolo
-      
+
       percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + nomeManga;
       this.bgwDownloadAsincrono.RunWorkerAsync();
       // Disable the button for the duration of the download.
       this.btnStart.Enabled = false;
       progressBar.Maximum = 100;
-      
+
       // Once you have started the background thread you 
       // can exit the handler and the application will 
       // wait until the RunWorkerCompleted event is raised.
@@ -628,31 +632,31 @@ namespace WindowsFormsApp2
 
       while (this.bgwDownloadAsincrono.IsBusy)
       {
-        if (elapsedTime!= "")
+        if (elapsedTime != "")
         {
-          double tempo = (Convert.ToInt32( Math.Truncate(Convert.ToDouble( elapsedTime)) * (listaimmagini.Count))/60);
+          double tempo = (Convert.ToInt32(Math.Truncate(Convert.ToDouble(elapsedTime)) * (listaimmagini.Count)) / 60);
           lblTempoStimatoDownload.Text = tempo.ToString();
         }
         //progressBar.Increment(1);
         // Keep UI messages moving, so the form remains 
         // responsive during the asynchronous operation.
         Application.DoEvents();
-       
+
       }
 
 
 
     }
 
-    private void bgwDownloadAsincrono_DoWork( object sender,DoWorkEventArgs e)
+    private void bgwDownloadAsincrono_DoWork(object sender, DoWorkEventArgs e)
     {
-   
+
 
       var backgroundWorker = sender as BackgroundWorker;
       int numero = 0;
       int primaentrata = 0;
       string percorsoSalvataggioCapitolo = "";
-      double percent= 0;
+      double percent = 0;
       int i = 0;
       listaimmagini.Reverse();
       //string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString();
@@ -675,21 +679,21 @@ namespace WindowsFormsApp2
           {
 
             Directory.CreateDirectory(percorsoSalvataggio + item);
-            
+
           }
           else
           {
-          
+
             if ((File.Exists(percorsoSalvataggio + item + K_EstensioneFileCbz)))
             {
-                       
+
               File.Delete(percorsoSalvataggio + item + K_EstensioneFileCbz);
-              ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
+              //  ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
             }
-            else
-            {
-              ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
-            }
+            // else
+            // {
+            ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
+            // }
           }
 
         }
@@ -720,15 +724,16 @@ namespace WindowsFormsApp2
       CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
       int ii = indices.Count - 1;
       int[] numero = new int[indices.Count];
-      foreach (int index in indices) {
-        
+      foreach (int index in indices)
+      {
+
         numero[ii] = index;
         ii--;
       }
-     Array.Sort(numero);
+      Array.Sort(numero);
       foreach (int index in numero.Reverse())
-        {
-        listaNumeriCapitoliLogger+=(data.Rows[index][0].ToString())+"-";
+      {
+        listaNumeriCapitoliLogger += (data.Rows[index][0].ToString()) + "-";
         //stopWatch.Start();
         CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
         if (bgwCreazioneListaDownload.CancellationPending)
@@ -737,17 +742,17 @@ namespace WindowsFormsApp2
           return;
         }
         stopWatch.Stop();
-       // ts = stopWatch.Elapsed;
-       //elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-       //         ts.Hours, ts.Minutes, ts.Seconds,
-       //         ts.Milliseconds / 10);
-        
+        // ts = stopWatch.Elapsed;
+        //elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+        //         ts.Hours, ts.Minutes, ts.Seconds,
+        //         ts.Milliseconds / 10);
 
-       
+
+
       }
-      
-           
-      
+
+
+
       Logger.Info("Titolo=" + nomeManga + ",#capitoli=" + chklstbxListaCapitoli.CheckedItems.Count + ",indicicap=" + listaNumeriCapitoliLogger.TrimEnd('-'));
     }
 
@@ -755,23 +760,25 @@ namespace WindowsFormsApp2
     {
       //notify background worker we want to cancel the operation.  
       //this code doesn't actually cancel or kill the thread that is executing the job.  
-     this.bgwDownloadAsincrono.CancelAsync();
+      this.bgwDownloadAsincrono.CancelAsync();
       btnStopDownload.Enabled = false;
-      
+
     }
-   
-   
+
+
 
     private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
       progressBar.Value = e.ProgressPercentage;
       labelPerc.Text = e.ProgressPercentage.ToString() + "%";
+      //02072019
+
     }
 
     private void bgwCreazioneListaDownload_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
-     
-        frm.progressBar1.Value = e.ProgressPercentage;
+
+      frm.progressBar1.Value = e.ProgressPercentage;
       //frm.lblTempoRimanente.Text =( elapsedTime * listacapitoli.Count()).tostring();
 
 
@@ -791,6 +798,8 @@ namespace WindowsFormsApp2
         this.btnStart.Enabled = true;
         this.btnStopDownload.Enabled = false;
         btnModifica.Enabled = true;
+        btnCerca.Enabled = false;
+        btnApriCartellaSalvataggio.Enabled = true;
       }
       else if (e.Error != null)
       {
@@ -799,7 +808,7 @@ namespace WindowsFormsApp2
       }
       else
       {
-        MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO", "MangaEdenNETDownloaderApi", MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+        MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO", "MangaEdenNETDownloaderApi", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
         Logger.Info("DOWNLOAD TERMINATO CON SUCCESSO ");
         chklstbxListaCapitoli.Enabled = true;
@@ -814,10 +823,11 @@ namespace WindowsFormsApp2
         this.btnStopDownload.Enabled = false;
         btnModifica.Enabled = false;
         btnConfermaDownload.Enabled = true;
+        btnApriCartellaSalvataggio.Enabled = true;
       }
-         // Enable the download button and reset the progress bar.
-      
-    
+      // Enable the download button and reset the progress bar.
+
+
       progressBar.Value = 0;
       //labelPerc.Text = "0%";
     }
@@ -835,7 +845,7 @@ namespace WindowsFormsApp2
       }
       else if (e.Error != null)
       {
-        Logger.Error(e.Error.ToString(),"CreazioneListaDownload abortita da errore ");
+        Logger.Error(e.Error.ToString(), "CreazioneListaDownload abortita da errore ");
         listaimmagini.Clear();
         frm.Close();
       }
@@ -856,27 +866,27 @@ namespace WindowsFormsApp2
         ImpostazioniDtgw();
       }
 
-     
+
     }
 
     public DataTable ConvertListToDataTable(ListaManga list)
-    {     
-       DataTable table = new DataTable();
-       
+    {
+      DataTable table = new DataTable();
+
       table.Columns.Add();
-      
+
       table.Columns[0].ColumnName = "TitoloManga";
-      
+
       table.AcceptChanges();
-    
 
-      foreach(var item in list.manga)
-       {
-          
 
-       table.Rows.Add(item.t);
-     }
-      
+      foreach (var item in list.manga)
+      {
+
+
+        table.Rows.Add(item.t);
+      }
+
 
 
       return table;
@@ -900,59 +910,60 @@ namespace WindowsFormsApp2
     //void CreoListaCodaDownload()
     //{
     //  CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
-      
+
     //    foreach (int index in indices)
     //    {
     //      CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
     //    }
-  
+
     //}
 
     private void timer1_Tick(object sender, EventArgs e)
     {
-      
-      
+
+
     }
 
     public DataTable RigheVisibiliDataGridView(CheckedListBox.CheckedIndexCollection indices)
     {
       int k = 0;
       int ii = 0;
-      int[]interi_a_vettore = new int[indices.Count];
+      int[] interi_a_vettore = new int[indices.Count];
       DataTable table = new DataTable();
       // 7
-      for (int i = 0; i < 7; i++)
+      for (int i = 0; i < 6; i++)
       {
         table.Columns.Add();
       }
-     
+
 
       table.Columns[4].ColumnName = "NumeroTitoloCapitolo";
       table.Columns[5].ColumnName = "PagineCapitolo";
-      table.Columns[6].ColumnName = "StatoDownload";
-           table.AcceptChanges();
+      // table.Columns[6].ColumnName = "StatoDownload";
+      table.AcceptChanges();
       foreach (int index in indices)
       {
-       interi_a_vettore[k] = index;
+        interi_a_vettore[k] = index;
         k++;
       }
 
       // int vettore[] = lista.Split(',');
-      foreach (DataRow dr in data.Rows) { 
+      foreach (DataRow dr in data.Rows)
+      {
         for (int j = 0; j < interi_a_vettore.Count(); j++)
         {
           if (ii == (interi_a_vettore[j]))
           {
-            
-            table.Rows.Add( dr.ItemArray);
-           
+
+            table.Rows.Add(dr.ItemArray);
+
           }
         }
         ii++;
       }
       foreach (DataRow row in table.Rows)
       {
-        row["NumeroTitoloCapitolo"] = lstboxManga.Text+"  "+ row["NumeroTitoloCapitolo"].ToString();
+        row["NumeroTitoloCapitolo"] = lstboxManga.Text + "  " + row["NumeroTitoloCapitolo"].ToString();
       }
       return table;
     }
@@ -963,9 +974,9 @@ namespace WindowsFormsApp2
       dataGridView1.Columns[1].Visible = false;
       dataGridView1.Columns[2].Visible = false;
       dataGridView1.Columns[3].Visible = false;
-     
+
       dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-    
+
 
 
     }
@@ -994,7 +1005,7 @@ namespace WindowsFormsApp2
       {
         CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(index).i);
         pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(index).im;
-        
+
 
         //listaimmagini.Clear();
         // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
@@ -1016,8 +1027,10 @@ namespace WindowsFormsApp2
 
     private void textBox1_TextChanged(object sender, EventArgs e)
     {
-      if (txtCerca.TextLength >=1) btnCerca.Enabled = true;
-      else { btnCerca.Enabled = false;
+      if (txtCerca.TextLength >= 1) btnCerca.Enabled = true;
+      else
+      {
+        btnCerca.Enabled = false;
         lstboxManga.DataSource = velocita;
       }
     }
@@ -1027,13 +1040,19 @@ namespace WindowsFormsApp2
       string filter_param = txtCerca.Text;
       // List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().StartsWith(filter_param.ToLower()));
       //  List<Manga> filteredItems = listamanga.manga.FindAll(x => x.t.ToLower().Contains(filter_param.ToLower()));
-      //List<string> filteredItems = velocita.FindAll(x => x.ToLower().Contains(filter_param.ToLower()));
-      List<string> filteredItems = velocita.FindAll(x => x.ToLower().StartsWith(filter_param.ToLower()));
+      List<string> filteredItems = velocita.FindAll(x => x.ToLower().Contains(filter_param.ToLower()));
+      //List<string> filteredItems = velocita.FindAll(x => x.ToLower().StartsWith(filter_param.ToLower()));
       // List<Manga> filteredItems = listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
       //cbxListaManga.DataBindings.Clear();
       // cbxListaManga.DisplayMember = "t";
-      lstboxManga.DataSource = filteredItems;
+      if (filteredItems.Count == 0)
+      {
 
+
+        filteredItems.Add("Nessun Risultato Trovato");
+
+      }
+      lstboxManga.DataSource = filteredItems;
       //cbxListaManga.DataSource= listamanga.manga.Where(x => x.t.ToLower().Contains(filter_param.ToLower())).ToList();
 
       if (String.IsNullOrWhiteSpace(filter_param))
@@ -1046,7 +1065,7 @@ namespace WindowsFormsApp2
         lstboxManga.ResumeLayout(false);
 
       }
-     // cbxListaManga.DroppedDown = true;
+      // cbxListaManga.DroppedDown = true;
       //Cursor.Current = Cursors.Default;
 
       //cbxListaManga.IntegralHeight = true;
@@ -1059,8 +1078,22 @@ namespace WindowsFormsApp2
       //cbxListaManga.SelectionStart = filter_param.Length;
       //cbxListaManga.SelectionLength = 0;
     }
+
+    private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      if (bgwDownloadAsincrono.IsBusy)
+      {
+        DialogResult dialogResult = MessageBox.Show("Download in corso sei sicuro di voler uscire?", "MangaEdenNETDownloaderApi", MessageBoxButtons.YesNo);
+        if (dialogResult == DialogResult.Yes)
+        {
+          bgwDownloadAsincrono.CancelAsync();
+        }
+
+
+      }
+    }
   }
-  
+
 }
 
 
