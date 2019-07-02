@@ -18,6 +18,7 @@ using System.Configuration;
 using System.IO.Compression;
 using NLog;
 using System.Web;
+using System.Collections;
 
 namespace WindowsFormsApp2
 {
@@ -224,9 +225,7 @@ namespace WindowsFormsApp2
         listaimmagini.Add(appoggio);
       }
       listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo, numeroCapitoliSelezionati));
-
-      //
-      listaimmagini.Reverse();
+           
       return listaimmagini;
     }
 
@@ -293,6 +292,7 @@ namespace WindowsFormsApp2
       table.Columns[5].ColumnName = "NumeroPagineapitolo";
       table.AcceptChanges();
       // Add rows.
+      
       foreach (var array in list)
       {
         
@@ -307,9 +307,10 @@ namespace WindowsFormsApp2
         }
        
         stringaripulita = stringa_a_vettore.ToString();
-        //da controlalre qui
+        
         table.Rows.Add(stringa_a_vettore);
       }
+      
       int contarighe = table.Rows.Count;
       if (contarighe > 0)
       {
@@ -320,6 +321,7 @@ namespace WindowsFormsApp2
       {
         row["NumeroeTitoloCapitolo"] = row["NumeroCapitolo"].ToString() + " - " + row["TitoloCapitolo"].ToString();
       }
+
      return table;
     }
 
@@ -426,8 +428,7 @@ namespace WindowsFormsApp2
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
       txtCerca.Enabled = false;
-      //nomeManga = cbxListaManga.Text.Replace(" ", "");
-      nomeManga = lstboxManga.Text.Replace(" ","");
+      nomeManga = lstboxManga.Text.Replace(" ","").Replace(@"/" ,"").Replace(":","");
       listaimmagini.Clear();
       this.bgwCreazioneListaDownload.RunWorkerAsync();
 
@@ -544,17 +545,24 @@ namespace WindowsFormsApp2
 
     public void CaricaListaTitoliManga(string IndirizzoSito)
     {// inserire try catch
-      string jsonurl = Uri.EscapeUriString(IndirizzoSito);
-      string json = "";
-      using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
+      try
       {
-        json = client.DownloadString(jsonurl);
+        string jsonurl = Uri.EscapeUriString(IndirizzoSito);
+        string json = "";
+        using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
+        {
+          json = client.DownloadString(jsonurl);
+        }
+        listamanga = JsonConvert.DeserializeObject<ListaManga>(json);
+
+        listamanga.manga = listamanga.manga.OrderBy(x => x.t).ToList();
+        dtlistamanga = ConvertListToDataTable(listamanga);
+        velocita = ConvertiListSoloTitoliManga(listamanga);
       }
-      listamanga = JsonConvert.DeserializeObject<ListaManga>(json);
-      
-      listamanga.manga=listamanga.manga.OrderBy(x=>x.t).ToList();
-      dtlistamanga=ConvertListToDataTable(listamanga);
-      velocita = ConvertiListSoloTitoliManga(listamanga);
+      catch(Exception ex)
+      {
+        Logger.Error(ex.Message, "[CaricaListaTitoliManga]");
+      }
     }
 
     public List<string> ConvertiListSoloTitoliManga(ListaManga listapassata)
@@ -584,11 +592,11 @@ namespace WindowsFormsApp2
         IList<JToken> risultati = cerca["chapters"].Children().ToList();
         
         data = ConvertListToDataTable(risultati);
-        descrizione= cerca["description"].ToString();
+       descrizione= cerca["description"].ToString();
       }
       catch (Exception ex) {
         Logger.Error(ex, "[CaricaListaCapitoli]");
-        MessageBox.Show(ex.ToString());
+       // MessageBox.Show(ex.ToString());
       }
     }
 
@@ -646,6 +654,7 @@ namespace WindowsFormsApp2
       string percorsoSalvataggioCapitolo = "";
       double percent= 0;
       int i = 0;
+      listaimmagini.Reverse();
       //string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString();
       foreach (string item in listaimmagini)
       {
@@ -790,9 +799,12 @@ namespace WindowsFormsApp2
       }
       else
       {
-        MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO");
+        MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO", "MangaEdenNETDownloaderApi", MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1);
+
         Logger.Info("DOWNLOAD TERMINATO CON SUCCESSO ");
         chklstbxListaCapitoli.Enabled = true;
+        txtCerca.Enabled = true;
+        btnCerca.Enabled = true;
         //cbxListaManga.Enabled = true;
         lstboxManga.Enabled = true;
         labelPerc.Text = "";
@@ -908,7 +920,7 @@ namespace WindowsFormsApp2
       int ii = 0;
       int[]interi_a_vettore = new int[indices.Count];
       DataTable table = new DataTable();
-      // Add columns.
+      // 7
       for (int i = 0; i < 7; i++)
       {
         table.Columns.Add();
@@ -918,8 +930,7 @@ namespace WindowsFormsApp2
       table.Columns[4].ColumnName = "NumeroTitoloCapitolo";
       table.Columns[5].ColumnName = "PagineCapitolo";
       table.Columns[6].ColumnName = "StatoDownload";
-     
-      table.AcceptChanges();
+           table.AcceptChanges();
       foreach (int index in indices)
       {
        interi_a_vettore[k] = index;
@@ -934,9 +945,14 @@ namespace WindowsFormsApp2
           {
             
             table.Rows.Add( dr.ItemArray);
+           
           }
         }
         ii++;
+      }
+      foreach (DataRow row in table.Rows)
+      {
+        row["NumeroTitoloCapitolo"] = lstboxManga.Text+"  "+ row["NumeroTitoloCapitolo"].ToString();
       }
       return table;
     }
@@ -947,8 +963,9 @@ namespace WindowsFormsApp2
       dataGridView1.Columns[1].Visible = false;
       dataGridView1.Columns[2].Visible = false;
       dataGridView1.Columns[3].Visible = false;
-      dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
      
+      dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+    
 
 
     }
