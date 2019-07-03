@@ -46,6 +46,7 @@ namespace WindowsFormsApp2
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
       this.groupBox4 = new System.Windows.Forms.GroupBox();
+      this.lblNumeroElencoMangaTrovati = new System.Windows.Forms.Label();
       this.txtCerca = new System.Windows.Forms.TextBox();
       this.btnCerca = new System.Windows.Forms.Button();
       this.lstboxManga = new System.Windows.Forms.ListBox();
@@ -61,7 +62,7 @@ namespace WindowsFormsApp2
       this.checkBox1 = new System.Windows.Forms.CheckBox();
       this.groupBox3 = new System.Windows.Forms.GroupBox();
       this.lblTempoStimatoDownload = new System.Windows.Forms.Label();
-      this.labelPerc = new System.Windows.Forms.Label();
+      this.lblPerc = new System.Windows.Forms.Label();
       this.btnStart = new System.Windows.Forms.Button();
       this.btnStopDownload = new System.Windows.Forms.Button();
       this.progressBar = new System.Windows.Forms.ProgressBar();
@@ -73,7 +74,7 @@ namespace WindowsFormsApp2
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
-      this.lblNumeroElencoMangaTrovati = new System.Windows.Forms.Label();
+      this.lblFileScaricati = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -252,6 +253,15 @@ namespace WindowsFormsApp2
       this.groupBox4.TabStop = false;
       this.groupBox4.Text = "Lista Manga";
       // 
+      // lblNumeroElencoMangaTrovati
+      // 
+      this.lblNumeroElencoMangaTrovati.AutoSize = true;
+      this.lblNumeroElencoMangaTrovati.Location = new System.Drawing.Point(47, 77);
+      this.lblNumeroElencoMangaTrovati.Name = "lblNumeroElencoMangaTrovati";
+      this.lblNumeroElencoMangaTrovati.Size = new System.Drawing.Size(99, 17);
+      this.lblNumeroElencoMangaTrovati.TabIndex = 12;
+      this.lblNumeroElencoMangaTrovati.Text = "numeromanga";
+      // 
       // txtCerca
       // 
       this.txtCerca.Location = new System.Drawing.Point(16, 40);
@@ -394,8 +404,9 @@ namespace WindowsFormsApp2
       // 
       // groupBox3
       // 
+      this.groupBox3.Controls.Add(this.lblFileScaricati);
       this.groupBox3.Controls.Add(this.lblTempoStimatoDownload);
-      this.groupBox3.Controls.Add(this.labelPerc);
+      this.groupBox3.Controls.Add(this.lblPerc);
       this.groupBox3.Controls.Add(this.btnStart);
       this.groupBox3.Controls.Add(this.btnStopDownload);
       this.groupBox3.Controls.Add(this.progressBar);
@@ -414,15 +425,16 @@ namespace WindowsFormsApp2
       this.lblTempoStimatoDownload.Size = new System.Drawing.Size(46, 17);
       this.lblTempoStimatoDownload.TabIndex = 6;
       this.lblTempoStimatoDownload.Text = "label1";
+      this.lblTempoStimatoDownload.Click += new System.EventHandler(this.lblTempoStimatoDownload_Click);
       // 
-      // labelPerc
+      // lblPerc
       // 
-      this.labelPerc.AutoSize = true;
-      this.labelPerc.Location = new System.Drawing.Point(26, 40);
-      this.labelPerc.Name = "labelPerc";
-      this.labelPerc.Size = new System.Drawing.Size(16, 17);
-      this.labelPerc.TabIndex = 0;
-      this.labelPerc.Text = "a";
+      this.lblPerc.AutoSize = true;
+      this.lblPerc.Location = new System.Drawing.Point(26, 40);
+      this.lblPerc.Name = "lblPerc";
+      this.lblPerc.Size = new System.Drawing.Size(16, 17);
+      this.lblPerc.TabIndex = 0;
+      this.lblPerc.Text = "a";
       // 
       // btnStart
       // 
@@ -500,14 +512,14 @@ namespace WindowsFormsApp2
       this.timer1.Enabled = true;
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
       // 
-      // lblNumeroElencoMangaTrovati
+      // lblFileScaricati
       // 
-      this.lblNumeroElencoMangaTrovati.AutoSize = true;
-      this.lblNumeroElencoMangaTrovati.Location = new System.Drawing.Point(47, 77);
-      this.lblNumeroElencoMangaTrovati.Name = "lblNumeroElencoMangaTrovati";
-      this.lblNumeroElencoMangaTrovati.Size = new System.Drawing.Size(99, 17);
-      this.lblNumeroElencoMangaTrovati.TabIndex = 12;
-      this.lblNumeroElencoMangaTrovati.Text = "numeromanga";
+      this.lblFileScaricati.AutoSize = true;
+      this.lblFileScaricati.Location = new System.Drawing.Point(723, 31);
+      this.lblFileScaricati.Name = "lblFileScaricati";
+      this.lblFileScaricati.Size = new System.Drawing.Size(46, 17);
+      this.lblFileScaricati.TabIndex = 7;
+      this.lblFileScaricati.Text = "label1";
       // 
       // Form1
       // 
@@ -556,7 +568,7 @@ namespace WindowsFormsApp2
     private Button btnDeselectAll;
     private Button btnSelectAll;
     private ProgressBar progressBar;
-    private Label labelPerc;
+    private Label lblPerc;
     private Button btnStart;
     private Button btnStopDownload;
     private System.ComponentModel.BackgroundWorker bgwDownloadAsincrono;
@@ -587,6 +599,7 @@ namespace WindowsFormsApp2
     private TextBox txtCerca;
     private Button btnCerca;
     private Label lblNumeroElencoMangaTrovati;
+    private Label lblFileScaricati;
   }
 }
 

@@ -31,7 +31,7 @@
       this.progressBar1 = new System.Windows.Forms.ProgressBar();
       this.label1 = new System.Windows.Forms.Label();
       this.button1 = new System.Windows.Forms.Button();
-      this.lblTempoRimanente = new System.Windows.Forms.Label();
+      this.lblCreaListaDownload = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // progressBar1
@@ -61,14 +61,15 @@
       this.button1.UseVisualStyleBackColor = true;
       this.button1.Click += new System.EventHandler(this.button1_Click);
       // 
-      // lblTempoRimanente
+      // lblCreaListaDownload
       // 
-      this.lblTempoRimanente.AutoSize = true;
-      this.lblTempoRimanente.Location = new System.Drawing.Point(375, 113);
-      this.lblTempoRimanente.Name = "lblTempoRimanente";
-      this.lblTempoRimanente.Size = new System.Drawing.Size(46, 17);
-      this.lblTempoRimanente.TabIndex = 3;
-      this.lblTempoRimanente.Text = "label2";
+      this.lblCreaListaDownload.AutoSize = true;
+      this.lblCreaListaDownload.Location = new System.Drawing.Point(375, 113);
+      this.lblCreaListaDownload.Name = "lblCreaListaDownload";
+      this.lblCreaListaDownload.Size = new System.Drawing.Size(46, 17);
+      this.lblCreaListaDownload.TabIndex = 3;
+      this.lblCreaListaDownload.Text = "label2";
+      this.lblCreaListaDownload.Visible = false;
       // 
       // frmWaitDialog
       // 
@@ -76,7 +77,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(768, 150);
       this.ControlBox = false;
-      this.Controls.Add(this.lblTempoRimanente);
+      this.Controls.Add(this.lblCreaListaDownload);
       this.Controls.Add(this.button1);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.progressBar1);
@@ -95,6 +96,6 @@
     public System.Windows.Forms.ProgressBar progressBar1;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Button button1;
-    public System.Windows.Forms.Label lblTempoRimanente;
+    public System.Windows.Forms.Label lblCreaListaDownload;
   }
 }

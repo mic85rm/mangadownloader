@@ -59,6 +59,7 @@ namespace WindowsFormsApp2
     string listaNumeriCapitoliLogger = "";
     string nomeManga = "";
     List<string> velocita = new List<string>();
+    int numerofilescaricati;
     #endregion
     public Form1()
     {
@@ -109,6 +110,9 @@ namespace WindowsFormsApp2
       tabControl1.TabPages[0].Text = "MangaEden";
       tabControl1.TabPages[1].Text = "Download";
       tabControl1.TabPages[2].Text = "Informazioni";
+      lblFileScaricati.Text = "";
+      lblTempoStimatoDownload.Text = "";
+      lblPerc.Text = "";
     }
 
     static string ReadSetting(string key)
@@ -148,7 +152,7 @@ namespace WindowsFormsApp2
       }
     }
 
-    private static void DownloadRemoteImageFile(string uri, string fileName)
+    private static Boolean DownloadRemoteImageFile(string uri, string fileName)
     {
       try
       {
@@ -184,12 +188,15 @@ namespace WindowsFormsApp2
             } while (bytesRead != 0);
           }
         }
+        return true;
       }
 
       catch (Exception ex)
       {
         Logger.Error(fileName + ex.Message);
+        return false;
         //MessageBox.Show(ex.Message);
+
       }
     }
 
@@ -650,7 +657,7 @@ namespace WindowsFormsApp2
 
     private void bgwDownloadAsincrono_DoWork(object sender, DoWorkEventArgs e)
     {
-
+      numerofilescaricati = 0;
 
       var backgroundWorker = sender as BackgroundWorker;
       int numero = 0;
@@ -663,12 +670,7 @@ namespace WindowsFormsApp2
       foreach (string item in listaimmagini)
       {
         int percentage = (i + 1) * 100 / listaimmagini.Count();
-        //  percent += Math.Round(((double)100 / (double)listaimmagini.Count()),3,MidpointRounding.AwayFromZero);
-        // if (percent >= 100)
-        //{
-        // percent = 100;
-        //}
-        // backgroundWorker.ReportProgress(Convert.ToInt32(percent));
+        
         backgroundWorker.ReportProgress(percentage);
         i++;
         if (item.Contains(K_NomeInizialeCapitolo))
@@ -700,8 +702,10 @@ namespace WindowsFormsApp2
         else
         {
           stopWatch.Start();
-          DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item, percorsoSalvataggioCapitolo + AggiungiZeroAlNomeFile(numero, listaimmagini.Count) + K_EstensioneFileJpg);
+          if(DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item, percorsoSalvataggioCapitolo + AggiungiZeroAlNomeFile(numero, listaimmagini.Count) + K_EstensioneFileJpg))
+            numerofilescaricati++;
           numero++;
+          
           stopWatch.Stop();
           if (primaentrata == 0)
           {
@@ -770,8 +774,9 @@ namespace WindowsFormsApp2
     private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
       progressBar.Value = e.ProgressPercentage;
-      labelPerc.Text = e.ProgressPercentage.ToString() + "%";
+      lblPerc.Text = e.ProgressPercentage.ToString() + "%";
       //02072019
+      lblFileScaricati.Text = "File scaricati: "+ numerofilescaricati+ " di "+((listaimmagini.Count)-(chklstbxListaCapitoli.CheckedItems.Count*2));
 
     }
 
@@ -790,11 +795,11 @@ namespace WindowsFormsApp2
     {
       // Set progress bar to 100% in case it's not already there.
       progressBar.Value = 100;
-      labelPerc.Text = "100%";
+      lblPerc.Text = "100%";
       if (e.Cancelled == true)
       {
         Logger.Info("Download annullato dall'utente ");
-        labelPerc.Text = "Download annullato dall'utente ";
+        lblPerc.Text = "Download annullato dall'utente ";
         this.btnStart.Enabled = true;
         this.btnStopDownload.Enabled = false;
         btnModifica.Enabled = true;
@@ -804,7 +809,7 @@ namespace WindowsFormsApp2
       else if (e.Error != null)
       {
         Logger.Error(e.Error.ToString(), "CreazioneListaDownload abortita da errore ");
-        labelPerc.Text = "Error: " + e.Error.Message;
+        lblPerc.Text = "Error: " + e.Error.Message;
       }
       else
       {
@@ -816,7 +821,7 @@ namespace WindowsFormsApp2
         btnCerca.Enabled = true;
         //cbxListaManga.Enabled = true;
         lstboxManga.Enabled = true;
-        labelPerc.Text = "";
+        lblPerc.Text = "";
         btnSelectAll.Enabled = true;
         btnDeselectAll.Enabled = true;
         this.btnStart.Enabled = false;
@@ -986,6 +991,7 @@ namespace WindowsFormsApp2
       tabControl1.SelectTab(0);
       chklstbxListaCapitoli.Enabled = true;
       txtCerca.Enabled = true;
+      btnCerca.Enabled = true;
       //cbxListaManga.Enabled = true;
       lstboxManga.Enabled = true;
       btnSelectAll.Enabled = true;
@@ -1091,6 +1097,11 @@ namespace WindowsFormsApp2
 
 
       }
+    }
+
+    private void lblTempoStimatoDownload_Click(object sender, EventArgs e)
+    {
+
     }
   }
 
