@@ -61,6 +61,7 @@ namespace WindowsFormsApp2
       this.checkBox2 = new System.Windows.Forms.CheckBox();
       this.checkBox1 = new System.Windows.Forms.CheckBox();
       this.groupBox3 = new System.Windows.Forms.GroupBox();
+      this.lblFileScaricati = new System.Windows.Forms.Label();
       this.lblTempoStimatoDownload = new System.Windows.Forms.Label();
       this.lblPerc = new System.Windows.Forms.Label();
       this.btnStart = new System.Windows.Forms.Button();
@@ -74,7 +75,10 @@ namespace WindowsFormsApp2
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
-      this.lblFileScaricati = new System.Windows.Forms.Label();
+      this.groupBox11 = new System.Windows.Forms.GroupBox();
+      this.lblNlog = new System.Windows.Forms.LinkLabel();
+      this.lblJson = new System.Windows.Forms.LinkLabel();
+      this.lblCopyright = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -90,6 +94,8 @@ namespace WindowsFormsApp2
       this.groupBox8.SuspendLayout();
       this.groupBox3.SuspendLayout();
       this.groupBox2.SuspendLayout();
+      this.tabPage3.SuspendLayout();
+      this.groupBox11.SuspendLayout();
       this.SuspendLayout();
       // 
       // groupBox1
@@ -350,10 +356,11 @@ namespace WindowsFormsApp2
       this.groupBox9.Size = new System.Drawing.Size(572, 76);
       this.groupBox9.TabIndex = 11;
       this.groupBox9.TabStop = false;
-      this.groupBox9.Text = "groupBox9";
+      this.groupBox9.Text = "Nome Cartella";
       // 
       // richTextBox1
       // 
+      this.richTextBox1.Enabled = false;
       this.richTextBox1.Location = new System.Drawing.Point(16, 31);
       this.richTextBox1.Name = "richTextBox1";
       this.richTextBox1.Size = new System.Drawing.Size(127, 30);
@@ -375,16 +382,21 @@ namespace WindowsFormsApp2
       // checkBox3
       // 
       this.checkBox3.AutoSize = true;
+      this.checkBox3.Checked = true;
+      this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox3.Enabled = false;
       this.checkBox3.Location = new System.Drawing.Point(39, 33);
       this.checkBox3.Name = "checkBox3";
       this.checkBox3.Size = new System.Drawing.Size(53, 21);
       this.checkBox3.TabIndex = 2;
       this.checkBox3.Text = ".jpg";
       this.checkBox3.UseVisualStyleBackColor = true;
+      this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
       // 
       // checkBox2
       // 
       this.checkBox2.AutoSize = true;
+      this.checkBox2.Enabled = false;
       this.checkBox2.Location = new System.Drawing.Point(138, 33);
       this.checkBox2.Name = "checkBox2";
       this.checkBox2.Size = new System.Drawing.Size(52, 21);
@@ -395,6 +407,9 @@ namespace WindowsFormsApp2
       // checkBox1
       // 
       this.checkBox1.AutoSize = true;
+      this.checkBox1.Checked = true;
+      this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.checkBox1.Enabled = false;
       this.checkBox1.Location = new System.Drawing.Point(233, 33);
       this.checkBox1.Name = "checkBox1";
       this.checkBox1.Size = new System.Drawing.Size(56, 21);
@@ -417,10 +432,19 @@ namespace WindowsFormsApp2
       this.groupBox3.TabStop = false;
       this.groupBox3.Text = "Download File";
       // 
+      // lblFileScaricati
+      // 
+      this.lblFileScaricati.AutoSize = true;
+      this.lblFileScaricati.Location = new System.Drawing.Point(723, 31);
+      this.lblFileScaricati.Name = "lblFileScaricati";
+      this.lblFileScaricati.Size = new System.Drawing.Size(46, 17);
+      this.lblFileScaricati.TabIndex = 7;
+      this.lblFileScaricati.Text = "label1";
+      // 
       // lblTempoStimatoDownload
       // 
       this.lblTempoStimatoDownload.AutoSize = true;
-      this.lblTempoStimatoDownload.Location = new System.Drawing.Point(539, 30);
+      this.lblTempoStimatoDownload.Location = new System.Drawing.Point(218, 31);
       this.lblTempoStimatoDownload.Name = "lblTempoStimatoDownload";
       this.lblTempoStimatoDownload.Size = new System.Drawing.Size(46, 17);
       this.lblTempoStimatoDownload.TabIndex = 6;
@@ -495,6 +519,7 @@ namespace WindowsFormsApp2
       // 
       // tabPage3
       // 
+      this.tabPage3.Controls.Add(this.groupBox11);
       this.tabPage3.Location = new System.Drawing.Point(4, 25);
       this.tabPage3.Name = "tabPage3";
       this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -512,14 +537,46 @@ namespace WindowsFormsApp2
       this.timer1.Enabled = true;
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
       // 
-      // lblFileScaricati
+      // groupBox11
       // 
-      this.lblFileScaricati.AutoSize = true;
-      this.lblFileScaricati.Location = new System.Drawing.Point(723, 31);
-      this.lblFileScaricati.Name = "lblFileScaricati";
-      this.lblFileScaricati.Size = new System.Drawing.Size(46, 17);
-      this.lblFileScaricati.TabIndex = 7;
-      this.lblFileScaricati.Text = "label1";
+      this.groupBox11.Controls.Add(this.lblCopyright);
+      this.groupBox11.Controls.Add(this.lblJson);
+      this.groupBox11.Controls.Add(this.lblNlog);
+      this.groupBox11.Location = new System.Drawing.Point(40, 27);
+      this.groupBox11.Name = "groupBox11";
+      this.groupBox11.Size = new System.Drawing.Size(1281, 381);
+      this.groupBox11.TabIndex = 1;
+      this.groupBox11.TabStop = false;
+      this.groupBox11.Text = "groupBox11";
+      // 
+      // lblNlog
+      // 
+      this.lblNlog.AutoSize = true;
+      this.lblNlog.Location = new System.Drawing.Point(604, 182);
+      this.lblNlog.Name = "lblNlog";
+      this.lblNlog.Size = new System.Drawing.Size(72, 17);
+      this.lblNlog.TabIndex = 4;
+      this.lblNlog.TabStop = true;
+      this.lblNlog.Text = "linkLabel1";
+      // 
+      // lblJson
+      // 
+      this.lblJson.AutoSize = true;
+      this.lblJson.Location = new System.Drawing.Point(261, 128);
+      this.lblJson.Name = "lblJson";
+      this.lblJson.Size = new System.Drawing.Size(72, 17);
+      this.lblJson.TabIndex = 5;
+      this.lblJson.TabStop = true;
+      this.lblJson.Text = "linkLabel1";
+      // 
+      // lblCopyright
+      // 
+      this.lblCopyright.AutoSize = true;
+      this.lblCopyright.Location = new System.Drawing.Point(447, 53);
+      this.lblCopyright.Name = "lblCopyright";
+      this.lblCopyright.Size = new System.Drawing.Size(46, 17);
+      this.lblCopyright.TabIndex = 6;
+      this.lblCopyright.Text = "label1";
       // 
       // Form1
       // 
@@ -552,6 +609,9 @@ namespace WindowsFormsApp2
       this.groupBox3.PerformLayout();
       this.groupBox2.ResumeLayout(false);
       this.groupBox2.PerformLayout();
+      this.tabPage3.ResumeLayout(false);
+      this.groupBox11.ResumeLayout(false);
+      this.groupBox11.PerformLayout();
       this.ResumeLayout(false);
 
     }
@@ -600,6 +660,10 @@ namespace WindowsFormsApp2
     private Button btnCerca;
     private Label lblNumeroElencoMangaTrovati;
     private Label lblFileScaricati;
+    private GroupBox groupBox11;
+    private LinkLabel lblJson;
+    private LinkLabel lblNlog;
+    private Label lblCopyright;
   }
 }
 

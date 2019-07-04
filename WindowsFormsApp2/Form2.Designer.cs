@@ -39,7 +39,6 @@
       this.progressBar1.Location = new System.Drawing.Point(49, 56);
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(655, 44);
-      this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
       this.progressBar1.TabIndex = 0;
       // 
       // label1
@@ -64,12 +63,12 @@
       // lblCreaListaDownload
       // 
       this.lblCreaListaDownload.AutoSize = true;
-      this.lblCreaListaDownload.Location = new System.Drawing.Point(375, 113);
+      this.lblCreaListaDownload.Location = new System.Drawing.Point(46, 115);
       this.lblCreaListaDownload.Name = "lblCreaListaDownload";
       this.lblCreaListaDownload.Size = new System.Drawing.Size(46, 17);
       this.lblCreaListaDownload.TabIndex = 3;
       this.lblCreaListaDownload.Text = "label2";
-      this.lblCreaListaDownload.Visible = false;
+      this.lblCreaListaDownload.Click += new System.EventHandler(this.lblCreaListaDownload_Click);
       // 
       // frmWaitDialog
       // 
