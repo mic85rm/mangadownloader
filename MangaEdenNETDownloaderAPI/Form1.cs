@@ -8,17 +8,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-
 using System.Configuration;
 using System.IO.Compression;
 using NLog;
 using System.Web;
-using System.Collections;
 
 namespace WindowsFormsApp2
 {
@@ -49,7 +44,7 @@ namespace WindowsFormsApp2
     List<int> numeropaginepercapitolo = new List<int>();
     frmWaitDialog frm = new frmWaitDialog();
     //frmWaitDialog frm = Application.OpenForms["Form2"] as frmWaitDialog;
-    TimeSpan ts = new TimeSpan();
+   // TimeSpan ts = new TimeSpan();
     Stopwatch stopWatch = new Stopwatch();
     private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
     string elapsedTime = "";
@@ -62,6 +57,8 @@ namespace WindowsFormsApp2
     List<string> velocita = new List<string>();
     int numerofilescaricati;
     DateTime m_operationStart;
+    DateTime m_creazioneListaStart;
+    int contai; 
     #endregion
     public Form1()
     {
@@ -445,7 +442,7 @@ namespace WindowsFormsApp2
 
     private void btnConfermaDownload_Click(object sender, EventArgs e)
     {
-     
+      m_creazioneListaStart = DateTime.Now;
       txtCerca.Enabled = false;
       nomeManga = lstboxManga.Text.Replace(" ", "").Replace(@"/", "").Replace(":", "");
       listaimmagini.Clear();
@@ -639,14 +636,7 @@ namespace WindowsFormsApp2
       this.btnStart.Enabled = false;
       progressBar.Maximum = 100;
 
-      // Once you have started the background thread you 
-      // can exit the handler and the application will 
-      // wait until the RunWorkerCompleted event is raised.
-
-      // Or if you want to do something else in the main thread,
-      // such as update a progress bar, you can do so in a loop 
-      // while checking IsBusy to see if the background task is
-      // still running.
+    
 
       while (this.bgwDownloadAsincrono.IsBusy)
       {
@@ -674,10 +664,9 @@ namespace WindowsFormsApp2
       int numero = 0;
       int primaentrata = 0;
       string percorsoSalvataggioCapitolo = "";
-      double percent = 0;
+     
       int i = 0;
       listaimmagini.Reverse();
-      //string percorsoSalvataggio = ReadSetting("indirizzosalvataggio") + "\\" + listamanga.manga.ElementAt(cbxListaManga.SelectedIndex).t.ToString();
       foreach (string item in listaimmagini)
       {
         int percentage = (i + 1) * 100 / listaimmagini.Count();
@@ -701,27 +690,27 @@ namespace WindowsFormsApp2
             {
 
               File.Delete(percorsoSalvataggio + item + K_EstensioneFileCbz);
-              //  ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
+               ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
             }
-            // else
-            // {
+            else
+            {
             ZipFile.CreateFromDirectory(percorsoSalvataggio + item, percorsoSalvataggio + item + K_EstensioneFileCbz, CompressionLevel.Fastest, true);
-            // }
+            }
           }
 
         }
         else
         {
-          stopWatch.Start();
+         // stopWatch.Start();
           if(DownloadRemoteImageFile(K_IndirizzoWebImmaginiManga + item, percorsoSalvataggioCapitolo + AggiungiZeroAlNomeFile(numero, listaimmagini.Count) + K_EstensioneFileJpg))
             numerofilescaricati++;
           numero++;
           
-          stopWatch.Stop();
+        //  stopWatch.Stop();
           if (primaentrata == 0)
           {
-            ts = stopWatch.Elapsed;
-            elapsedTime = ts.TotalSeconds.ToString();
+          //  ts = stopWatch.Elapsed;
+          //  elapsedTime = ts.TotalSeconds.ToString();
             primaentrata = 1;
           }
         }
@@ -741,7 +730,7 @@ namespace WindowsFormsApp2
       int ii = indices.Count - 1;
       int[] numero = new int[indices.Count];
 
-
+      contai = 0;
      
       foreach (int index in indices)
       {
@@ -750,20 +739,21 @@ namespace WindowsFormsApp2
         ii--;
       }
       Array.Sort(numero);
-      int percentage = 1;
+      //int percentage = 1;
       foreach (int index in numero.Reverse())
       {
+        int percentage = (contai + 1) * 100 / numero.Count();
         listaNumeriCapitoliLogger += (data.Rows[index][0].ToString()) + "-";
         //stopWatch.Start();
         backgroundWorker.ReportProgress(percentage);
-        percentage++;
+        contai++;
         CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
         if (bgwCreazioneListaDownload.CancellationPending)
         {
           e.Cancel = true;
           return;
         }
-        stopWatch.Stop();
+        //stopWatch.Stop();
         // ts = stopWatch.Elapsed;
         //elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
         //         ts.Hours, ts.Minutes, ts.Seconds,
@@ -779,12 +769,9 @@ namespace WindowsFormsApp2
     }
 
     private void btoCancel_Click(object sender, EventArgs e)
-    {
-      //notify background worker we want to cancel the operation.  
-      //this code doesn't actually cancel or kill the thread that is executing the job.  
+    {   
       this.bgwDownloadAsincrono.CancelAsync();
       btnStopDownload.Enabled = false;
-
     }
 
 
@@ -793,29 +780,29 @@ namespace WindowsFormsApp2
     {
       if (e.ProgressPercentage != 0)
       {
+        double percentageComplete = (double)e.ProgressPercentage / listaimmagini.Count;
         progressBar.Value = e.ProgressPercentage;
         lblPerc.Text = e.ProgressPercentage.ToString() + "%";
-        //02072019
         lblFileScaricati.Text = "File scaricati: " + numerofilescaricati + " di " + ((listaimmagini.Count) - (chklstbxListaCapitoli.CheckedItems.Count * 2));
-        TimeSpan timeSinceStart = DateTime.Now.Subtract(m_operationStart);
-        TimeSpan totalTime = TimeSpan.FromSeconds(timeSinceStart.TotalSeconds /(e.ProgressPercentage));
-        TimeSpan timeLeft = totalTime - timeSinceStart;
-
-        lblTempoStimatoDownload.Text = "TotalEstTime: " + totalTime.TotalSeconds.ToString() + " TimeLeft: " + timeLeft.TotalSeconds.ToString();
+        double passedMs = (DateTime.Now - m_operationStart).TotalMilliseconds;
+        double oneUnitMs = passedMs / numerofilescaricati;
+        double leftMs = (listaimmagini.Count() - numerofilescaricati) * oneUnitMs;
+        lblTempoStimatoDownload.Text ="Tempo Rimanente Stimato="+TimeSpan.FromMilliseconds(leftMs).ToString(@"hh\:mm\:ss");
       }
     }
 
     private void bgwCreazioneListaDownload_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
+      CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
       if (e.ProgressPercentage != 0)
       {
         frm.progressBar1.Value = e.ProgressPercentage;
-        //frm.lblTempoRimanente.Text =( elapsedTime * listacapitoli.Count()).tostring();
-        TimeSpan timeSinceStart = DateTime.Now.Subtract(m_operationStart);
-        TimeSpan totalTime = TimeSpan.FromMilliseconds(timeSinceStart.TotalMilliseconds / e.ProgressPercentage);
-        TimeSpan timeLeft = totalTime - timeSinceStart;
+        double passedMs = (DateTime.Now - m_creazioneListaStart).TotalMilliseconds;
+        double oneUnitMs = passedMs / contai;
+        double leftMs = (indices.Count - contai) * oneUnitMs;
+        frm.lblCreaListaDownload.Text = "Tempo Rimanente Stimato=" + TimeSpan.FromMilliseconds(leftMs).ToString(@"hh\:mm\:ss");
 
-        frm.lblCreaListaDownload.Text = "TotalEstTime: " + totalTime.ToString() + " TimeLeft: " + timeLeft.ToString();
+       
       }
     }
 
@@ -926,38 +913,13 @@ namespace WindowsFormsApp2
 
       return table;
     }
-    private void groupBox6_Enter(object sender, EventArgs e)
-    {
-
-    }
-
-    private void button4_Click_1(object sender, EventArgs e)
-    {
-      MessageBox.Show(cbxListaManga.Text);
-    }
-
-    private void groupBox7_Enter(object sender, EventArgs e)
-    {
-
-    }
 
 
-    //void CreoListaCodaDownload()
-    //{
-    //  CheckedListBox.CheckedIndexCollection indices = chklstbxListaCapitoli.CheckedIndices;
-
-    //    foreach (int index in indices)
-    //    {
-    //      CreazioneCodaDownload(K_IndirizzoWebRecuperoImmaginiListaCapitoliMangaEdenItaliana, data.Rows[index][3].ToString(), data.Rows[index][0].ToString());
-    //    }
-
-    //}
-
-    private void timer1_Tick(object sender, EventArgs e)
-    {
 
 
-    }
+
+
+
 
     public DataTable RigheVisibiliDataGridView(CheckedListBox.CheckedIndexCollection indices)
     {
@@ -1028,10 +990,6 @@ namespace WindowsFormsApp2
       btnDeselectAll.Enabled = true;
     }
 
-    private void tabPage1_Click(object sender, EventArgs e)
-    {
-
-    }
 
     private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -1129,15 +1087,8 @@ namespace WindowsFormsApp2
       }
     }
 
-    private void lblTempoStimatoDownload_Click(object sender, EventArgs e)
-    {
 
-    }
 
-    private void checkBox3_CheckedChanged(object sender, EventArgs e)
-    {
-
-    }
   }
 
 }

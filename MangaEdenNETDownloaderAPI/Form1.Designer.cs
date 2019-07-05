@@ -71,14 +71,14 @@ namespace WindowsFormsApp2
       this.txtIndirizzoCartellaSalvataggio = new System.Windows.Forms.TextBox();
       this.btnApriCartellaSalvataggio = new System.Windows.Forms.Button();
       this.tabPage3 = new System.Windows.Forms.TabPage();
+      this.groupBox11 = new System.Windows.Forms.GroupBox();
+      this.lblCopyright = new System.Windows.Forms.Label();
+      this.lblJson = new System.Windows.Forms.LinkLabel();
+      this.lblNlog = new System.Windows.Forms.LinkLabel();
       this.bgwDownloadAsincrono = new System.ComponentModel.BackgroundWorker();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
-      this.groupBox11 = new System.Windows.Forms.GroupBox();
-      this.lblNlog = new System.Windows.Forms.LinkLabel();
-      this.lblJson = new System.Windows.Forms.LinkLabel();
-      this.lblCopyright = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -119,7 +119,6 @@ namespace WindowsFormsApp2
       this.groupBox7.TabIndex = 1;
       this.groupBox7.TabStop = false;
       this.groupBox7.Text = "Trama";
-      this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
       // 
       // txtTrama
       // 
@@ -243,7 +242,6 @@ namespace WindowsFormsApp2
       this.tabPage1.TabIndex = 0;
       this.tabPage1.Text = "tabPage1";
       this.tabPage1.UseVisualStyleBackColor = true;
-      this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
       // 
       // groupBox4
       // 
@@ -391,7 +389,6 @@ namespace WindowsFormsApp2
       this.checkBox3.TabIndex = 2;
       this.checkBox3.Text = ".jpg";
       this.checkBox3.UseVisualStyleBackColor = true;
-      this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
       // 
       // checkBox2
       // 
@@ -425,7 +422,7 @@ namespace WindowsFormsApp2
       this.groupBox3.Controls.Add(this.btnStart);
       this.groupBox3.Controls.Add(this.btnStopDownload);
       this.groupBox3.Controls.Add(this.progressBar);
-      this.groupBox3.Location = new System.Drawing.Point(41, 559);
+      this.groupBox3.Location = new System.Drawing.Point(54, 559);
       this.groupBox3.Name = "groupBox3";
       this.groupBox3.Size = new System.Drawing.Size(964, 189);
       this.groupBox3.TabIndex = 9;
@@ -435,7 +432,7 @@ namespace WindowsFormsApp2
       // lblFileScaricati
       // 
       this.lblFileScaricati.AutoSize = true;
-      this.lblFileScaricati.Location = new System.Drawing.Point(723, 31);
+      this.lblFileScaricati.Location = new System.Drawing.Point(629, 40);
       this.lblFileScaricati.Name = "lblFileScaricati";
       this.lblFileScaricati.Size = new System.Drawing.Size(46, 17);
       this.lblFileScaricati.TabIndex = 7;
@@ -444,12 +441,11 @@ namespace WindowsFormsApp2
       // lblTempoStimatoDownload
       // 
       this.lblTempoStimatoDownload.AutoSize = true;
-      this.lblTempoStimatoDownload.Location = new System.Drawing.Point(218, 31);
+      this.lblTempoStimatoDownload.Location = new System.Drawing.Point(307, 40);
       this.lblTempoStimatoDownload.Name = "lblTempoStimatoDownload";
       this.lblTempoStimatoDownload.Size = new System.Drawing.Size(46, 17);
       this.lblTempoStimatoDownload.TabIndex = 6;
       this.lblTempoStimatoDownload.Text = "label1";
-      this.lblTempoStimatoDownload.Click += new System.EventHandler(this.lblTempoStimatoDownload_Click);
       // 
       // lblPerc
       // 
@@ -502,7 +498,7 @@ namespace WindowsFormsApp2
       // 
       // txtIndirizzoCartellaSalvataggio
       // 
-      this.txtIndirizzoCartellaSalvataggio.Location = new System.Drawing.Point(138, 38);
+      this.txtIndirizzoCartellaSalvataggio.Location = new System.Drawing.Point(128, 36);
       this.txtIndirizzoCartellaSalvataggio.Name = "txtIndirizzoCartellaSalvataggio";
       this.txtIndirizzoCartellaSalvataggio.Size = new System.Drawing.Size(410, 22);
       this.txtIndirizzoCartellaSalvataggio.TabIndex = 7;
@@ -528,15 +524,6 @@ namespace WindowsFormsApp2
       this.tabPage3.Text = "tabPage3";
       this.tabPage3.UseVisualStyleBackColor = true;
       // 
-      // bgwDownloadAsincrono
-      // 
-      this.bgwDownloadAsincrono.WorkerSupportsCancellation = true;
-      // 
-      // timer1
-      // 
-      this.timer1.Enabled = true;
-      this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-      // 
       // groupBox11
       // 
       this.groupBox11.Controls.Add(this.lblCopyright);
@@ -547,36 +534,44 @@ namespace WindowsFormsApp2
       this.groupBox11.Size = new System.Drawing.Size(1281, 381);
       this.groupBox11.TabIndex = 1;
       this.groupBox11.TabStop = false;
-      this.groupBox11.Text = "groupBox11";
+      this.groupBox11.Text = "Info";
       // 
-      // lblNlog
+      // lblCopyright
       // 
-      this.lblNlog.AutoSize = true;
-      this.lblNlog.Location = new System.Drawing.Point(604, 182);
-      this.lblNlog.Name = "lblNlog";
-      this.lblNlog.Size = new System.Drawing.Size(72, 17);
-      this.lblNlog.TabIndex = 4;
-      this.lblNlog.TabStop = true;
-      this.lblNlog.Text = "linkLabel1";
+      this.lblCopyright.AutoSize = true;
+      this.lblCopyright.Location = new System.Drawing.Point(47, 42);
+      this.lblCopyright.Name = "lblCopyright";
+      this.lblCopyright.Size = new System.Drawing.Size(46, 17);
+      this.lblCopyright.TabIndex = 6;
+      this.lblCopyright.Text = "label1";
       // 
       // lblJson
       // 
       this.lblJson.AutoSize = true;
-      this.lblJson.Location = new System.Drawing.Point(261, 128);
+      this.lblJson.Location = new System.Drawing.Point(47, 101);
       this.lblJson.Name = "lblJson";
       this.lblJson.Size = new System.Drawing.Size(72, 17);
       this.lblJson.TabIndex = 5;
       this.lblJson.TabStop = true;
       this.lblJson.Text = "linkLabel1";
       // 
-      // lblCopyright
+      // lblNlog
       // 
-      this.lblCopyright.AutoSize = true;
-      this.lblCopyright.Location = new System.Drawing.Point(447, 53);
-      this.lblCopyright.Name = "lblCopyright";
-      this.lblCopyright.Size = new System.Drawing.Size(46, 17);
-      this.lblCopyright.TabIndex = 6;
-      this.lblCopyright.Text = "label1";
+      this.lblNlog.AutoSize = true;
+      this.lblNlog.Location = new System.Drawing.Point(47, 181);
+      this.lblNlog.Name = "lblNlog";
+      this.lblNlog.Size = new System.Drawing.Size(72, 17);
+      this.lblNlog.TabIndex = 4;
+      this.lblNlog.TabStop = true;
+      this.lblNlog.Text = "linkLabel1";
+      // 
+      // bgwDownloadAsincrono
+      // 
+      this.bgwDownloadAsincrono.WorkerSupportsCancellation = true;
+      // 
+      // timer1
+      // 
+      this.timer1.Enabled = true;
       // 
       // Form1
       // 
