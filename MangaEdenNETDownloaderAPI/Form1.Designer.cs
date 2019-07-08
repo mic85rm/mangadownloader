@@ -554,6 +554,7 @@ namespace WindowsFormsApp2
       this.lblJson.TabIndex = 5;
       this.lblJson.TabStop = true;
       this.lblJson.Text = "linkLabel1";
+      this.lblJson.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblJson_LinkClicked);
       // 
       // lblNlog
       // 
@@ -564,6 +565,7 @@ namespace WindowsFormsApp2
       this.lblNlog.TabIndex = 4;
       this.lblNlog.TabStop = true;
       this.lblNlog.Text = "linkLabel1";
+      this.lblNlog.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblNlog_LinkClicked);
       // 
       // bgwDownloadAsincrono
       // 

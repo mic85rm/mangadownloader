@@ -1087,8 +1087,28 @@ namespace WindowsFormsApp2
       }
     }
 
+    private void lblJson_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+     
+        // Specify that the link was visited.
+       // this.lblJson.LinkVisited = true;
 
+        // Navigate to a URL.
+        System.Diagnostics.Process.Start("https://www.newtonsoft.com/json");
 
+ 
+    }
+
+    private void lblNlog_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+      // Specify that the link was visited.
+      //this.lblNlog.LinkVisited = true;
+
+      // Navigate to a URL.
+      System.Diagnostics.Process.Start("https://nlog-project.org/");
+
+      
+    }
   }
 
 }
