@@ -92,6 +92,7 @@ namespace WindowsFormsApp2
       lblNumeroElencoMangaTrovati.Text = "Manga Trovati= " + velocita.Count();
       InizializzaComboBox();
       InizializzaControlli();
+      txtCerca.Select();
     }
 
 

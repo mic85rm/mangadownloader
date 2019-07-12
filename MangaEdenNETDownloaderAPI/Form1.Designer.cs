@@ -79,6 +79,7 @@ namespace WindowsFormsApp2
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
+     
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -199,6 +200,7 @@ namespace WindowsFormsApp2
       // btnConfermaDownload
       // 
       this.btnConfermaDownload.Enabled = false;
+      this.btnConfermaDownload.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.btnConfermaDownload.Location = new System.Drawing.Point(433, 723);
       this.btnConfermaDownload.Name = "btnConfermaDownload";
       this.btnConfermaDownload.Size = new System.Drawing.Size(958, 60);
@@ -526,6 +528,7 @@ namespace WindowsFormsApp2
       // 
       // groupBox11
       // 
+
       this.groupBox11.Controls.Add(this.lblCopyright);
       this.groupBox11.Controls.Add(this.lblJson);
       this.groupBox11.Controls.Add(this.lblNlog);
@@ -574,9 +577,11 @@ namespace WindowsFormsApp2
       // timer1
       // 
       this.timer1.Enabled = true;
+     
       // 
       // Form1
       // 
+      this.AcceptButton = this.btnCerca;
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1429, 853);
@@ -661,6 +666,7 @@ namespace WindowsFormsApp2
     private LinkLabel lblJson;
     private LinkLabel lblNlog;
     private Label lblCopyright;
+ 
   }
 }
 
