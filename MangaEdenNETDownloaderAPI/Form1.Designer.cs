@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+//namespace WindowsFormsApp2
+  namespace MangaEdenNETDownloaderAPI
 {
   partial class Form1
   {
@@ -79,7 +80,10 @@ namespace WindowsFormsApp2
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
-     
+      this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+      this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.tsmiApri = new System.Windows.Forms.ToolStripMenuItem();
+      this.chiudiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
@@ -97,6 +101,7 @@ namespace WindowsFormsApp2
       this.groupBox2.SuspendLayout();
       this.tabPage3.SuspendLayout();
       this.groupBox11.SuspendLayout();
+      this.contextMenuStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
       // groupBox1
@@ -528,7 +533,6 @@ namespace WindowsFormsApp2
       // 
       // groupBox11
       // 
-
       this.groupBox11.Controls.Add(this.lblCopyright);
       this.groupBox11.Controls.Add(this.lblJson);
       this.groupBox11.Controls.Add(this.lblNlog);
@@ -577,7 +581,36 @@ namespace WindowsFormsApp2
       // timer1
       // 
       this.timer1.Enabled = true;
-     
+      // 
+      // notifyIcon1
+      // 
+      this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+      this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+      this.notifyIcon1.Text = "MangaEdenDownloader";
+      this.notifyIcon1.Visible = true;
+      // 
+      // contextMenuStrip1
+      // 
+      this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+      this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiApri,
+            this.chiudiToolStripMenuItem});
+      this.contextMenuStrip1.Name = "contextMenuStrip1";
+      this.contextMenuStrip1.Size = new System.Drawing.Size(121, 52);
+      this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+      this.contextMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.contextMenuStrip1_ItemClicked);
+      // 
+      // tsmiApri
+      // 
+      this.tsmiApri.Name = "tsmiApri";
+      this.tsmiApri.Size = new System.Drawing.Size(211, 24);
+      this.tsmiApri.Text = "Apri";
+      // 
+      // chiudiToolStripMenuItem
+      // 
+      this.chiudiToolStripMenuItem.Name = "chiudiToolStripMenuItem";
+      this.chiudiToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+      this.chiudiToolStripMenuItem.Text = "Chiudi";
       // 
       // Form1
       // 
@@ -586,8 +619,11 @@ namespace WindowsFormsApp2
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1429, 853);
       this.Controls.Add(this.tabControl1);
+      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MaximizeBox = false;
       this.Name = "Form1";
+      this.ShowInTaskbar = false;
       this.Text = "MangaEdenDownloader";
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
       this.Load += new System.EventHandler(this.Form1_Load);
@@ -614,6 +650,7 @@ namespace WindowsFormsApp2
       this.tabPage3.ResumeLayout(false);
       this.groupBox11.ResumeLayout(false);
       this.groupBox11.PerformLayout();
+      this.contextMenuStrip1.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -666,7 +703,10 @@ namespace WindowsFormsApp2
     private LinkLabel lblJson;
     private LinkLabel lblNlog;
     private Label lblCopyright;
- 
+    private NotifyIcon notifyIcon1;
+    private ContextMenuStrip contextMenuStrip1;
+    private ToolStripMenuItem tsmiApri;
+    private ToolStripMenuItem chiudiToolStripMenuItem;
   }
 }
 

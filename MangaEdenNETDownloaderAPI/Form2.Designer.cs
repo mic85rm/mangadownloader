@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp2
+﻿namespace MangaEdenNETDownloaderAPI
 {
   partial class frmWaitDialog
   {

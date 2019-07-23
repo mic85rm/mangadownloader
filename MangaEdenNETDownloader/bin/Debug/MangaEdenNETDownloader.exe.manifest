@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HtmlAgilityPack.dll" size="161280">
-      <assemblyIdentity name="HtmlAgilityPack" version="1.11.4.0" publicKeyToken="BD319B19EAF3B43A" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HtmlAgilityPack.dll" size="162304">
+      <assemblyIdentity name="HtmlAgilityPack" version="1.11.9.0" publicKeyToken="BD319B19EAF3B43A" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>B+Hjj3y0AOFF1aZ9SSRifxvRVoCMtoobWIakwgGrYlc=</dsig:DigestValue>
+        <dsig:DigestValue>9TY+8vTM7XysjE2POsPzKsSmuNR39TEUqwMic0duwnU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -73,7 +73,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bb9ZEhiwpjl6vZ5JQ4UebgGk4Xsu/mGEGsNeFTjBq4g=</dsig:DigestValue>
+        <dsig:DigestValue>xptwyK1PPM7d8jcxIGKQnGPTy8iXroG4TKfItIUH2RI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

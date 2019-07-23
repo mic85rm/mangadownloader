@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WindowsFormsApp2
+namespace MangaEdenNETDownloaderAPI
 {
   public class Manga
   {

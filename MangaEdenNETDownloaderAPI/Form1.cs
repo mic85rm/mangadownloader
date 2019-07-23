@@ -15,7 +15,10 @@ using System.IO.Compression;
 using NLog;
 using System.Web;
 
-namespace WindowsFormsApp2
+
+
+//namespace WindowsFormsApp2
+namespace MangaEdenNETDownloaderAPI
 {
 
   public partial class Form1 : Form
@@ -85,6 +88,8 @@ namespace WindowsFormsApp2
 
     private void Form1_Load(object sender, EventArgs e)
     {
+
+      
       // this.ShowInTaskbar = false;
       Logger.Info("Applicazione Inizializzata");
       CaricaListaTitoliManga(K_IndirizzoWebListaMangaEdenItaliana);
@@ -103,7 +108,9 @@ namespace WindowsFormsApp2
     private void InizializzaControlli()
     {
       string path = ReadSetting("indirizzosalvataggio");
-      if (path == string.Empty) { path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); }
+      if (path == string.Empty) { //path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); 
+        path = "c:\\manga\\";
+      }
       folderBrowserDialog1.SelectedPath = path;
       txtIndirizzoCartellaSalvataggio.Text = path;
       txtIndirizzoCartellaSalvataggio.Enabled = false;
@@ -779,7 +786,7 @@ namespace WindowsFormsApp2
 
     private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
-      if (e.ProgressPercentage != 0)
+      if ((e.ProgressPercentage != 0)&&(numerofilescaricati>0))
       {
         double percentageComplete = (double)e.ProgressPercentage / listaimmagini.Count;
         progressBar.Value = e.ProgressPercentage;
@@ -834,6 +841,7 @@ namespace WindowsFormsApp2
         MessageBox.Show("DOWNLOAD TERMINATO CON SUCCESSO", "MangaEdenNETDownloaderApi", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
         Logger.Info("DOWNLOAD TERMINATO CON SUCCESSO ");
+        Process.Start(txtIndirizzoCartellaSalvataggio.Text);
         chklstbxListaCapitoli.Enabled = true;
         txtCerca.Enabled = true;
         btnCerca.Enabled = true;
@@ -1110,6 +1118,39 @@ namespace WindowsFormsApp2
 
       
     }
+
+    private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+    {
+
+    }
+
+    private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+    {
+      ToolStripItem item = e.ClickedItem;
+      switch (item.Name)
+      {
+        case "tsmiApri":
+          this.WindowState = FormWindowState.Normal;
+          this.BringToFront();
+          break;
+        case "chiudiToolStripMenuItem":
+          if (bgwDownloadAsincrono.IsBusy)
+          {
+            DialogResult dialogResult = MessageBox.Show("Download in corso sei sicuro di voler uscire?", "MangaEdenNETDownloaderApi", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+              bgwDownloadAsincrono.CancelAsync();
+              
+            }
+            
+
+          }
+          Close();
+          break;
+      
+      }
+    }
+
   }
 
 }
