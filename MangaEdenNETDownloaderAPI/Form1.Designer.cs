@@ -72,10 +72,13 @@
       this.txtIndirizzoCartellaSalvataggio = new System.Windows.Forms.TextBox();
       this.btnApriCartellaSalvataggio = new System.Windows.Forms.Button();
       this.tabPage3 = new System.Windows.Forms.TabPage();
+      this.dataGridView2 = new System.Windows.Forms.DataGridView();
+      this.listaMangaBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
       this.groupBox11 = new System.Windows.Forms.GroupBox();
       this.lblCopyright = new System.Windows.Forms.Label();
       this.lblJson = new System.Windows.Forms.LinkLabel();
       this.lblNlog = new System.Windows.Forms.LinkLabel();
+      this.listaMangaBindingSource = new System.Windows.Forms.BindingSource(this.components);
       this.bgwDownloadAsincrono = new System.ComponentModel.BackgroundWorker();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.bgwCreazioneListaDownload = new System.ComponentModel.BackgroundWorker();
@@ -84,7 +87,7 @@
       this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.tsmiApri = new System.Windows.Forms.ToolStripMenuItem();
       this.chiudiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.groupBox1.SuspendLayout();
+         this.groupBox1.SuspendLayout();
       this.groupBox7.SuspendLayout();
       this.groupBox5.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -100,7 +103,10 @@
       this.groupBox3.SuspendLayout();
       this.groupBox2.SuspendLayout();
       this.tabPage3.SuspendLayout();
-      this.groupBox11.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.listaMangaBindingSource1)).BeginInit();
+          this.groupBox11.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.listaMangaBindingSource)).BeginInit();
       this.contextMenuStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -522,6 +528,7 @@
       // 
       // tabPage3
       // 
+      this.tabPage3.Controls.Add(this.dataGridView2);
       this.tabPage3.Controls.Add(this.groupBox11);
       this.tabPage3.Location = new System.Drawing.Point(4, 25);
       this.tabPage3.Name = "tabPage3";
@@ -531,6 +538,24 @@
       this.tabPage3.Text = "tabPage3";
       this.tabPage3.UseVisualStyleBackColor = true;
       // 
+      // dataGridView2
+      // 
+      this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      this.dataGridView2.Location = new System.Drawing.Point(30, 310);
+      this.dataGridView2.Name = "dataGridView2";
+      this.dataGridView2.RowTemplate.Height = 24;
+      this.dataGridView2.Size = new System.Drawing.Size(1291, 455);
+      this.dataGridView2.TabIndex = 2;
+      // 
+      // listaMangaBindingSource1
+      // 
+      this.listaMangaBindingSource1.DataMember = "ListaManga";
+
+      // 
+      // mENDADBDataSet
+      // 
+  
+      // 
       // groupBox11
       // 
       this.groupBox11.Controls.Add(this.lblCopyright);
@@ -538,7 +563,7 @@
       this.groupBox11.Controls.Add(this.lblNlog);
       this.groupBox11.Location = new System.Drawing.Point(40, 27);
       this.groupBox11.Name = "groupBox11";
-      this.groupBox11.Size = new System.Drawing.Size(1281, 381);
+      this.groupBox11.Size = new System.Drawing.Size(1281, 261);
       this.groupBox11.TabIndex = 1;
       this.groupBox11.TabStop = false;
       this.groupBox11.Text = "Info";
@@ -603,14 +628,18 @@
       // tsmiApri
       // 
       this.tsmiApri.Name = "tsmiApri";
-      this.tsmiApri.Size = new System.Drawing.Size(211, 24);
+      this.tsmiApri.Size = new System.Drawing.Size(120, 24);
       this.tsmiApri.Text = "Apri";
       // 
       // chiudiToolStripMenuItem
       // 
       this.chiudiToolStripMenuItem.Name = "chiudiToolStripMenuItem";
-      this.chiudiToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+      this.chiudiToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
       this.chiudiToolStripMenuItem.Text = "Chiudi";
+      // 
+      // listaMangaTableAdapter
+      // 
+  
       // 
       // Form1
       // 
@@ -648,8 +677,11 @@
       this.groupBox2.ResumeLayout(false);
       this.groupBox2.PerformLayout();
       this.tabPage3.ResumeLayout(false);
-      this.groupBox11.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.listaMangaBindingSource1)).EndInit();
+          this.groupBox11.ResumeLayout(false);
       this.groupBox11.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.listaMangaBindingSource)).EndInit();
       this.contextMenuStrip1.ResumeLayout(false);
       this.ResumeLayout(false);
 
@@ -707,6 +739,11 @@
     private ContextMenuStrip contextMenuStrip1;
     private ToolStripMenuItem tsmiApri;
     private ToolStripMenuItem chiudiToolStripMenuItem;
+    private DataGridView dataGridView2;
+    private BindingSource listaMangaBindingSource;
+
+    private BindingSource listaMangaBindingSource1;
+   
   }
 }
 

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="MangaEdenNETDownloaderAPI.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="MangaEdenNETDownloaderAPI.exe" version="1.0.0.3" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="m.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloaderAPI.exe" size="94704">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloaderAPI.exe" size="99824">
       <assemblyIdentity name="MangaEdenNETDownloaderAPI" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>X6rk6xkpwDKFvKgbFeBznt4StJo4VzMQxm0fAxd4YEc=</dsig:DigestValue>
+        <dsig:DigestValue>b2sS7HXzyGycoT1ZcTdyOrNGnK8XQT8FQRfm4u4D4vQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -1359,13 +1359,31 @@
       <dsig:DigestValue>AV8WUX7lfcOMWz8soqeFYNxfi3asVQKgmfkxccz30PY=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="MangaEdenNETDownloaderAPI.exe.config" size="2981">
+  <file name="MangaEdenNETDownloaderAPI.exe.config" size="3471">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>saHYqFREvvYNV31fUh5HibYTAUuyMsaiEMwjsahZlOo=</dsig:DigestValue>
+      <dsig:DigestValue>wDUQgpRXpnsMZTVu3lz08HlDfT6/6dNxARSrHYfUMJ8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="MENDADB.mdf" size="8388608" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>fQbAnWO0JMz9rySmPw2CirksTjprLSnc7qV+j7qj6IM=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="MENDADB_log.ldf" size="8388608" writeableType="applicationData">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0itjIbIWiVYb7aar+6kHQTPQRKoKL1uxKHLXz/uC6RM=</dsig:DigestValue>
     </hash>
   </file>
   <file name="NLog.config" size="643">

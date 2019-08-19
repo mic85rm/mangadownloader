@@ -14,6 +14,9 @@ using System.Configuration;
 using System.IO.Compression;
 using NLog;
 using System.Web;
+using System.Xml;
+using System.Data.SqlClient;
+using System.Xml.Serialization;
 
 
 
@@ -88,8 +91,10 @@ namespace MangaEdenNETDownloaderAPI
 
     private void Form1_Load(object sender, EventArgs e)
     {
+     
 
-      
+
+
       // this.ShowInTaskbar = false;
       Logger.Info("Applicazione Inizializzata");
       CaricaListaTitoliManga(K_IndirizzoWebListaMangaEdenItaliana);
@@ -98,6 +103,10 @@ namespace MangaEdenNETDownloaderAPI
       InizializzaComboBox();
       InizializzaControlli();
       txtCerca.Select();
+      //InsertDataToDb(listamanga);
+
+      //CaricaDati();
+   
     }
 
 
@@ -239,11 +248,9 @@ namespace MangaEdenNETDownloaderAPI
 
     public List<string> ConvertToList(IList<JToken> list, string numerocapitolo)
     {
-
       listaimmagini.Add(K_NomeInizialeCapitolo + AggiungiZeroAlNomeFile(numerocapitolo, numeroCapitoliSelezionati));
       foreach (var array in list)
       {
-
         string appoggio = EstrazioneIndirizzoImmagine(PulisciStringa(array.ToString()));
         listaimmagini.Add(appoggio);
       }
@@ -577,7 +584,20 @@ namespace MangaEdenNETDownloaderAPI
         {
           json = client.DownloadString(jsonurl);
         }
+        // serialize JSON to a string and then write string to a file
+        //File.WriteAllText(@"D:\manga\movie.json", JsonConvert.SerializeObject(json));
+        
+        //// serialize JSON directly to a file
+        //using (StreamWriter file = File.CreateText(@"D:\manga\movie2.json"))
+        //{
+        //  JsonSerializer serializer = new JsonSerializer();
+        //  serializer.Serialize(file, json);
+        //}
+
+        
         listamanga = JsonConvert.DeserializeObject<ListaManga>(json);
+        SerializeObject<ListaManga>(listamanga, @"D:\manga\movie2.xml");
+        WriteToJsonFile<ListaManga>( @"D:\manga\mangaedenita.json", listamanga);
 
         listamanga.manga = listamanga.manga.OrderBy(x => x.t).ToList();
         dtlistamanga = ConvertListToDataTable(listamanga);
@@ -1006,14 +1026,10 @@ namespace MangaEdenNETDownloaderAPI
       int index = listamanga.manga.FindIndex(x => x.t.Equals(lstboxManga.SelectedItem));
       if (index != -1)
       {
+        //CaricaListaCapitoliDatabase(listamanga.manga.ElementAt(index).i);
         CaricaListaCapitoli(K_IndirizzoWebListaCapitoliMangaEdenItaliana, listamanga.manga.ElementAt(index).i);
         pictureBox1.ImageLocation = K_IndirizzoWebCopertineManga + listamanga.manga.ElementAt(index).im;
-
-
-        //listaimmagini.Clear();
-        // DataTable table = ConvertListToDataTable(paginacapitoli.chapters);
         Popola_chklstbxListaCapitoli(data);
-
         txtTrama.Text = HttpUtility.HtmlDecode(descrizione);
       }
       if (chklstbxListaCapitoli.Items.Count == 0)
@@ -1134,23 +1150,233 @@ namespace MangaEdenNETDownloaderAPI
           this.BringToFront();
           break;
         case "chiudiToolStripMenuItem":
-          if (bgwDownloadAsincrono.IsBusy)
-          {
-            DialogResult dialogResult = MessageBox.Show("Download in corso sei sicuro di voler uscire?", "MangaEdenNETDownloaderApi", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-              bgwDownloadAsincrono.CancelAsync();
-              
-            }
-            
-
-          }
-          Close();
+             Close();
           break;
       
       }
     }
 
+    public void InsertDataToDb(ListaManga lista)
+    {
+      string connectionString = ConfigurationManager.ConnectionStrings["connection"].
+          ConnectionString;
+      
+      try
+      {
+              
+      using (SqlConnection conn = new SqlConnection(connectionString))
+      {
+        conn.Open();
+        SqlTransaction trans = conn.BeginTransaction();
+          //(string sql = "INSERT INTO ListaManga (Alias,IdGenere,Hit,Image,Ld,Status,Titolo,IdManga) " +
+          //   "VALUES (@Alias, 0, @Hit,@Image,@Ld,@Status,@Titolo,@IdManga)";
+          string sql = "sp_InserisciTitoliManga";
+        SqlCommand cmd = new SqlCommand(sql, conn, trans);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Connection = conn;
+       
+        foreach (var item in listamanga.manga)
+        {
+          cmd.Parameters.AddWithValue("@Alias", item.a);
+          cmd.Parameters.AddWithValue("@hit", item.h);
+            if (item.im != null)
+            {
+              cmd.Parameters.AddWithValue("@Image", item.im);
+            }
+            else
+            {
+              cmd.Parameters.AddWithValue("@Image", string.Empty);
+            }
+          cmd.Parameters.AddWithValue("@Ld", item.ld);
+          cmd.Parameters.AddWithValue("@Status", item.s);
+          cmd.Parameters.AddWithValue("@Titolo", item.t);
+          cmd.Parameters.AddWithValue("@IdManga", item.i);
+            
+         cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            
+          }
+        trans.Commit();
+          conn.Close();
+
+        }
+        //foreach (var item in listamanga.manga)
+        //{
+        //  CaricaListaCapitoliDatabase(item.i);
+        //}
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+        
+      }
+    }
+
+
+    public void SerializeObject<ListaManga>(ListaManga serializableObject, string fileName)
+    {
+      if (serializableObject == null) { return; }
+
+      try
+      {
+        XmlDocument xmlDocument = new XmlDocument();
+        XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
+        using (MemoryStream stream = new MemoryStream())
+        {
+          serializer.Serialize(stream, serializableObject);
+          stream.Position = 0;
+          xmlDocument.Load(stream);
+          xmlDocument.Save(fileName);
+        }
+      }
+      catch (Exception ex)
+      {
+        //Log exception here
+      }
+    }
+
+    public static void WriteToJsonFile<ListaManga>(string filePath,ListaManga objectToWrite, bool append = false) where ListaManga : new()
+    {
+      TextWriter writer = null;
+      try
+      {
+        var contentsToWriteToFile = JsonConvert.SerializeObject(objectToWrite);
+        writer = new StreamWriter(filePath, append);
+        writer.Write(contentsToWriteToFile);
+      }
+      finally
+      {
+        if (writer != null)
+          writer.Close();
+      }
+    }
+
+
+    private void CaricaDati()
+    {
+
+      string connectionString = ConfigurationManager.ConnectionStrings["connection"].
+          ConnectionString;
+      BindingSource bsource = new BindingSource();
+      try
+      {
+
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+          //conn.Open();
+          //SqlTransaction trans = conn.BeginTransaction();
+          //(string sql = "INSERT INTO ListaManga (Alias,IdGenere,Hit,Image,Ld,Status,Titolo,IdManga) " +
+          //   "VALUES (@Alias, 0, @Hit,@Image,@Ld,@Status,@Titolo,@IdManga)";
+          string sql = "selectforcombo";
+                    
+         SqlDataAdapter  da = new SqlDataAdapter(sql, conn);
+          conn.Open();
+          DataSet ds = new DataSet();
+
+          SqlCommandBuilder commandBuilder = new SqlCommandBuilder(da);
+          da.Fill(ds, "ListaTitoliManga");
+
+          bsource.DataSource = ds.Tables["ListaTitoliManga"];
+          lstboxManga.DataSource = bsource;
+          lstboxManga.DisplayMember = "titolo";
+          conn.Close();
+
+        }
+
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+
+      }
+
+    
+
+    }
+
+
+    public void CaricaListaCapitoliDatabase(string id,string IndirizzoSito= K_IndirizzoWebListaCapitoliMangaEdenItaliana)
+    {
+      try
+      {
+        string jsonurl = Uri.EscapeUriString(IndirizzoSito + id);
+        string json = "";
+        using (System.Net.WebClient client = new System.Net.WebClient()) // WebClient class inherits IDisposable
+        {
+          json = client.DownloadString(jsonurl);
+        }
+
+
+        JObject cerca = JObject.Parse(json);
+        IList<JToken> risultati = cerca["chapters"].Children().ToList();
+
+        ConvertListToDatabase(risultati, id);
+        descrizione = cerca["description"].ToString();
+      }
+      catch (Exception ex)
+      {
+        Logger.Error(ex, "[CaricaListaCapitoli]");
+        // MessageBox.Show(ex.ToString());
+      }
+    }
+
+    public void ConvertListToDatabase(IList<JToken> list, string id)
+    {
+    
+      string connectionString = ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
+
+      try
+      {
+
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        {
+          conn.Open();
+          SqlTransaction trans = conn.BeginTransaction();
+          string sql = "sp_InserisciCapitoliManga";
+          SqlCommand cmd = new SqlCommand(sql, conn, trans);
+          cmd.CommandType = CommandType.StoredProcedure;
+          cmd.Connection = conn;
+
+          foreach (var array in list)
+          {
+
+            array[2] = PulisciStringa(array[2].ToString(), 2);
+
+            string stringaripulita = PulisciStringa(array.ToString());
+            string[] stringa_a_vettore = stringaripulita.Split(',');
+
+            for (int i = 0; i < stringa_a_vettore.Count(); i++)
+            {
+              stringa_a_vettore[i] = stringa_a_vettore[i].TrimStart(' ');
+            }
+                                   
+            cmd.Parameters.AddWithValue("@NumeroCapitolo", stringa_a_vettore[0]);
+            cmd.Parameters.AddWithValue("@TitoloCapitolo", stringa_a_vettore[2]);                       
+            cmd.Parameters.AddWithValue("@Ld", UnixTimeStampToDateTime(Convert.ToDouble(stringa_a_vettore[1])));
+            cmd.Parameters.AddWithValue("@IdCapitolo", stringa_a_vettore[3]);
+            cmd.Parameters.AddWithValue("@IdManga", id);
+            cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+          }
+          trans.Commit();
+          conn.Close();
+
+        }
+
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(ex.Message);
+
+      }
+    }
+    public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+    {
+      // Unix timestamp is seconds past epoch
+      System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+      dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+      return dtDateTime;
+    }
   }
 
 }
