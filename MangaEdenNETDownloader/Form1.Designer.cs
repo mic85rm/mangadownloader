@@ -45,7 +45,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lblFatto = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.lstbxListaPagine = new System.Windows.Forms.ListBox();
             this.btnInizia = new System.Windows.Forms.Button();
             this.lblDownload = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -60,6 +59,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.twCodaDownload = new System.Windows.Forms.TreeView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.TitoloManga.SuspendLayout();
@@ -222,9 +222,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.twCodaDownload);
             this.tabPage2.Controls.Add(this.lblFatto);
             this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.lstbxListaPagine);
             this.tabPage2.Controls.Add(this.btnInizia);
             this.tabPage2.Controls.Add(this.lblDownload);
             this.tabPage2.Controls.Add(this.progressBar1);
@@ -261,16 +261,6 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "Coda Download";
             // 
-            // lstbxListaPagine
-            // 
-            this.lstbxListaPagine.FormattingEnabled = true;
-            this.lstbxListaPagine.ItemHeight = 16;
-            this.lstbxListaPagine.Location = new System.Drawing.Point(27, 100);
-            this.lstbxListaPagine.Name = "lstbxListaPagine";
-            this.lstbxListaPagine.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lstbxListaPagine.Size = new System.Drawing.Size(940, 308);
-            this.lstbxListaPagine.TabIndex = 18;
-            // 
             // btnInizia
             // 
             this.btnInizia.Enabled = false;
@@ -280,7 +270,7 @@
             this.btnInizia.TabIndex = 17;
             this.btnInizia.Text = "Inizia";
             this.btnInizia.UseVisualStyleBackColor = true;
-            this.btnInizia.Click += new System.EventHandler(this.button1_Click);
+            //this.btnInizia.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblDownload
             // 
@@ -384,6 +374,13 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_2);
             // 
+            // twCodaDownload
+            // 
+            this.twCodaDownload.Location = new System.Drawing.Point(27, 100);
+            this.twCodaDownload.Name = "twCodaDownload";
+            this.twCodaDownload.Size = new System.Drawing.Size(949, 324);
+            this.twCodaDownload.TabIndex = 21;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -435,7 +432,6 @@
         private System.Windows.Forms.Button btnIndirizzoSalva;
         private System.Windows.Forms.TextBox txtIndirizzoSalva;
         private System.Windows.Forms.Button btnInizia;
-        private System.Windows.Forms.ListBox lstbxListaPagine;
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button button1;
@@ -444,6 +440,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblFatto;
+        private System.Windows.Forms.TreeView twCodaDownload;
     }
 }
 
