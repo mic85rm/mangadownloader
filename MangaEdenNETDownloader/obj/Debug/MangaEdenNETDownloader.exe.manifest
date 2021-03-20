@@ -14,16 +14,16 @@
       </applicationRequestMinimum>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
         <!--
-          Opzioni manifesto di Controllo dell'account utente
-          Per modificare il livello di Controllo dell'account utente Windows sostituire il 
-          nodo requestedExecutionLevel con uno dei seguenti.
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the
+          requestedExecutionLevel node with one of the following.
 
         <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
         <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
         <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
 
-         Se si vuole usare Virtualizzazione file system e registro di sistema per la compatibilità 
-         con le versioni precedenti, eliminare il nodo requestedExecutionLevel.
+         If you want to utilize File and Registry Virtualization for backward
+         compatibility then delete the requestedExecutionLevel node.
     -->
         <requestedExecutionLevel level="asInvoker" uiAccess="false" />
       </requestedPrivileges>
@@ -42,48 +42,48 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HtmlAgilityPack.dll" size="162304">
-      <assemblyIdentity name="HtmlAgilityPack" version="1.11.9.0" publicKeyToken="BD319B19EAF3B43A" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="HtmlAgilityPack.dll" size="166400">
+      <assemblyIdentity name="HtmlAgilityPack" version="1.11.31.0" publicKeyToken="BD319B19EAF3B43A" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9TY+8vTM7XysjE2POsPzKsSmuNR39TEUqwMic0duwnU=</dsig:DigestValue>
+        <dsig:DigestValue>QYNlXeC0TkKxoXfIagBCN2rqICWvmSPq4UfnTeL61+g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="log4net.dll" size="276480">
-      <assemblyIdentity name="log4net" version="2.0.8.0" publicKeyToken="669E0DDF0BB1AA2A" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="log4net.dll" size="270336">
+      <assemblyIdentity name="log4net" version="2.0.12.0" publicKeyToken="669E0DDF0BB1AA2A" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>r1YQxRXSJE25jGYmNiZMgXfomxr+QH+I/RikHWb25+I=</dsig:DigestValue>
+        <dsig:DigestValue>iWq5ysQeOXd5K6IDTqhzBhDCd5+lG6tr7UJglOqNPs0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloader.exe" size="29136">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloader.exe" size="29184">
       <assemblyIdentity name="MangaEdenNETDownloader" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>xptwyK1PPM7d8jcxIGKQnGPTy8iXroG4TKfItIUH2RI=</dsig:DigestValue>
+        <dsig:DigestValue>vQhoEoYCZdzPsCOvQS/tS81d7sghThcFJwLbbvnHeTg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="MangaEdenNETDownloader.exe.config" size="450">
+  <file name="MangaEdenNETDownloader.exe.config" size="446">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>NLy2X5T7MuM+EOMfoCIJS7rtLVGIvMIfim5Z3b00ppc=</dsig:DigestValue>
+      <dsig:DigestValue>MccZY/9+WwDmKUBoSJh5GGW9Mw6Y9P11fUcRVXUkevc=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

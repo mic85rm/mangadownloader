@@ -4,17 +4,17 @@
   <description asmv2:publisher="MangaEdenNETDownloader" asmv2:product="MangaEdenNETDownloader" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <deployment install="true" mapFileExtensions="true" />
   <compatibleFrameworks xmlns="urn:schemas-microsoft-com:clickonce.v2">
-    <framework targetVersion="4.6.1" profile="Full" supportedRuntime="4.0.30319" />
+    <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="MangaEdenNETDownloader.exe.manifest" size="4959">
+    <dependentAssembly dependencyType="install" codebase="MangaEdenNETDownloader.exe.manifest" size="4893">
       <assemblyIdentity name="MangaEdenNETDownloader.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>anl0qHXKhK1HfRe1lnQuc9J+YWIlvpQGs+yySsJWikQ=</dsig:DigestValue>
+        <dsig:DigestValue>6qCAV5ntiG1FVJ5WHYiolB1krrfUqjm8PhT7WhYsUKY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
