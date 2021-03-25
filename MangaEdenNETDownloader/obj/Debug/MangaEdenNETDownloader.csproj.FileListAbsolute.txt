@@ -48,7 +48,6 @@ d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\bin\Debug\HtmlAgilityPac
 d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\bin\Debug\HtmlAgilityPack.xml
 d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\bin\Debug\log4net.xml
 d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.Form1.resources
-d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.Form2.resources
 d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.Properties.Resources.resources
 d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.csproj.GenerateResource.cache
 d:\Repos\mic85rm\mangadownloader\MangaEdenNETDownloader\obj\Debug\MangaEdenNETDownloader.csproj.CoreCompileInputs.cache

@@ -66,24 +66,24 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloader.exe" size="36352">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MangaEdenNETDownloader.exe" size="37888">
       <assemblyIdentity name="MangaEdenNETDownloader" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>SlbHXS0+t9GO1zfe5jRVMoISi57bg5gU6aMHV8OyPEM=</dsig:DigestValue>
+        <dsig:DigestValue>W/kzIBQ6sQCjtrSjXNuhh2m6DZHZC0zCz3BgBCqKFC8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="MangaEdenNETDownloader.exe.config" size="446">
+  <file name="MangaEdenNETDownloader.exe.config" size="421">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>MccZY/9+WwDmKUBoSJh5GGW9Mw6Y9P11fUcRVXUkevc=</dsig:DigestValue>
+      <dsig:DigestValue>tDCP8uCopgQ/rdYwq2chOVfe7ZJ4X4oCZtagb3kiQjs=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

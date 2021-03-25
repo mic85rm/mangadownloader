@@ -33,6 +33,7 @@
             this.btnScarica = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
             this.btnIndirizzoSalva = new System.Windows.Forms.Button();
             this.txtIndirizzoSalva = new System.Windows.Forms.TextBox();
             this.chklstbxListaCapitoli = new System.Windows.Forms.CheckedListBox();
@@ -58,8 +59,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button3 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.TitoloManga.SuspendLayout();
@@ -67,6 +69,7 @@
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblNumeroCapitoli
@@ -109,6 +112,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.btnIndirizzoSalva);
             this.tabPage1.Controls.Add(this.txtIndirizzoSalva);
@@ -127,6 +131,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(1045, 571);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(141, 34);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "Annulla";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnIndirizzoSalva
             // 
@@ -152,7 +167,7 @@
             this.chklstbxListaCapitoli.FormattingEnabled = true;
             this.chklstbxListaCapitoli.Location = new System.Drawing.Point(366, 98);
             this.chklstbxListaCapitoli.Name = "chklstbxListaCapitoli";
-            this.chklstbxListaCapitoli.Size = new System.Drawing.Size(851, 463);
+            this.chklstbxListaCapitoli.Size = new System.Drawing.Size(851, 429);
             this.chklstbxListaCapitoli.TabIndex = 14;
             this.chklstbxListaCapitoli.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.chklstbxListaCapitoli_ItemCheck);
             this.chklstbxListaCapitoli.SelectedIndexChanged += new System.EventHandler(this.chklstbxListaCapitoli_SelectedIndexChanged);
@@ -175,7 +190,7 @@
             this.TitoloManga.Controls.Add(this.lblNumeroCapitoli);
             this.TitoloManga.Location = new System.Drawing.Point(28, 88);
             this.TitoloManga.Name = "TitoloManga";
-            this.TitoloManga.Size = new System.Drawing.Size(332, 473);
+            this.TitoloManga.Size = new System.Drawing.Size(332, 462);
             this.TitoloManga.TabIndex = 12;
             this.TitoloManga.TabStop = false;
             this.TitoloManga.Text = "Titolo Manga";
@@ -211,7 +226,7 @@
             // btnDeselectAll
             // 
             this.btnDeselectAll.Enabled = false;
-            this.btnDeselectAll.Location = new System.Drawing.Point(515, 567);
+            this.btnDeselectAll.Location = new System.Drawing.Point(515, 528);
             this.btnDeselectAll.Name = "btnDeselectAll";
             this.btnDeselectAll.Size = new System.Drawing.Size(143, 33);
             this.btnDeselectAll.TabIndex = 7;
@@ -222,7 +237,7 @@
             // btnSelectAll
             // 
             this.btnSelectAll.Enabled = false;
-            this.btnSelectAll.Location = new System.Drawing.Point(366, 567);
+            this.btnSelectAll.Location = new System.Drawing.Point(366, 526);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(143, 33);
             this.btnSelectAll.TabIndex = 6;
@@ -370,21 +385,39 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_2);
             // 
-            // button3
+            // groupBox1
             // 
-            this.button3.Location = new System.Drawing.Point(1044, 576);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(141, 34);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Location = new System.Drawing.Point(39, 556);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(717, 45);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Stato:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 17);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "label4";
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(16, 673);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(1241, 48);
+            this.progressBar2.TabIndex = 6;
+            this.progressBar2.Click += new System.EventHandler(this.progressBar2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1269, 661);
+            this.ClientSize = new System.Drawing.Size(1269, 733);
+            this.Controls.Add(this.progressBar2);
             this.Controls.Add(this.tabControl1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -402,6 +435,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -429,7 +464,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button btnInizia;
         private System.Windows.Forms.Label label2;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckedListBox chklstbxListaCapitoli;
@@ -440,6 +474,9 @@
         private System.Windows.Forms.Button btnIndirizzoSalva;
         private System.Windows.Forms.TextBox txtIndirizzoSalva;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ProgressBar progressBar2;
     }
 }
 
